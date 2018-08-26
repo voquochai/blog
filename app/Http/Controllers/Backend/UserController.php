@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+
+use App\User;
+use DateTime;
 
 class UserController extends Controller
 {
@@ -13,9 +16,21 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public $_data;
+
+    public function __construct(Request $request){
+        $this->_data['type'] = (isset($request->type) && $request->type !='') ? $request->type : 'default';
+        $this->_data['siteconfigs'] = config('siteconfigs.user');
+        $this->_data['pageTitle'] = $this->_data['siteconfigs'][$this->_data['type']]['page-title'];
+    }
+
     public function index()
     {
-        //
+        $this->_data['items'] = User::where('id','!=',1)
+            ->where('type',$this->_data['type'])
+            ->orderBy('priority','asc')->orderBy('id','desc')
+            ->paginate(25);
+        return view('backend.users.index', $this->_data);
     }
 
     /**

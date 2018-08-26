@@ -13,7 +13,7 @@
     </head>
     <body>
         <!-- Begin page -->
-        <div class="wrapper" id="app">
+        <div class="wrapper">
 
             <!-- ========== Left Sidebar Start ========== -->
             <?php echo $__env->make('backend.layouts.sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
@@ -55,7 +55,6 @@
         <script src="<?php echo e(asset('public/packages/bootstrap/js/bootstrap.bundle.min.js')); ?>" type="text/javascript"></script>
         <script src="<?php echo e(asset('public/packages/metismenu/metisMenu.min.js')); ?>" type="text/javascript"></script>
         <script src="<?php echo e(asset('public/packages/slimScroll/jquery.slimscroll.min.js')); ?>" type="text/javascript"></script>
-
         <script src="<?php echo e(asset('public/backend/js/app.js')); ?>" type="text/javascript"></script>
     </body>
 

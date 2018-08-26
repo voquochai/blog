@@ -41,9 +41,13 @@ function(e) {
             e.preventDefault(), t.$body.toggleClass("sidebar-enable"), t.$window.width() > 768 ? t.$body.toggleClass("enlarged") : t.$body.removeClass("enlarged"), t._resetSidebarScroll()
         }), e(".side-nav").metisMenu(), t._resetSidebarScroll(), e(".side-nav a").each(function() {
             var t = window.location.href.split(/[?#]/)[0];
-            this.href == t && (e(this).addClass("active"), e(this).parent().addClass("active"), e(this).parent().parent().addClass("in"), e(this).parent().parent().prev().addClass("active"), e(this).parent().parent().parent().addClass("active"), e(this).parent().parent().parent().parent().addClass("in"), e(this).parent().parent().parent().parent().parent().addClass("active"))
+            t = t.split('create')[0];
+            t = t.split('edit')[0];
+            this.href.split(/[?#]/)[0] == t && (e(this).addClass("active"), e(this).parent().addClass("active"), e(this).parent().parent().addClass("in"), e(this).parent().parent().prev().addClass("active"), e(this).parent().parent().parent().addClass("active"), e(this).parent().parent().parent().parent().addClass("in"), e(this).parent().parent().parent().parent().parent().addClass("active"))
         }), e(".topnav-menu li a").each(function() {
             var t = window.location.href.split(/[?#]/)[0];
+            t = t.split('create')[0];
+            t = t.split('edit')[0];
             this.href == t && (e(this).addClass("active"), e(this).parent().parent().addClass("active"), e(this).parent().parent().parent().parent().addClass("active"))
         }), e(".navbar-toggle").on("click", function(t) {
             e(this).toggleClass("open"), e("#navigation").slideToggle(400)

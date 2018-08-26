@@ -133,138 +133,22 @@
             <li class="side-nav-title side-nav-item mt-1">Components</li>
 
             <li class="side-nav-item">
-                <a href="javascript: void(0);" class="side-nav-link">
-                    <i class="dripicons-briefcase"></i>
-                    <span> UI Kit </span>
+                <a href="javascript:;" class="side-nav-link">
+                    <i class="mdi mdi-checkbox-marked-circle-outline"></i>
+                    <span> Quản trị </span>
                     <span class="menu-arrow"></span>
                 </a>
                 <ul class="side-nav-second-level" aria-expanded="false">
                     <li>
-                        <a href="ui-cards.html">Cards</a>
+                        <a href="maps-vector.html">Nhóm quyền</a>
                     </li>
                     <li>
-                        <a href="ui-buttons.html">Buttons</a>
-                    </li>
-                    <li>
-                        <a href="ui-modals.html">Modals</a>
-                    </li>
-                    <li>
-                        <a href="ui-tabs.html">Tabs</a>
-                    </li>
-                    <li>
-                        <a href="ui-notifications.html">Notifications</a>
-                    </li>
-                    <li>
-                        <a href="ui-grid.html">Grid</a>
-                    </li>
-                    <li>
-                        <a href="ui-general.html">General</a>
-                    </li>
-                    <li>
-                        <a href="ui-typography.html">Typography</a>
-                    </li>
-                    <li>
-                        <a href="ui-icons.html">Icons</a>
-                    </li>
-                    <li>
-                        <a href="ui-dragula.html">Dragula</a>
+                        <a href="{{ route('admin.users.index', ['type'=>'mod']) }}"> Tài khoản </a>
                     </li>
                 </ul>
-            </li>
-
-            <li class="side-nav-item">
-                <a href="javascript: void(0);" class="side-nav-link">
-                    <i class="dripicons-document"></i>
-                    <span class="badge badge-light float-right">5</span>
-                    <span> Forms </span>
-                </a>
-                <ul class="side-nav-second-level" aria-expanded="false">
-                    <li>
-                        <a href="form-elements.html">Basic Elements</a>
-                    </li>
-                    <li>
-                        <a href="form-advanced.html">Form Advanced</a>
-                    </li>
-                    <li>
-                        <a href="form-validation.html">Validation</a>
-                    </li>
-                    <li>
-                        <a href="form-wizard.html">Wizard</a>
-                    </li>
-                    <li>
-                        <a href="form-fileuploads.html">File Uploads</a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="side-nav-item">
-                <a href="javascript: void(0);" class="side-nav-link">
-                    <i class="dripicons-graph-pie"></i>
-                    <span> Charts </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <ul class="side-nav-second-level" aria-expanded="false">
-                    <li>
-                        <a href="charts-chartjs.html">Chartjs</a>
-                    </li>
-                    <li>
-                        <a href="charts-brite.html">Britecharts</a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="side-nav-item">
-                <a href="javascript: void(0);" class="side-nav-link">
-                    <i class="dripicons-list"></i>
-                    <span> Tables </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <ul class="side-nav-second-level" aria-expanded="false">
-                    <li>
-                        <a href="tables-basic.html">Basic Tables</a>
-                    </li>
-                    <li>
-                        <a href="tables-datatable.html">Data Tables</a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="side-nav-item">
-                <a href="javascript: void(0);" class="side-nav-link">
-                    <i class="dripicons-location"></i>
-                    <span> Maps </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <ul class="side-nav-second-level" aria-expanded="false">
-                    <li>
-                        <a href="maps-google.html">Google Maps</a>
-                    </li>
-                    <li>
-                        <a href="maps-vector.html">Vector Maps</a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="side-nav-item">
-                <a href="docs/index.html" target="_blank" class="side-nav-link">
-                    <i class="dripicons-article"></i>
-                    <span> Documentation </span>
-                </a>
             </li>
 
         </ul>
-
-        <!-- Help Box -->
-        <div class="help-box text-white text-center">
-            <a href="javascript: void(0);" class="float-right close-btn text-white">
-                <i class="mdi mdi-close"></i>
-            </a>
-            <img src="assets/images/help-icon.svg" height="90" alt="Helper Icon Image" />
-            <h5 class="mt-3">Unlimited Access</h5>
-            <p class="mb-3">Upgrade to plan to get access to unlimited reports</p>
-            <a href="javascript: void(0);" class="btn btn-outline-light btn-sm">Upgrade</a>
-        </div>
-        <!-- end Help Box -->
         <!-- End Sidebar -->
 
         <div class="clearfix"></div>

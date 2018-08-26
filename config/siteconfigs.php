@@ -99,6 +99,22 @@ return [
 			],
 		],
 	],
+
+	'user'	=>	[
+		'mod' 	=>	[
+			'page-title'	=>	'Tài khoản',
+			'status'      => [
+				'publish'     => 'Hiển thị'
+			]
+		],
+		'default' 	=>	[
+			'page-title'	=>	'Tài khoản',
+			'status'      => [
+				'publish'     => 'Hiển thị'
+			]
+		],
+	],
+
 	'category' => [
 		'thue-xe'	=>	[
 			'page-title'	=>	'Danh mục xe',
