@@ -1,0 +1,97 @@
+@media (min-width:768px) {
+    .dropdown-menu {
+        -webkit-box-shadow: 0 0 35px 0 rgba(154, 161, 171, .15);
+        box-shadow: 0 0 35px 0 rgba(154, 161, 171, .15)
+    }
+    .dropdown-menu-animated {
+        display: block;
+        visibility: hidden;
+        opacity: 0;
+        -webkit-transition: all .3s ease;
+        transition: all .3s ease;
+        margin-top: 20px!important
+    }
+    .show > .dropdown-menu {
+        visibility: visible;
+        opacity: 1;
+        margin-top: 0!important
+    }
+    .dropdown-lg {
+        width: 320px
+    }
+}
+
+
+@media (max-width:1024px) {
+    .navbar-custom {
+        left: 70px;
+        right: 0
+    }
+    .app-search {
+        display: none
+    }
+}
+
+@media (max-width:767.98px) {
+    body {
+        overflow-x: hidden
+    }
+    .left-side-menu {
+        -webkit-box-shadow: 0 0 35px 0 rgba(154, 161, 171, .15);
+        box-shadow: 0 0 35px 0 rgba(154, 161, 171, .15);
+        display: none;
+        z-index: 10!important
+    }
+    .sidebar-enable .left-side-menu {
+        display: block
+    }
+    .navbar-nav.navbar-right {
+        float: right
+    }
+    .content-page {
+        margin-left: 0!important;
+        padding: 5px 10px
+    }
+    .enlarged .left-side-menu {
+        margin-left: -70px
+    }
+    .logo span.logo-lg {
+        display: block
+    }
+    .logo span.logo-sm {
+        display: none
+    }
+    .navbar-custom {
+        left: 0;
+        padding: 0 10px;
+        margin: -5px -10px 0
+    }
+    .button-menu-mobile.disable-btn {
+        display: inline-block
+    }
+    .nav-user {
+        padding: 17px 5px 17px 57px!important
+    }
+    .nav-user .account-position,
+    .nav-user .account-user-name {
+        display: none
+    }
+
+    .dropdown-lg {
+        width: 200px!important
+    }
+
+    .page-title-box .page-title {
+        display: block;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        line-height: 70px
+    }
+    .page-title-box .breadcrumb {
+        display: none
+    }
+    .page-title-box .page-title-right {
+        display: none
+    }
+}
