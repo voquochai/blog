@@ -14,7 +14,6 @@
     <body>
         <!-- Begin page -->
         <div class="wrapper">
-
             <!-- ========== Left Sidebar Start ========== -->
             @include('backend.layouts.sidebar')
             <!-- Left Sidebar End -->

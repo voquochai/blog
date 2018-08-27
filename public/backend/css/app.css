@@ -7,6 +7,7 @@ body {
     overflow-x: hidden;
     background-color: #fafbfe;
     font-size: .875rem;
+    color: #6c757d;
 }
 body.enlarged {
     min-height: 1200px
@@ -384,10 +385,6 @@ input[data-switch=dark]:checked + label {
 .side-nav-third-level li a {
     padding: 8px 20px 8px 84px
 }
-body[data-layout=topnav] .content-page {
-    margin-left: 0!important;
-    padding: 0
-}
 .navbar-custom {
     padding: 0 30px;
     background-color: #fff;
@@ -617,6 +614,10 @@ body[data-layout=topnav] .content-page {
     font-size: .875rem;
     margin-top: 0
 }
+.card .card-header .header-title {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
 .card .card-drop {
     font-size: 20px;
     line-height: 0;
@@ -624,13 +625,9 @@ body[data-layout=topnav] .content-page {
 }
 .card .card-widgets {
     float: right;
-    height: 16px
 }
 .card .card-widgets > a {
-    color: inherit;
-    font-size: 18px;
     display: inline-block;
-    line-height: 1
 }
 .card .card-widgets > a.collapsed i:before {
     content: "\F415"

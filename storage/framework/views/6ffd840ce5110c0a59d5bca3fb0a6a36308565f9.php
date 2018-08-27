@@ -14,7 +14,6 @@
     <body>
         <!-- Begin page -->
         <div class="wrapper">
-
             <!-- ========== Left Sidebar Start ========== -->
             <?php echo $__env->make('backend.layouts.sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             <!-- Left Sidebar End -->
