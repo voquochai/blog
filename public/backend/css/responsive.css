@@ -1,27 +1,3 @@
-@media (min-width:768px) {
-    .dropdown-menu {
-        -webkit-box-shadow: 0 0 35px 0 rgba(154, 161, 171, .15);
-        box-shadow: 0 0 35px 0 rgba(154, 161, 171, .15)
-    }
-    .dropdown-menu-animated {
-        display: block;
-        visibility: hidden;
-        opacity: 0;
-        -webkit-transition: all .3s ease;
-        transition: all .3s ease;
-        margin-top: 20px!important
-    }
-    .show > .dropdown-menu {
-        visibility: visible;
-        opacity: 1;
-        margin-top: 0!important
-    }
-    .dropdown-lg {
-        width: 320px
-    }
-}
-
-
 @media (max-width:1024px) {
     .navbar-custom {
         left: 70px;
@@ -31,7 +7,11 @@
         display: none
     }
 }
-
+@media (min-width:768px) {
+    .card-pricing-recommended {
+        margin-top: -1.9375rem
+    }
+}
 @media (max-width:767.98px) {
     body {
         overflow-x: hidden
@@ -76,11 +56,6 @@
     .nav-user .account-user-name {
         display: none
     }
-
-    .dropdown-lg {
-        width: 200px!important
-    }
-
     .page-title-box .page-title {
         display: block;
         white-space: nowrap;
@@ -92,6 +67,18 @@
         display: none
     }
     .page-title-box .page-title-right {
+        display: none
+    }
+    .dropdown-lg {
+        width: 200px!important
+    }
+    .footer {
+        left: 0!important;
+        text-align: center
+    }
+}
+@media (max-width:419px) {
+    .page-title-box .breadcrumb {
         display: none
     }
 }
