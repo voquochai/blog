@@ -33,7 +33,7 @@ function(e) {
     }, t.prototype.initFormValidation = function() {
         e(".needs-validation").on("submit", function(t) {
             return e(this).addClass("was-validated"), !1 !== e(this)[0].checkValidity() || (t.preventDefault(), t.stopPropagation(), !1)
-        })
+        }), e(".form-validation").validationEngine()
     }, t.prototype.initCheckboxGroup = function() {
             var t = this;
             e('.custom-checkbox-all').on('change', 'input', function(t) {
@@ -70,7 +70,7 @@ function(e) {
             var t = window.location.href.split(/[?#]/)[0];
             t = t.split('create')[0];
             t = t.split('edit')[0];
-            this.href == t && (e(this).addClass("active"), e(this).parent().parent().addClass("active"), e(this).parent().parent().parent().parent().addClass("active"))
+            this.href.split(/[?#]/)[0] == t && (e(this).addClass("active"), e(this).parent().parent().addClass("active"), e(this).parent().parent().parent().parent().addClass("active"))
         }), e(".navbar-toggle").on("click", function(t) {
             e(this).toggleClass("open"), e("#navigation").slideToggle(400)
         }), e(".dropdown-menu a.dropdown-toggle").on("click", function(t) {

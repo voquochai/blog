@@ -26,7 +26,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $this->_data['users'] = User::where('type',$this->_data['type'])->orderBy('priority', 'desc')->paginate(25);
+        $this->_data['items'] = User::where('type',$this->_data['type'])->orderBy('priority', 'desc')->paginate(25);
         return view('backend.users.index',$this->_data);
     }
 
@@ -52,12 +52,13 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'name'     => 'required|max:255',
             'email'    => 'required|unique:users,email',
-            'password' => 'required',
+            'password' => 'required|min:6',
         ],[
             'name.required'     =>  'Vui lòng nhập Họ và tên',
             'email.required'    =>  'Vui lòng nhập Email',
             'email.unique'      =>  'Email này đã được đăng ký',
-            'password.required' =>  'Vui lòng nhập mật khẩu',
+            'password.required' => 'Vui lòng nhập Mật khẩu',
+            'password.min' => 'Mật khẩu có ít nhất :min ký tự',
         ]);
 
         if ($validator->fails()) {
@@ -98,7 +99,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $this->_data['user'] = $user;
+        $this->_data['item'] = $user;
         return view('backend.users.edit',$this->_data);
     }
 
@@ -114,10 +115,12 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'name'  => 'required|max:255',
             'email' => 'required|unique:users,email,'.$user->id,
+            'password' => 'min:6'
         ],[
             'name.required'  =>  'Vui lòng nhập Họ và tên',
             'email.required' =>  'Vui lòng nhập Email',
             'email.unique'   =>  'Email này đã được đăng ký',
+            'password.min' => 'Mật khẩu có ít nhất :min ký tự',
         ]);
 
         if ($validator->fails()) {
@@ -169,7 +172,7 @@ class UserController extends Controller
         }
     }
 
-    public function changeStatus(Request $request){
+    public function status(Request $request){
         if($request->ajax()){
             $arrID = explode(',',$request->id);
             $users = User::select('id','status')->whereIn('id',$arrID)->get();
@@ -201,12 +204,12 @@ class UserController extends Controller
             return response()->json([
                 'head'  =>  'Nguy hiểm!',
                 'message'   =>  'Unauthorized.',
-                'class'   =>  'danger',
+                'class'   =>  'error',
             ]);
         }
     }
 
-    public function updatePriority(Request $request){
+    public function priority(Request $request){
         $id = $request->id;
         $up = $request->priority;
         $curr = User::where('id',$id)->first()->priority;
@@ -222,31 +225,10 @@ class UserController extends Controller
         }
 
         User::where('id',$id)->update(['priority'=>$up]);
-
-        // if( $request->ajax() && is_numeric($request->id) ){
-        //     $id = $request->id;
-        //     $user = User::findOrFail($id);
-        //     if( $user && is_numeric($request->priority) ){
-        //         $user->priority = $request->priority ? $request->priority : 0;
-        //         $user->save();
-        //         return response()->json([
-        //             'head'  =>  'Thành công!',
-        //             'message'   =>  'Cập nhật thành công.',
-        //             'class'   =>  'success',
-        //         ]);
-        //     }else{
-        //         return response()->json([
-        //             'head'  =>  'Cảnh báo!',
-        //             'message'   =>  'Cập nhật thất bại.',
-        //             'class'   =>  'warning',
-        //         ]);
-        //     }
-        // }else{
-        //     return response()->json([
-        //         'head'  =>  'Nguy hiểm!',
-        //         'message'   =>  'Unauthorized.',
-        //         'class'   =>  'danger',
-        //     ]);
-        // }
+        return response()->json([
+            'head'  =>  'Thành công!',
+            'message'   =>  'Cập nhật thành công.',
+            'class'   =>  'success',
+        ]);
     }
 }

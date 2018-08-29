@@ -7,16 +7,16 @@
 				<h4 class="header-title">Chỉnh sửa</h4>
     		</div>
             <div class="card-body">
-                <form method="post" action="{{ route('admin.users.update', ['id'=>$user->id, 'type'=>'mod']) }}">
+                <form method="post" action="{{ route('admin.users.update', ['id'=>$item->id, 'type'=>$type]) }}">
                     @method('PUT')
                     @csrf
                     <div class="form-group mb-3">
                         <label>Họ và tên</label>
-                        <input type="text" name="name" class="form-control" placeholder="Họ và tên" value="{{ $user->name }}" required="">
+                        <input type="text" name="name" class="form-control" placeholder="Họ và tên" value="{{ $item->name }}" required="">
                     </div>
                     <div class="form-group mb-3">
                         <label>Email</label>
-                        <input type="email" name="email" class="form-control" placeholder="Email" value="{{ $user->email }}" required="">
+                        <input type="email" name="email" class="form-control" placeholder="Email" value="{{ $item->email }}" required="">
                     </div>
                     <div class="form-group mb-3">
                         <label>Mật khẩu</label>
@@ -24,13 +24,13 @@
                     </div>
                     <div class="form-group mb-3">
                         <label>Thứ tự</label>
-                        <input type="number" name="priority" class="form-control" value="{{ $user->priority }}" min="1" max="9999" placeholder="Thứ tự" disabled>
+                        <input type="number" name="priority" class="form-control" value="{{ $item->priority }}" min="1" max="9999" placeholder="Thứ tự" disabled>
                     </div>
                     <div class="form-group mb-3">
                         <label class="col-form-label">Tình trạng</label>
                         @forelse($config['status'] as $k => $v)
                         <div class="custom-control custom-control-inline custom-checkbox ml-2">
-                            <input type="checkbox" name="status[]" value="{{ $k }}" {{ strpos($user->status,$k) !== false ? 'checked' : '' }} class="custom-control-input" id="customCheck{{ $k }}">
+                            <input type="checkbox" name="status[]" value="{{ $k }}" {{ strpos($item->status,$k) !== false ? 'checked' : '' }} class="custom-control-input" id="customCheck{{ $k }}">
                             <label class="custom-control-label" for="customCheck{{ $k }}">{{ $v }}</label>
                         </div>
                         @empty
@@ -38,19 +38,11 @@
 
                     </div>
                     <button type="submit" class="btn btn-primary"> <i class="mdi mdi-check"></i> Lưu</button>
-                    <a href="{{ route('admin.users.index', ['type'=>$type]) }}" class="btn btn-danger" > <i class="mdi mdi-close"></i> Thoát</a>
+                    <a href="{{ route('admin.users.index', ['type'=>$type]) }}" class="btn btn-danger" > <i class="mdi mdi-login-variant"></i> Thoát</a>
                 </form>
 
             </div> <!-- end card body-->
         </div>
 	</div>
 </div>
-@endsection
-
-@section('style')
-<link href="{{ asset('public/packages/bootstrap-select/css/bootstrap-select.min.css') }}" rel="stylesheet" type="text/css">
-@endsection
-
-@section('script')
-<script src="{{ asset('public/packages/bootstrap-select/js/bootstrap-select.min.js') }}" type="text/javascript"></script>
 @endsection

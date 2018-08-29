@@ -7,11 +7,11 @@
 				<h4 class="header-title">Thêm mới</h4>
     		</div>
             <div class="card-body">
-                <form method="post" action="{{ route('admin.users.store', ['type'=>'mod']) }}">
+                <form method="post" action="{{ route('admin.users.store', ['type'=>$type]) }}" class="form-validation" novalidate="">
                     @csrf
                     <div class="form-group mb-3">
                         <label>Họ và tên</label>
-                        <input type="text" name="name" class="form-control" placeholder="Họ và tên" value="{{ old('name') }}" required="">
+                        <input type="text" name="name" class="form-control validate[required]" placeholder="Họ và tên" value="{{ old('name') }}" required="">
                     </div>
                     <div class="form-group mb-3">
                         <label>Email</label>
@@ -43,12 +43,4 @@
         </div>
 	</div>
 </div>
-@endsection
-
-@section('style')
-<link href="{{ asset('public/packages/bootstrap-select/css/bootstrap-select.min.css') }}" rel="stylesheet" type="text/css">
-@endsection
-
-@section('script')
-<script src="{{ asset('public/packages/bootstrap-select/js/bootstrap-select.min.js') }}" type="text/javascript"></script>
 @endsection

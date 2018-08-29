@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('content'); ?>
 <div class="row">
 	<div class="col-12">
@@ -40,31 +41,31 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $__empty_1 = true; $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                            <?php $__empty_1 = true; $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                             <tr>
                             	<td>
                             		<div class="custom-control custom-checkbox custom-checkbox-single">
-                                        <input type="checkbox" name="checkAction[]" value="<?php echo e($user->id); ?>" class="custom-control-input" id="customCheck<?php echo e($user->id); ?>" data-group="all">
-                                        <label class="custom-control-label" for="customCheck<?php echo e($user->id); ?>"></label>
+                                        <input type="checkbox" name="checkAction[]" value="<?php echo e($item->id); ?>" class="custom-control-input" id="customCheck<?php echo e($item->id); ?>" data-group="all">
+                                        <label class="custom-control-label" for="customCheck<?php echo e($item->id); ?>"></label>
                                     </div>
                             	</td>
                                 <td>
-                                    <input type="text" name="priority" value="<?php echo e($user->priority); ?>" class="form-control form-control-sm form-control-light" onchange="updatePriority(<?php echo e($user->id); ?>, this.value, event)" />
+                                    <input type="text" name="priority" value="<?php echo e($item->priority); ?>" class="form-control form-control-sm form-control-light" onchange="updatePriority(<?php echo e($item->id); ?>, this.value, event)" />
                                 </td>
-                                <td><?php echo e($user->name); ?></td>
-                                <td><?php echo e($user->email); ?></td>
-                                <td><?php echo e($user->created_at); ?></td>
+                                <td><?php echo e($item->name); ?></td>
+                                <td><?php echo e($item->email); ?></td>
+                                <td><?php echo e($item->created_at); ?></td>
                                 <td>
                                     <?php $__empty_2 = true; $__currentLoopData = $config['status']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $v): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_2 = false; ?>
-                                    <button type="button" class="btn btn-sm btn-<?php echo e(strpos($user->status,$k) !== false ? 'info' : 'secondary'); ?> btn-status-<?php echo e($k); ?>" onclick="changeStatus(<?php echo e($user->id); ?>, '<?php echo e($k); ?>', event)"> <?php echo e($v); ?> </button>
+                                    <button type="button" class="btn btn-sm btn-<?php echo e(strpos($item->status,$k) !== false ? 'info' : 'secondary'); ?> btn-status-<?php echo e($k); ?>" onclick="changeStatus(<?php echo e($item->id); ?>, '<?php echo e($k); ?>', event)"> <?php echo e($v); ?> </button>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_2): ?>
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <a href="<?php echo e(route('admin.users.edit', ['id'=>$user->id, 'type'=>$type])); ?>" class="btn btn-sm btn-primary">
+                                    <a href="<?php echo e(route('admin.users.edit', ['id'=>$item->id, 'type'=>$type])); ?>" class="btn btn-sm btn-primary">
                                         <i class="mdi mdi-circle-edit-outline"></i>
                                     </a>
-                                    <a href="javascript:;" class="btn btn-sm btn-danger" onclick="deleteRow(<?php echo e($user->id); ?>, event)" >
+                                    <a href="javascript:;" class="btn btn-sm btn-danger" onclick="deleteRow(<?php echo e($item->id); ?>, event)" >
                                         <i class="mdi mdi-close"></i>
                                     </a>
                                 </td>
@@ -77,7 +78,7 @@
                         </tbody>
                     </table>
                 </div> <!-- end table-responsive-->
-                <nav><?php echo $users->appends(['type' => $type])->links('backend.blocks.pagination'); ?></nav>
+                <nav><?php echo $items->appends(['type' => $type])->links('backend.blocks.pagination'); ?></nav>
             </div> <!-- end card body-->
         </div>
 	</div>
@@ -85,7 +86,7 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('script'); ?>
-<script src="<?php echo e(asset('public/packages/axios.min.js')); ?>" type="text/javascript"></script>
+
 <script type="text/javascript">
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     const swalWithBootstrapButtons = swal.mixin({
@@ -96,7 +97,7 @@
     function updatePriority(id,priority,event){
         event.preventDefault();
         var btn = event.target;
-        axios.post('<?php echo e(route('admin.users.update_priority')); ?>',{
+        axios.post('<?php echo e(route('admin.users.priority')); ?>',{
             id: id,
             priority: priority
         }).then(res => {
@@ -109,7 +110,7 @@
     function changeStatus(id,status,event){
         event.preventDefault();
         var btn = event.target;
-        axios.post('<?php echo e(route('admin.users.change_status')); ?>',{
+        axios.post('<?php echo e(route('admin.users.status')); ?>',{
             id: id,
             status: status
         }).then(res => {
@@ -123,7 +124,7 @@
         event.preventDefault();
         if( $('input[name="checkAction[]"]').is(':checked') ){
             var ids = $('input[name="checkAction[]"]:checked').map( function () { return this.value; } ).get().join(",");
-            axios.post('<?php echo e(route('admin.users.change_status')); ?>',{
+            axios.post('<?php echo e(route('admin.users.status')); ?>',{
                 id: ids,
                 status: status
             }).then(res => {

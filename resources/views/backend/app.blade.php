@@ -2,14 +2,17 @@
     <html lang="{{ app()->getLocale() }}">
     <head>
         <meta charset="utf-8" />
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Administrator</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="" rel="shortcut icon">
         <link href="{{ asset('public/packages/material/css/materialdesignicons.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('public/packages/bootstrap/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('public/packages/bootstrap-select/css/bootstrap-select.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('public/packages/metismenu/metisMenu.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('public/packages/toast/toast.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('public/packages/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('public/packages/validationEngine/css/validationEngine.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('public/backend/css/app.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('public/backend/css/responsive.css') }}" rel="stylesheet" type="text/css">
         @yield('style')
@@ -53,12 +56,23 @@
             <!-- ============================================================== -->
         </div>
         <!-- END wrapper -->
+        <script type="text/javascript">
+            window.Laravel = {!! json_encode([
+                'baseUrl'   =>  url('/'),
+                'currUrl'   =>  url()->current(),
+                'csrf_token'=>  csrf_token(),
+            ]) !!}
+        </script>
         <script src="{{ asset('public/packages/jquery.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('public/packages/axios.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('public/packages/bootstrap/js/bootstrap.bundle.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('public/packages/bootstrap-select/js/bootstrap-select.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('public/packages/metismenu/metisMenu.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('public/packages/toast/toast.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('public/packages/sweetalert2/sweetalert2.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('public/packages/slimScroll/jquery.slimscroll.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('public/packages/validationEngine/js/validationEngine.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('public/packages/validationEngine/js/languages/jquery.validationEngine-vi.js') }}" type="text/javascript"></script>
         <script src="{{ asset('public/backend/js/app.js') }}" type="text/javascript"></script>
         @yield('script')
     </body>

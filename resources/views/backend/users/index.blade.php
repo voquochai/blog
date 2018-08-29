@@ -41,31 +41,31 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($users as $user)
+                            @forelse($items as $item)
                             <tr>
                             	<td>
                             		<div class="custom-control custom-checkbox custom-checkbox-single">
-                                        <input type="checkbox" name="checkAction[]" value="{{ $user->id }}" class="custom-control-input" id="customCheck{{ $user->id }}" data-group="all">
-                                        <label class="custom-control-label" for="customCheck{{ $user->id }}"></label>
+                                        <input type="checkbox" name="checkAction[]" value="{{ $item->id }}" class="custom-control-input" id="customCheck{{ $item->id }}" data-group="all">
+                                        <label class="custom-control-label" for="customCheck{{ $item->id }}"></label>
                                     </div>
                             	</td>
                                 <td>
-                                    <input type="text" name="priority" value="{{ $user->priority }}" class="form-control form-control-sm form-control-light" onchange="updatePriority({{ $user->id }}, this.value, event)" />
+                                    <input type="text" name="priority" value="{{ $item->priority }}" class="form-control form-control-sm form-control-light" onchange="updatePriority({{ $item->id }}, this.value, event)" />
                                 </td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->created_at }}</td>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->email }}</td>
+                                <td>{{ $item->created_at }}</td>
                                 <td>
                                     @forelse($config['status'] as $k => $v)
-                                    <button type="button" class="btn btn-sm btn-{{ strpos($user->status,$k) !== false ? 'info' : 'secondary' }} btn-status-{{ $k }}" onclick="changeStatus({{ $user->id }}, '{{ $k }}', event)"> {{ $v }} </button>
+                                    <button type="button" class="btn btn-sm btn-{{ strpos($item->status,$k) !== false ? 'info' : 'secondary' }} btn-status-{{ $k }}" onclick="changeStatus({{ $item->id }}, '{{ $k }}', event)"> {{ $v }} </button>
                                     @empty
                                     @endforelse
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.users.edit', ['id'=>$user->id, 'type'=>$type]) }}" class="btn btn-sm btn-primary">
+                                    <a href="{{ route('admin.users.edit', ['id'=>$item->id, 'type'=>$type]) }}" class="btn btn-sm btn-primary">
                                         <i class="mdi mdi-circle-edit-outline"></i>
                                     </a>
-                                    <a href="javascript:;" class="btn btn-sm btn-danger" onclick="deleteRow({{ $user->id }}, event)" >
+                                    <a href="javascript:;" class="btn btn-sm btn-danger" onclick="deleteRow({{ $item->id }}, event)" >
                                         <i class="mdi mdi-close"></i>
                                     </a>
                                 </td>
@@ -78,7 +78,7 @@
                         </tbody>
                     </table>
                 </div> <!-- end table-responsive-->
-                <nav>{!! $users->appends(['type' => $type])->links('backend.blocks.pagination') !!}</nav>
+                <nav>{!! $items->appends(['type' => $type])->links('backend.blocks.pagination') !!}</nav>
             </div> <!-- end card body-->
         </div>
 	</div>
@@ -86,7 +86,7 @@
 @endsection
 
 @section('script')
-<script src="{{ asset('public/packages/axios.min.js') }}" type="text/javascript"></script>
+
 <script type="text/javascript">
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     const swalWithBootstrapButtons = swal.mixin({
@@ -97,7 +97,7 @@
     function updatePriority(id,priority,event){
         event.preventDefault();
         var btn = event.target;
-        axios.post('{{ route('admin.users.update_priority') }}',{
+        axios.post('{{ route('admin.users.priority') }}',{
             id: id,
             priority: priority
         }).then(res => {
@@ -110,7 +110,7 @@
     function changeStatus(id,status,event){
         event.preventDefault();
         var btn = event.target;
-        axios.post('{{ route('admin.users.change_status') }}',{
+        axios.post('{{ route('admin.users.status') }}',{
             id: id,
             status: status
         }).then(res => {
@@ -124,7 +124,7 @@
         event.preventDefault();
         if( $('input[name="checkAction[]"]').is(':checked') ){
             var ids = $('input[name="checkAction[]"]:checked').map( function () { return this.value; } ).get().join(",");
-            axios.post('{{ route('admin.users.change_status') }}',{
+            axios.post('{{ route('admin.users.status') }}',{
                 id: ids,
                 status: status
             }).then(res => {

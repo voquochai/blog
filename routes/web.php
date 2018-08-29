@@ -20,7 +20,7 @@ Route::prefix('admin')->namespace('Backend')->name('admin.')->group(function () 
 		'users' => 'UserController',
 	]);
 
-	Route::post('users/changeStatus', 'UserController@changeStatus')->name('users.change_status');
-	Route::post('users/updatePriority', 'UserController@updatePriority')->name('users.update_priority');
+	Route::post('users/status', 'UserController@status')->name('users.status');
+	Route::post('users/priority', 'UserController@priority')->name('users.priority');
 
 });
