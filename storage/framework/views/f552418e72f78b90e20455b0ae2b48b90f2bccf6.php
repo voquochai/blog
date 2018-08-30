@@ -7,16 +7,16 @@
 				<h4 class="header-title">Chỉnh sửa</h4>
     		</div>
             <div class="card-body">
-                <form method="post" action="<?php echo e(route('admin.users.update', ['id'=>$item->id, 'type'=>$type])); ?>">
+                <form method="post" action="<?php echo e(route('admin.users.update', ['id'=>$item->id, 'type'=>$type])); ?>" class="form-validation" novalidate="">
                     <?php echo method_field('PUT'); ?>
                     <?php echo csrf_field(); ?>
                     <div class="form-group mb-3">
                         <label>Họ và tên</label>
-                        <input type="text" name="name" class="form-control" placeholder="Họ và tên" value="<?php echo e($item->name); ?>" required="">
+                        <input type="text" name="name" class="form-control validate[required]" placeholder="Họ và tên" value="<?php echo e($item->name); ?>">
                     </div>
                     <div class="form-group mb-3">
                         <label>Email</label>
-                        <input type="email" name="email" class="form-control" placeholder="Email" value="<?php echo e($item->email); ?>" required="">
+                        <input type="email" name="email" class="form-control validate[required,custom[email]]" placeholder="Email" value="<?php echo e($item->email); ?>">
                     </div>
                     <div class="form-group mb-3">
                         <label>Mật khẩu</label>

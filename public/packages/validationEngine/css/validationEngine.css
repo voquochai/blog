@@ -4,7 +4,7 @@
     z-index: 990;
     display: block;
     margin: 0;
-    padding: .4rem 0;
+    padding: .4rem;
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
     font-style: normal;
     font-weight: 400;
@@ -19,7 +19,7 @@
     word-spacing: normal;
     white-space: normal;
     line-break: auto;
-    font-size: .875rem;
+    font-size: .775rem;
     word-wrap: break-word;
 }
 .formError .formErrorContent { z-index: 991; }
@@ -48,6 +48,7 @@
 	top: 0;
 	left: 0;
 	display: inline-block;
+    padding: .4rem 0 0;
 }
 
 .ajaxSubmit {
@@ -58,16 +59,19 @@
 }
 
 .formError .formErrorContent {
-	min-width: 200px;
-	max-width: 400px;
-    padding: .25rem .5rem;
+	min-width: 150px;
+    padding: .25rem .5rem .35rem;
     color: #fff;
-    text-align: left;
-    background-color: #000;
+    text-align: center;
+    background-color: #1c2128;
     border-radius: .25rem;
 }
 
 .formError.inline .formErrorContent {
+    padding: 0;
+    background-color: transparent;
+    color: #f9375e;
+    text-align: left;
 	box-shadow: none;
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
@@ -89,52 +93,52 @@
 }
 
 .formError .formErrorArrow {
-	width: 15px;
-	margin: -2px 0 0 13px;
-	position:relative;
+	position: absolute;
+    display: block;
+    width: .8rem;
+    height: .4rem;
+    left: 50%;
+    margin-left: -.4rem;
 }
-body[dir='rtl'] .formError .formErrorArrow,
-body.rtl .formError .formErrorArrow {
-	margin: -2px 13px 0 0;
+.formError .formErrorArrow::before{
+	position: absolute;
+    content: "";
+    border-color: transparent;
+    border-style: solid;
 }
-
-.formError .formErrorArrowBottom {
-	box-shadow: none;
-	-moz-box-shadow: none;
-	-webkit-box-shadow: none;
-	-o-box-shadow: none;
-	margin: 0px 0 0 12px;
-	top:2px;
+.formError .formErrorArrowTop{
+    bottom: 0;
 }
-
-.formError .formErrorArrow div {
-	border-left: 2px solid #ddd;
-	border-right: 2px solid #ddd;
-	box-shadow: 0 2px 3px #444;
-	-moz-box-shadow: 0 2px 3px #444;
-	-webkit-box-shadow: 0 2px 3px #444;
-	-o-box-shadow: 0 2px 3px #444;
-	font-size: 0px;
-	height: 1px;
-	background: #ee0101;
-	margin: 0 auto;
-	line-height: 0;
-	font-size: 0;
-	display: block;
+.formError .formErrorArrowTop::before {
+    top: 0;
+    border-width: .4rem .4rem 0;
+    border-top-color: #000
 }
-
-.formError .formErrorArrowBottom div {
-	box-shadow: none;
-	-moz-box-shadow: none;
-	-webkit-box-shadow: none;
-	-o-box-shadow: none;
+.formError .formErrorArrowRight{
+    left: 0;
+    width: .4rem;
+    height: .8rem
 }
-
-.greenPopup .formErrorArrow div {
-	background: #33be40;
+.formError .formErrorArrowRight::before {
+    right: 0;
+    border-width: .4rem .4rem .4rem 0;
+    border-right-color: #000
 }
-
-.blackPopup .formErrorArrow div {
-	background: #393939;
-	color: #FFF;
+.formError .formErrorArrowBottom{
+    top: 0
+}
+.formError .formErrorArrowBottom::before {
+    bottom: 0;
+    border-width: 0 .4rem .4rem;
+    border-bottom-color: #000
+}
+.formError .formErrorArrowLeft{
+    right: 0;
+    width: .4rem;
+    height: .8rem
+}
+.formError .formErrorArrowLeft::before {
+    left: 0;
+    border-width: .4rem 0 .4rem .4rem;
+    border-left-color: #000
 }

@@ -115,12 +115,10 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'name'  => 'required|max:255',
             'email' => 'required|unique:users,email,'.$user->id,
-            'password' => 'min:6'
         ],[
             'name.required'  =>  'Vui lòng nhập Họ và tên',
             'email.required' =>  'Vui lòng nhập Email',
             'email.unique'   =>  'Email này đã được đăng ký',
-            'password.min' => 'Mật khẩu có ít nhất :min ký tự',
         ]);
 
         if ($validator->fails()) {

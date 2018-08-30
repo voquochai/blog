@@ -1160,7 +1160,6 @@
 		_min: function(field, rules, i, options) {
 			var min = parseFloat(rules[i + 1]);
 			var len = parseFloat(field.val());
-
 			if (len < min) {
 				var rule = options.allrules.min;
 				if (rule.alertText2) return rule.alertText + min + rule.alertText2;
@@ -1650,6 +1649,10 @@
 				}
 
 				switch (positionType) {
+					case "topCenter":
+						prompt.find(".formErrorContent").before(arrow);
+						arrow.addClass("formErrorArrowTop");
+						break;
 					case "bottomLeft":
 					case "bottomRight":
 						prompt.find(".formErrorContent").before(arrow);
@@ -1861,6 +1864,7 @@
 			var fieldLeft 	= field.position().left;
 			var fieldTop 	=  field.position().top;
 			var fieldHeight 	=  field.height();
+			var promptWidth = promptElmt.width();
 			var promptHeight = promptElmt.height();
 
 
@@ -1908,6 +1912,11 @@
 
 			switch (positionType) {
 				default:
+				case "topCenter":
+					promptTopPosition +=  fieldTop - 15;
+					promptleftPosition += (fieldLeft + fieldWidth/2) - (promptWidth/2);
+					break;
+
 				case "topRight":
 					promptleftPosition +=  fieldLeft + fieldWidth - 27;
 					promptTopPosition +=  fieldTop;
@@ -1923,11 +1932,11 @@
 					marginTopSize = 0;
 					promptleftPosition= fieldLeft + field.outerWidth(true)+5;
 					break;
+
 				case "centerLeft":
 					promptleftPosition = fieldLeft - (promptElmt.width() + 2);
 					promptTopPosition = fieldTop+4;
 					marginTopSize = 0;
-
 					break;
 
 				case "bottomLeft":
@@ -1935,11 +1944,13 @@
 					marginTopSize = 0;
 					promptleftPosition = fieldLeft;
 					break;
+
 				case "bottomRight":
 					promptleftPosition = fieldLeft + fieldWidth - 27;
 					promptTopPosition =  fieldTop +  field.height() + 5;
 					marginTopSize = 0;
 					break;
+
 				case "inline":
 					promptleftPosition = 0;
 					promptTopPosition = 0;
@@ -2087,7 +2098,7 @@
 		// Opening box position, possible locations are: topLeft,
 		// topRight, bottomLeft, centerRight, bottomRight, inline
 		// inline gets inserted after the validated field or into an element specified in data-prompt-target
-		promptPosition: "topRight",
+		promptPosition: "topCenter",
 		bindMethod:"bind",
 		// internal, automatically set to true when it parse a _ajax rule
 		inlineAjax: false,
@@ -2135,8 +2146,8 @@
 		onSuccess: false,
 		onFailure: false,
 		validateAttribute: "class",
-		addSuccessCssClassToField: "",
-		addFailureCssClassToField: "",
+		addSuccessCssClassToField: "valid",
+		addFailureCssClassToField: "invalid",
 
 		// Auto-hide prompt
 		autoHidePrompt: false,

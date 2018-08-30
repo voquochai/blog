@@ -187,6 +187,12 @@ h6 {
     background-color: #f1f3fa!important;
     border-color: #f1f3fa!important
 }
+.form-control.invalid {
+    border-color: #f9375e!important
+}
+.form-control.valid {
+    border-color: #0acf97!important
+}
 input.form-control[type=color],
 input.form-control[type=range] {
     min-height: 39px
