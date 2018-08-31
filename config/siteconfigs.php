@@ -116,32 +116,14 @@ return [
 	],
 
 	'category' => [
-		'thue-xe'	=>	[
-			'page-title'	=>	'Danh mục xe',
-			'level' =>	1,
-			'icon'	=>	false,
-			'description' =>	false,
-			'contents'    =>	false,
-			'image'       =>	false,
-			'seo'	=>	false,
-			'thumbs'	=>	[
-				'_small' => [
-					'width'  =>	300,
-					'height' =>	200,
-				],
-			],
-			'status' => [
-				'publish' => 'Hiển thị',
-			]
-		],
-		'khach-san'	=>	[
+		'san-pham'	=>	[
 			'page-title'	=>	'Danh mục khách sạn',
 			'level' =>	1,
 			'icon'	=>	false,
 			'description' =>	false,
 			'contents'    =>	false,
 			'image'       =>	false,
-			'seo'	=>	false,
+			'seo'	=>	true,
 			'thumbs'	=>	[
 				'_small' => [
 					'width'  =>	300,

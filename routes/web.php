@@ -19,9 +19,13 @@ Route::prefix('admin')->namespace('Backend')->name('admin.')->group(function () 
 	
 	Route::resources([
 		'users' => 'UserController',
+		'categories' => 'CategoryController',
 	]);
 
 	Route::post('users/status', 'UserController@status')->name('users.status');
 	Route::post('users/priority', 'UserController@priority')->name('users.priority');
+
+	Route::post('categories/status', 'CategoryController@status')->name('categories.status');
+	Route::post('categories/priority', 'CategoryController@priority')->name('categories.priority');
 
 });

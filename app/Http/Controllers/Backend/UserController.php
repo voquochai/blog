@@ -222,7 +222,6 @@ class UserController extends Controller
         }
 
         $user->update(['priority'=>$up]);
-        dd($user);
         return response()->json([
             'head'  =>  'Thành công!',
             'message'   =>  'Cập nhật thành công.',

@@ -79,6 +79,10 @@ class ComposerStaticInit722752713751a46471640a6ab27666d0
             'League\\Flysystem\\' => 17,
             'Laravel\\Tinker\\' => 15,
         ),
+        'K' => 
+        array (
+            'Kalnoy\\Nestedset\\' => 17,
+        ),
         'I' => 
         array (
             'Illuminate\\' => 11,
@@ -233,6 +237,10 @@ class ComposerStaticInit722752713751a46471640a6ab27666d0
         array (
             0 => __DIR__ . '/..' . '/laravel/tinker/src',
         ),
+        'Kalnoy\\Nestedset\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kalnoy/nestedset/src',
+        ),
         'Illuminate\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
@@ -319,12 +327,14 @@ class ComposerStaticInit722752713751a46471640a6ab27666d0
     );
 
     public static $classMap = array (
+        'App\\Category' => __DIR__ . '/../..' . '/app/Category.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
+        'App\\Http\\Controllers\\Backend\\CategoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/CategoryController.php',
         'App\\Http\\Controllers\\Backend\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/DashboardController.php',
         'App\\Http\\Controllers\\Backend\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/UserController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
@@ -1761,6 +1771,14 @@ class ComposerStaticInit722752713751a46471640a6ab27666d0
         'JakubOnderka\\PhpConsoleColor\\ConsoleColor' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/JakubOnderka/PhpConsoleColor/ConsoleColor.php',
         'JakubOnderka\\PhpConsoleColor\\InvalidStyleException' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/JakubOnderka/PhpConsoleColor/InvalidStyleException.php',
         'JakubOnderka\\PhpConsoleHighlighter\\Highlighter' => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src/JakubOnderka/PhpConsoleHighlighter/Highlighter.php',
+        'Kalnoy\\Nestedset\\AncestorsRelation' => __DIR__ . '/..' . '/kalnoy/nestedset/src/AncestorsRelation.php',
+        'Kalnoy\\Nestedset\\BaseRelation' => __DIR__ . '/..' . '/kalnoy/nestedset/src/BaseRelation.php',
+        'Kalnoy\\Nestedset\\Collection' => __DIR__ . '/..' . '/kalnoy/nestedset/src/Collection.php',
+        'Kalnoy\\Nestedset\\DescendantsRelation' => __DIR__ . '/..' . '/kalnoy/nestedset/src/DescendantsRelation.php',
+        'Kalnoy\\Nestedset\\NestedSet' => __DIR__ . '/..' . '/kalnoy/nestedset/src/NestedSet.php',
+        'Kalnoy\\Nestedset\\NestedSetServiceProvider' => __DIR__ . '/..' . '/kalnoy/nestedset/src/NestedSetServiceProvider.php',
+        'Kalnoy\\Nestedset\\NodeTrait' => __DIR__ . '/..' . '/kalnoy/nestedset/src/NodeTrait.php',
+        'Kalnoy\\Nestedset\\QueryBuilder' => __DIR__ . '/..' . '/kalnoy/nestedset/src/QueryBuilder.php',
         'Laravel\\Tinker\\ClassAliasAutoloader' => __DIR__ . '/..' . '/laravel/tinker/src/ClassAliasAutoloader.php',
         'Laravel\\Tinker\\Console\\TinkerCommand' => __DIR__ . '/..' . '/laravel/tinker/src/Console/TinkerCommand.php',
         'Laravel\\Tinker\\TinkerCaster' => __DIR__ . '/..' . '/laravel/tinker/src/TinkerCaster.php',

@@ -17,22 +17,22 @@
             <li class="side-nav-title side-nav-item">Navigation</li>
 
             <li class="side-nav-item">
-                <a href="index.html" class="side-nav-link">
+                <a href="<?php echo e(route('admin.dashboard')); ?>" class="side-nav-link">
                     <i class="mdi mdi-checkbox-marked-circle-outline"></i>
                     <span class="badge badge-success float-right">7</span>
-                    <span> Dashboard </span>
+                    <span> Bảng điều khiển </span>
                 </a>
             </li>
 
             <li class="side-nav-item">
                 <a href="javascript: void(0);" class="side-nav-link">
                     <i class="mdi mdi-checkbox-marked-circle-outline"></i>
-                    <span> Apps </span>
+                    <span> Sản phẩm </span>
                     <span class="menu-arrow"></span>
                 </a>
                 <ul class="side-nav-second-level" aria-expanded="false">
                     <li>
-                        <a href="apps-calendar.html">Calendar</a>
+                        <a href="<?php echo e(route('admin.categories.index', ['type'=>'san-pham'])); ?>">Danh mục</a>
                     </li>
                     <li class="side-nav-item">
                         <a href="javascript: void(0);" aria-expanded="false">Projects
