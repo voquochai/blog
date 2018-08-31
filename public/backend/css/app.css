@@ -1062,6 +1062,9 @@ body[data-layout=topnav] .content-page {
 .slimScrollDiv {
     height: auto!important
 }
+.swal2-popup .swal2-actions button{
+    margin: 0 .5rem;
+}
 .jq-toast-single {
     padding: 15px;
     font-family: Nunito, sans-serif;

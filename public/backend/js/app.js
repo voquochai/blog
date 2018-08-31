@@ -45,6 +45,144 @@ function(e) {
 }(window.jQuery),
 function(e) {
     "use strict";
+    var t = function() {};
+    axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+    const swalWithBootstrapButtons = swal.mixin({
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+    });
+
+    var url = window.location.href.split(/[?#]/)[0];
+    url = url.split('/create')[0]; url = url.split('/edit')[0];
+    
+    t.prototype.changeToSlug = function(str) {
+        str = str.toLowerCase();
+        str = str.replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/g, 'a');
+        str = str.replace(/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/g, 'e');
+        str = str.replace(/(ì|í|ị|ỉ|ĩ)/g, 'i');
+        str = str.replace(/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/g, 'o');
+        str = str.replace(/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/g, 'u');
+        str = str.replace(/(ỳ|ý|ỵ|ỷ|ỹ)/g, 'y');
+        str = str.replace(/(đ)/g, 'd');
+        str = str.replace(/([^0-9a-z-\s])/g, '');
+        str = str.replace(/(\s+)/g, '-');
+        str = str.replace(/^-+/g, '');
+        str = str.replace(/-+$/g, '');
+        return str;
+    }, t.prototype.updatePriority = function(id,priority,event) {
+        event.preventDefault();
+        var btn = event.target;
+        axios.post( url + '/priority',{
+            id: id,
+            priority: priority
+        }).then(res => {
+            if(res.data.class === 'success'){
+                e(btn).toggleClass('btn-info').toggleClass('btn-secondary');
+            }
+            e.NotificationApp.send(res.data.head, res.data.message, "top-right", "rgba(0,0,0,0.2)", res.data.class);
+        }).catch(error => {
+            e.NotificationApp.send(error.response.status, error.response.statusText, "top-right", "rgba(0,0,0,0.2)", 'error');
+        });
+    }, t.prototype.changeStatus = function(id,status,event) {
+        event.preventDefault();
+        var btn = event.target;
+        axios.post( url + '/status',{
+            id: id,
+            status: status
+        }).then(res => {
+            if(res.data.class === 'success'){
+                e(btn).toggleClass('btn-info').toggleClass('btn-secondary');
+            }
+            e.NotificationApp.send(res.data.head, res.data.message, "top-right", "rgba(0,0,0,0.2)", res.data.class);
+        }).catch(error => {
+            e.NotificationApp.send(error.response.status, error.response.statusText, "top-right", "rgba(0,0,0,0.2)", 'error');
+        });
+    }, t.prototype.changeMultiStatus = function(status,event){
+        event.preventDefault();
+        if( e('input[name="checkAction[]"]').is(':checked') ){
+            var ids = e('input[name="checkAction[]"]:checked').map( function () { return this.value; } ).get().join(",");
+            axios.post( url + '/status',{
+                id: ids,
+                status: status
+            }).then(res => {
+                if(res.data.class === 'success'){
+                    e('input[name="checkAction[]"]:checked').map(function () {
+                        e(this).closest('tr').find('.btn-status-'+status).toggleClass('btn-info').toggleClass('btn-secondary');
+                    });
+                }
+                e.NotificationApp.send(res.data.head, res.data.message, "top-right", "rgba(0,0,0,0.2)", res.data.class);
+            }).catch(error => {
+                e.NotificationApp.send(error.response.status, error.response.statusText, "top-right", "rgba(0,0,0,0.2)", 'error');
+            });
+        }else{
+            e.NotificationApp.send("Cảnh báo!", "Chưa có mục nào được chọn", "top-center", "rgba(0,0,0,0.2)", "warning");
+        }
+        
+    }, t.prototype.deleteRow = function(id,event){
+        event.preventDefault();
+        var btn = event.target;
+        swalWithBootstrapButtons({
+            title: 'Xóa dữ liệu?',
+            text: "Bạn không thể hoàn nguyên thao tác này!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Có, xóa nó!',
+            cancelButtonText: 'Không, hủy bỏ!',
+            reverseButtons: true
+        }).then((res) => {
+            if (res.value) {
+                axios.delete( url + '/'+id)
+                .then(res => {
+                    if(res.data.class === 'success'){
+                        e(btn).closest('tr').slideUp('slow', function() {
+                            e(this).remove();
+                        });
+                    }
+                    swalWithBootstrapButtons(res.data.head,res.data.message,res.data.class);
+                }).catch(error => {
+                    e.NotificationApp.send(error.response.status, error.response.statusText, "top-right", "rgba(0,0,0,0.2)", 'error');
+                });
+            } else if ( res.dismiss === swal.DismissReason.cancel ) {
+                swalWithBootstrapButtons('Hủy bỏ','Bạn đã hủy bỏ thao tác này.','error')
+            }
+        });
+    }, t.prototype.deleteMultiRows = function(event){
+        event.preventDefault();
+        if( e('input[name="checkAction[]"]').is(':checked') ){
+            swalWithBootstrapButtons({
+                title: 'Xóa dữ liệu?',
+                text: "Bạn không thể hoàn nguyên thao tác này!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Có, xóa tất cả!',
+                cancelButtonText: 'Không, hủy bỏ!',
+                reverseButtons: true
+            }).then((res) => {
+                if (res.value) {
+                    e('input[name="checkAction[]"]:checked').map(function () {
+                        var id = this.value;
+                        axios.delete( url + '/'+id)
+                        .then(res => {
+                            if(res.data.class === 'success'){
+                                e(this).closest('tr').slideUp('slow', function() {
+                                    e(this).remove();
+                                });
+                            }
+                        });
+                    });
+                    swalWithBootstrapButtons("Thành công!", "Xóa tất cả dữ liệu thành công.", "success");
+                } else if ( res.dismiss === swal.DismissReason.cancel ) {
+                    swalWithBootstrapButtons('Hủy bỏ','Bạn đã hủy bỏ thao tác này.','error')
+                }
+            });
+        }else{
+            e.NotificationApp.send("Cảnh báo!", "Chưa có mục nào được chọn", "top-center", "rgba(0,0,0,0.2)", "warning");
+        }
+    }, e.Tools = new t, e.Tools.Constructor = t
+}(window.jQuery),
+function(e) {
+    "use strict";
     var t = function() {
         this.$body = e("body"), this.$window = e(window)
     };

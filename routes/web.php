@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 Route::prefix('admin')->namespace('Backend')->name('admin.')->group(function () {
 	Route::get('/', 'DashboardController@index')->name('dashboard');
+	
 	Route::resources([
 		'users' => 'UserController',
 	]);

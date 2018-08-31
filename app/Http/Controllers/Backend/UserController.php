@@ -26,7 +26,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $this->_data['items'] = User::where('type',$this->_data['type'])->orderBy('priority', 'desc')->paginate(25);
+        $this->_data['items'] = User::where('type',$this->_data['type'])->orderBy('priority', 'asc')->paginate(25);
         return view('backend.users.index',$this->_data);
     }
 
@@ -37,7 +37,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $this->_data['priority'] = User::max('priority');
+        $this->_data['priority'] = User::where('type',$this->_data['type'])->max('priority');
         return view('backend.users.create',$this->_data);
     }
 
@@ -69,7 +69,7 @@ class UserController extends Controller
                 'name'       =>  $request->input('name'),
                 'email'      =>  $request->input('email'),
                 'password'   =>  bcrypt($request->input('password')),
-                'priority'   =>  User::max('priority')+1,
+                'priority'   =>  User::where('type',$this->_data['type'])->max('priority')+1,
                 'status'     =>  $request->input('status') ? implode(',',$request->input('status')) : '',
                 'type'       =>  $this->_data['type'],
                 'created_at' =>  new Datetime(),
@@ -129,7 +129,6 @@ class UserController extends Controller
             $user->email      =  $request->input('email');
             $user->password   =  bcrypt($request->input('password'));
             $user->status     =  $request->input('status') ? implode(',',$request->input('status')) : '';
-            $user->type       =  $this->_data['type'];
             $user->updated_at =  new Datetime();
             $user->save();
         }
@@ -146,7 +145,7 @@ class UserController extends Controller
     {
         if($request->ajax()){
             if($user->delete()){
-                User::where('priority', '>', $user->priority)->decrement('priority');
+                User::where('type',$user->type)->where('priority', '>', $user->priority)->decrement('priority');
                 return response()->json([
                     'head'  =>  'Thành công!',
                     'message'   =>  'Xóa dữ liệu <b>'.$user->name.'</b> thành công.',
@@ -162,7 +161,7 @@ class UserController extends Controller
             
         }else{
             if($user->delete()){
-                User::where('priority', '>', $user->priority)->decrement('priority');
+                User::where('type',$user->type)->where('priority', '>', $user->priority)->decrement('priority');
                 return redirect()->route('admin.users.index', ['type'=>$this->_data['type']])->with('success','Xóa dữ liệu <b>'.$user->name.'</b> thành công');
             }else{
                 return redirect()->route('admin.users.index', ['type'=>$this->_data['type']])->with('error','Xóa dữ liệu <b>'.$user->name.'</b> thất bại');
@@ -209,20 +208,21 @@ class UserController extends Controller
 
     public function priority(Request $request){
         $id = $request->id;
+        $user = User::findOrFail($id);
         $up = $request->priority;
-        $curr = User::where('id',$id)->first()->priority;
-        $max = User::max('priority');
-
+        $curr = $user->priority;
+        $max = User::where('type',$user->type)->max('priority');
         if($up > $max){
             $up = $max;
         }
         if( $up > $curr ){
-            User::whereBetween('priority', [$curr+1, $up])->decrement('priority');
+            User::where('type',$user->type)->whereBetween('priority', [$curr+1, $up])->decrement('priority');
         }else{
-            User::whereBetween('priority', [$up, $curr-1, ])->increment('priority');
+            User::where('type',$user->type)->whereBetween('priority', [$up, $curr-1])->increment('priority');
         }
 
-        User::where('id',$id)->update(['priority'=>$up]);
+        $user->update(['priority'=>$up]);
+        dd($user);
         return response()->json([
             'head'  =>  'Thành công!',
             'message'   =>  'Cập nhật thành công.',
