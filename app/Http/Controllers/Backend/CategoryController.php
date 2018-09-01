@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Category;
+use App\CategoryLanguage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;

@@ -8,14 +8,14 @@
                     <a href="{{ route('admin.categories.create', ['type'=>$type]) }}" class="btn btn-primary mr-2"> <i class="mdi mdi-plus"></i> Tạo mới</a>
                     <div class="dropdown">
 	                    <a href="javascript:void(0);" class="btn btn-outline-primary rounded-circle dropdown-toggle arrow-none" data-toggle="dropdown" aria-expanded="false">
-	                        <i class="dripicons-dots-3"></i>
+	                        <i class="mdi mdi-dots-horizontal"></i>
 	                    </a>
 	                    <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end">
                             @forelse($config['status'] as $k => $v)
-                            <a href="javascript:;" class="dropdown-item" onclick="$.MyTools.changeMultiStatus('{{ $k }}', event)"><i class="mdi mdi-circle-edit-outline mr-1"></i>{{ $v }}</a>
+                            <a href="javascript:;" class="dropdown-item" onclick="$.Tools.changeMultiStatus('{{ $k }}', event)"><i class="mdi mdi-circle-edit-outline mr-1"></i>{{ $v }}</a>
                             @empty
                             @endforelse
-	                        <a href="javascript:;" class="dropdown-item" onclick="$.MyTools.deleteMultiRows(event)"><i class="mdi mdi-delete mr-1"></i>Xóa chọn</a>
+	                        <a href="javascript:;" class="dropdown-item" onclick="$.Tools.deleteMultiRows(event)"><i class="mdi mdi-delete mr-1"></i>Xóa chọn</a>
 	                    </div>
 	                </div>
                 </div>
@@ -41,41 +41,41 @@
                         </thead>
                         <tbody>
                             @php
-                                $traverse = function ($categories, $prefix = '') use (&$traverse, $config, $type) {
+                                $traverse = function ($items, $prefix = '') use (&$traverse, $config, $type) {
 
-                                    foreach ($categories as $category) {
+                                    foreach ($items as $item) {
                             @endphp
                                 <tr {!! $prefix == '' ? 'class="table-light"' : '' !!} >
                                     <td>
                                         <div class="custom-control custom-checkbox custom-checkbox-single">
-                                            <input type="checkbox" name="checkAction[]" value="{{ $category->id }}" class="custom-control-input" id="customCheck{{ $category->id }}" data-group="all">
-                                            <label class="custom-control-label" for="customCheck{{ $category->id }}"></label>
+                                            <input type="checkbox" name="checkAction[]" value="{{ $item->id }}" class="custom-control-input" id="customCheck{{ $item->id }}" data-group="all">
+                                            <label class="custom-control-label" for="customCheck{{ $item->id }}"></label>
                                         </div>
                                     </td>
                                     <td>
-                                        <input type="text" name="priority" value="{{ $category->priority }}" class="form-control form-control-sm form-control-light" onchange="$.MyTools.updatePriority({{ $category->id }}, this.value, event)" />
+                                        <input type="text" name="priority" value="{{ $item->priority }}" class="form-control form-control-sm form-control-light" onchange="$.Tools.updatePriority({{ $item->id }}, this.value, event)" />
                                     </td>
-                                    <td><a href="{{ route('admin.categories.edit', ['id'=>$category->id, 'type'=>$type]) }}">{{ $prefix.' '.$category->name }}</a></td>
-                                    <td>{{ $category->created_at }}</td>
+                                    <td><a href="{{ route('admin.categories.edit', ['id'=>$item->id, 'type'=>$type]) }}">{{ $prefix.' '.$item->name }}</a></td>
+                                    <td>{{ $item->created_at }}</td>
                                     <td>
                                         @php foreach($config['status'] as $k => $v){ @endphp
-                                        <button type="button" class="btn btn-sm btn-{{ strpos($category->status,$k) !== false ? 'info' : 'secondary' }} btn-status-{{ $k }}" onclick="$.MyTools.changeStatus({{ $category->id }}, '{{ $k }}', event)"> {{ $v }} </button>
+                                        <button type="button" class="btn btn-sm btn-{{ strpos($item->status,$k) !== false ? 'info' : 'secondary' }} btn-status-{{ $k }}" onclick="$.Tools.changeStatus({{ $item->id }}, '{{ $k }}', event)"> {{ $v }} </button>
                                         @php } @endphp
                                     </td>
                                     <td>
-                                        <a href="{{ route('admin.categories.edit', ['id'=>$category->id, 'type'=>$type]) }}" class="btn btn-sm btn-primary">
+                                        <a href="{{ route('admin.categories.edit', ['id'=>$item->id, 'type'=>$type]) }}" class="btn btn-sm btn-primary">
                                             <i class="mdi mdi-circle-edit-outline"></i>
                                         </a>
-                                        <a href="javascript:;" class="btn btn-sm btn-danger" onclick="$.MyTools.deleteRow({{ $category->id }}, event)" >
+                                        <a href="javascript:;" class="btn btn-sm btn-danger" onclick="$.Tools.deleteRow({{ $item->id }}, event)" >
                                             <i class="mdi mdi-close"></i>
                                         </a>
                                     </td>
                                 </tr>
                             @php
-                                        $traverse($category->children, $prefix.'-');
+                                        $traverse($item->children, $prefix.'-');
                                     }
                                 };
-                                $traverse($categories);
+                                $traverse($items);
                             @endphp
                         </tbody>
                     </table>

@@ -11,4 +11,8 @@ class Category extends Model
 	
     protected $table = 'categories';
     protected $guarded = [];
+
+    public function languages(){
+    	return $this->hasMany('App\CategoryLanguage', 'category_id', 'id');
+    }
 }
