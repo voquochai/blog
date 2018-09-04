@@ -6,7 +6,8 @@ return [
 		'google_coordinates' => '10.8537862, 106.62834440000006',
 	],
 	'languages' => [
-		'vi' => 'Tiếng Việt'
+		'vi' => 'Tiếng Việt',
+		'en' => 'Tiếng Anh',
 	],
 	'social' => [
 		'vi' => 'vi_VN',
@@ -46,12 +47,6 @@ return [
 	'order' => [
 		'san-pham' 	=>	[
 			'page-title'	=>	'Đơn hàng',
-			'status'      => [
-				'publish'     => 'Hiển thị'
-			]
-		],
-		'thue-xe' 	=>	[
-			'page-title'	=>	'Phiếu thuê xe',
 			'status'      => [
 				'publish'     => 'Hiển thị'
 			]
@@ -155,35 +150,8 @@ return [
 		'path'	=>	'uploads/categories'
 	],
 	'product' => [
-		'thue-xe' 	=>	[
-			'page-title'	=>	'Xe',
-			'category'    =>	true,
-			'supplier'    =>	false,
-			'description' =>	true,
-			'contents'    =>	false,
-			'link'    =>	false,
-			'attributes'    =>	true,
-			'image'       =>	true,
-			'images'      =>	false,
-			'seo'	=>	false,
-			'thumbs'	=>	[
-				'_small' => [
-					'width'  =>	300,
-					'height' =>	300,
-				],'_medium' => [
-					'width'  =>	600,
-					'height' =>	600,
-				],'_large' => [
-					'width'  =>	1000,
-					'height' =>	1000,
-				],
-			],
-			'status'      => [
-				'publish'     => 'Hiển thị',
-			],
-		],
-		'khach-san' 	=>	[
-			'page-title'	=>	'Khách sạn',
+		'san-pham' 	=>	[
+			'page-title'	=>	'Sản phẩm',
 			'category'    =>	true,
 			'supplier'    =>	false,
 			'description' =>	true,

@@ -18,34 +18,6 @@
 function(e) {
     "use strict";
     var t = function() {};
-    t.prototype.initTooltipPlugin = function() {
-        e.fn.tooltip && e('[data-toggle="tooltip"]').tooltip()
-    }, t.prototype.initPopoverPlugin = function() {
-        e.fn.popover && e('[data-toggle="popover"]').popover()
-    }, t.prototype.initSlimScrollPlugin = function() {
-        e.fn.slimScroll && e(".slimscroll").slimScroll({
-            height: "auto",
-            position: "right",
-            size: "8px",
-            touchScrollStep: 20,
-            color: "#9ea5ab"
-        })
-    }, t.prototype.initFormValidation = function() {
-        e(".needs-validation").on("submit", function(t) {
-            return e(this).addClass("was-validated"), !1 !== e(this)[0].checkValidity() || (t.preventDefault(), t.stopPropagation(), !1)
-        }), e(".form-validation").validationEngine()
-    }, t.prototype.initCheckboxGroup = function() {
-            var t = this;
-            e('.custom-checkbox-all').on('change', 'input', function(t) {
-                e('.custom-checkbox input[data-group="' + t.target.getAttribute('data-group') + '"]').not(this).prop('checked', e(t.target).prop('checked'))
-            })
-    }, t.prototype.init = function() {
-        this.initTooltipPlugin(), this.initPopoverPlugin(), this.initSlimScrollPlugin(), this.initFormValidation(), this.initCheckboxGroup()
-    }, e.Components = new t, e.Components.Constructor = t
-}(window.jQuery),
-function(e) {
-    "use strict";
-    var t = function() {};
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     const swalWithBootstrapButtons = swal.mixin({
         confirmButtonClass: 'btn btn-success',
@@ -180,6 +152,42 @@ function(e) {
             e.NotificationApp.send("Cảnh báo!", "Chưa có mục nào được chọn", "top-center", "rgba(0,0,0,0.2)", "warning");
         }
     }, e.Tools = new t, e.Tools.Constructor = t
+}(window.jQuery),
+function(e) {
+    "use strict";
+    var t = function() {};
+    t.prototype.initTooltipPlugin = function() {
+        e.fn.tooltip && e('[data-toggle="tooltip"]').tooltip()
+    }, t.prototype.initPopoverPlugin = function() {
+        e.fn.popover && e('[data-toggle="popover"]').popover()
+    }, t.prototype.initSlimScrollPlugin = function() {
+        e.fn.slimScroll && e(".slimscroll").slimScroll({
+            height: "auto",
+            position: "right",
+            size: "8px",
+            touchScrollStep: 20,
+            color: "#9ea5ab"
+        })
+    }, t.prototype.initFormValidation = function() {
+        e(".needs-validation").on("submit", function(t) {
+            return e(this).addClass("was-validated"), !1 !== e(this)[0].checkValidity() || (t.preventDefault(), t.stopPropagation(), !1)
+        }), e(".form-validation").validationEngine()
+    }, t.prototype.initCheckboxGroup = function() {
+            var t = this;
+            e('.custom-checkbox-all').on('change', 'input', function(t) {
+                e('.custom-checkbox input[data-group="' + t.target.getAttribute('data-group') + '"]').not(this).prop('checked', e(t.target).prop('checked'))
+            })
+    }, t.prototype.initSlug = function() {
+            e('input.link-to-slug').on('blur', function(){
+                var str = e.Tools.changeToSlug(e(this).val());
+                e('input[name="slug"]').val(str);
+            }), e('input[name="slug"]').on('blur', function(){
+                var str = e.Tools.changeToSlug(e(this).val());
+                e(this).val(str);
+            })
+    }, t.prototype.init = function() {
+        this.initTooltipPlugin(), this.initPopoverPlugin(), this.initSlimScrollPlugin(), this.initFormValidation(), this.initCheckboxGroup(), this.initSlug()
+    }, e.Components = new t, e.Components.Constructor = t
 }(window.jQuery),
 function(e) {
     "use strict";

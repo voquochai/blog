@@ -51,7 +51,32 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name'     => 'required|max:255',
+            'parent_id'     => 'exists:categories',
+        ],[
+            'name.required'     =>  'Vui lòng nhập Tiêu đề',
+            'parent_id.exists' =>  'Danh mục không có thật',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return redirect()->back()->withErrors(['errors'=>$errors->all()])->withInput();
+        }else{
+            $category = new Category([
+                'name'       =>  $request->input('name'),
+                'slug'       =>  $request->input('slug') ? $request->input('slug') : str_slug($request->input('name')),
+                'parent_id'  =>  $request->input('parent_id'),
+                'meta'       =>  $request->input('meta'),
+                'priority'   =>  Category::where('type',$this->_data['type'])->max('priority')+1,
+                'status'     =>  $request->input('status') ? implode(',',$request->input('status')) : '',
+                'type'       =>  $this->_data['type'],
+                'created_at' =>  new Datetime(),
+                'updated_at' =>  new Datetime(),
+            ]);
+            $category->save();
+        }
+        return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('success','Thêm dữ liệu <b>'.$category->name.'</b> thành công');
     }
 
     /**
