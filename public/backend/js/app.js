@@ -180,8 +180,8 @@ function(e) {
     }, t.prototype.initSlug = function() {
             e('input.link-to-slug').on('blur', function(){
                 var str = e.Tools.changeToSlug(e(this).val());
-                e('input[name="slug"]').val(str);
-            }), e('input[name="slug"]').on('blur', function(){
+                e('input.slug').val(str);
+            }), e('input.slug').on('blur', function(){
                 var str = e.Tools.changeToSlug(e(this).val());
                 e(this).val(str);
             })
@@ -212,6 +212,8 @@ function(e) {
             t = t.split('/create')[0];
             t = t.split('/edit')[0];
             this.href.split(/[?#]/)[0] == t && (e(this).addClass("active"), e(this).parent().addClass("active"), e(this).parent().parent().addClass("in"), e(this).parent().parent().prev().addClass("active"), e(this).parent().parent().parent().addClass("active"), e(this).parent().parent().parent().parent().addClass("in"), e(this).parent().parent().parent().parent().parent().addClass("active"))
+        }), e(document).on("click", "body", function(t) {
+            e(t.target).closest(".right-bar-toggle, .right-bar").length > 0 || e(t.target).closest(".left-side-menu, .side-nav").length > 0 || e(t.target).hasClass("button-menu-mobile") || e(t.target).closest(".button-menu-mobile").length > 0 || (e("body").removeClass("right-bar-enabled"), e("body").removeClass("sidebar-enable"))
         }), e(".topnav-menu li a").each(function() {
             var t = window.location.href.split(/[?#]/)[0];
             t = t.split('create')[0];

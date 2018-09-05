@@ -21,19 +21,21 @@
                         <label>Mật khẩu</label>
                         <input type="password" name="password" class="form-control validate[required,minSize[6]]" placeholder="Mật khẩu" value="">
                     </div>
-                    <div class="form-group mb-3">
-                        <label>Thứ tự</label>
-                        <input type="number" name="priority" class="form-control" value="{{ $priority+1 }}" min="1" max="9999" placeholder="Thứ tự" disabled>
+                    <div class="form-group row mb-3">
+                        <label class="col-form-label col-auto w-120">Thứ tự</label>
+                        <div class="col-auto"><input type="number" name="priority" class="form-control" value="{{ $priority+1 }}" min="1" max="9999" placeholder="Thứ tự" disabled></div>
                     </div>
-                    <div class="form-group mb-3">
-                        <label class="col-form-label">Tình trạng</label>
+                    <div class="form-group row mb-3">
+                        <label class="col-auto w-120">Tình trạng</label>
+                        <div class="col">
                         @forelse($config['status'] as $k => $v)
-                        <div class="custom-control custom-control-inline custom-checkbox ml-2">
-                            <input type="checkbox" name="status[]" value="{{ $k }}" {{ old('status') ? in_array($k,old('status')) ? 'checked' : '' : $k == 'publish' ? 'checked' : '' }} class="custom-control-input" id="customCheck{{ $k }}">
-                            <label class="custom-control-label" for="customCheck{{ $k }}">{{ $v }}</label>
-                        </div>
+                            <div class="custom-control custom-control-inline custom-checkbox">
+                                <input type="checkbox" name="status[]" value="{{ $k }}" {{ old('status') ? in_array($k,old('status')) ? 'checked' : '' : $k == 'publish' ? 'checked' : '' }} class="custom-control-input" id="customCheck{{ $k }}">
+                                <label class="custom-control-label" for="customCheck{{ $k }}">{{ $v }}</label>
+                            </div>
                         @empty
                         @endforelse
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary"> <i class="mdi mdi-check"></i> Lưu</button>
                     <a href="{{ route('admin.users.index', ['type'=>$type]) }}" class="btn btn-danger" > <i class="mdi mdi-login-variant"></i> Thoát</a>

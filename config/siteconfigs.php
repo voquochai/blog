@@ -115,10 +115,10 @@ return [
 			'page-title'	=>	'Danh mục',
 			'level' =>	1,
 			'icon'	=>	false,
-			'description' =>	false,
-			'contents'    =>	false,
+			'description' =>	true,
+			'contents'    =>	true,
 			'image'       =>	false,
-			'seo'	=>	true,
+			'meta'	=>	true,
 			'thumbs'	=>	[
 				'_small' => [
 					'width'  =>	300,
@@ -136,7 +136,7 @@ return [
 			'description' =>	false,
 			'contents'    =>	false,
 			'image'       =>	false,
-			'seo'	=>	false,
+			'meta'	=>	false,
 			'thumbs'	=>	[
 				'_small' => [
 					'width'  =>	300,
@@ -160,7 +160,7 @@ return [
 			'attributes'    =>	true,
 			'image'       =>	true,
 			'images'      =>	false,
-			'seo'	=>	false,
+			'meta'	=>	false,
 			'thumbs'	=>	[
 				'_small' => [
 					'width'  =>	300,
@@ -187,7 +187,7 @@ return [
 			'attributes'    =>	false,
 			'image'       =>	false,
 			'images'      =>	false,
-			'seo'	=>	false,
+			'meta'	=>	false,
 			'thumbs'	=>	[
 				'_small' => [
 					'width'  =>	300,
@@ -207,7 +207,7 @@ return [
 			'description' =>	true,
 			'contents'    =>	true,
 			'link'    =>	true,
-			'seo'	=>	true,
+			'meta'	=>	true,
 			'attributes'    =>	false,
 			'image'       =>	true,
 			'images'      =>	false,
@@ -229,7 +229,7 @@ return [
 			'description' =>	true,
 			'contents'    =>	true,
 			'link'    =>	true,
-			'seo'	=>	true,
+			'meta'	=>	true,
 			'attributes'    =>	false,
 			'image'       =>	true,
 			'images'      =>	false,
@@ -250,7 +250,7 @@ return [
 			'description' =>	true,
 			'contents'    =>	true,
 			'link'    =>	true,
-			'seo'	=>	true,
+			'meta'	=>	true,
 			'attributes'    =>	false,
 			'image'       =>	true,
 			'images'      =>	true,
@@ -271,7 +271,7 @@ return [
 			'description' =>	false,
 			'contents'    =>	true,
 			'link'    =>	false,
-			'seo'	=>	false,
+			'meta'	=>	false,
 			'attributes'    =>	false,
 			'image'       =>	false,
 			'images'      =>	false,
@@ -292,7 +292,7 @@ return [
 			'description' =>	false,
 			'contents'    =>	true,
 			'link'    =>	false,
-			'seo'	=>	false,
+			'meta'	=>	false,
 			'attributes'    =>	false,
 			'image'       =>	false,
 			'images'      =>	false,
@@ -313,7 +313,7 @@ return [
 			'description' =>	false,
 			'contents'    =>	false,
 			'link'    =>	false,
-			'seo'	=>	false,
+			'meta'	=>	false,
 			'attributes'    =>	false,
 			'image'       =>	false,
 			'images'      =>	false,
@@ -392,7 +392,7 @@ return [
 			'description' =>	true,
 			'contents'    =>	false,
 			'link'    =>	false,
-			'seo'	=>	false,
+			'meta'	=>	false,
 			'image'       =>	true,
 			'thumbs'	=>	[
 				'_small' => [
@@ -409,7 +409,7 @@ return [
 			'description' =>	false,
 			'contents'    =>	true,
 			'link'    =>	false,
-			'seo'	=>	true,
+			'meta'	=>	true,
 			'image'       =>	false,
 			'thumbs'	=>	[
 				'_small' => [
@@ -426,7 +426,7 @@ return [
             'description' =>	false,
             'contents'    =>	true,
             'link'    =>	false,
-            'seo'	=>	true,
+            'meta'	=>	true,
             'image'       =>	false,
             'thumbs'	=>	[
                 '_small' => [
@@ -443,7 +443,7 @@ return [
             'description' =>	false,
             'contents'    =>	true,
             'link'    =>	false,
-            'seo'	=>	true,
+            'meta'	=>	true,
             'image'       =>	false,
             'thumbs'	=>	[
                 '_small' => [
@@ -460,7 +460,7 @@ return [
             'description' =>	false,
             'contents'    =>	true,
             'link'    =>	false,
-            'seo'	=>	false,
+            'meta'	=>	false,
             'image'       =>	false,
             'thumbs'	=>	[
                 '_small' => [
@@ -477,7 +477,7 @@ return [
 			'description' =>	false,
 			'contents'    =>	false,
 			'link'    =>	false,
-			'seo'	=>	false,
+			'meta'	=>	false,
 			'image'       =>	false,
 			'thumbs'	=>	[
 				'_small' => [

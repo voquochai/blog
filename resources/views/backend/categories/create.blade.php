@@ -25,7 +25,7 @@
                             <div class="form-group mb-3">
                                 <label>Chọn danh mục</label>
                                 <select name="parent_id" class="form-control">
-                                    <option value=''> Danh mục cha </option>
+                                    <option> Danh mục cha </option>
                                     @php
                                     $traverse = function ($categories, $prefix = '') use (&$traverse, $config, $type) {
                                         foreach ($categories as $category) {
@@ -37,43 +37,65 @@
                                     @endphp
                                 </select>
                             </div>
-                            <div class="form-group mb-3">
-                                <label>Thứ tự</label>
-                                <input type="number" name="priority" class="form-control" value="{{ $priority+1 }}" min="1" max="9999" placeholder="Thứ tự" disabled>
+                            <div class="form-group row mb-3">
+                                <label class="col-form-label col-auto w-120">Thứ tự</label>
+                                <div class="col-auto"><input type="number" name="priority" class="form-control" value="{{ $priority+1 }}" min="1" max="9999" placeholder="Thứ tự" disabled></div>
                             </div>
-                            <div class="form-group mb-3">
-                                <label class="col-form-label">Tình trạng</label>
+                            <div class="form-group row mb-3">
+                                <label class="col-auto w-120">Tình trạng</label>
+                                <div class="col">
                                 @forelse($config['status'] as $k => $v)
-                                <div class="custom-control custom-control-inline custom-checkbox ml-2">
-                                    <input type="checkbox" name="status[]" value="{{ $k }}" {{ old('status') ? in_array($k,old('status')) ? 'checked' : '' : $k == 'publish' ? 'checked' : '' }} class="custom-control-input" id="customCheck{{ $k }}">
-                                    <label class="custom-control-label" for="customCheck{{ $k }}">{{ $v }}</label>
-                                </div>
+                                    <div class="custom-control custom-control-inline custom-checkbox">
+                                        <input type="checkbox" name="status[]" value="{{ $k }}" {{ old('status') ? in_array($k,old('status')) ? 'checked' : '' : $k == 'publish' ? 'checked' : '' }} class="custom-control-input" id="customCheck{{ $k }}">
+                                        <label class="custom-control-label" for="customCheck{{ $k }}">{{ $v }}</label>
+                                    </div>
                                 @empty
                                 @endforelse
+                                </div>
                             </div>
                         </div>
                         @forelse( config('siteconfigs.languages') as $key => $val )
                         <div class="tab-pane" id="language-{{ $key }}">
                             <div class="form-group mb-3">
                                 <label>Tiêu đề</label>
-                                <input type="text" name="name" class="form-control link-to-slug" placeholder="Tiêu đề" value="{{ old('name') }}" required="">
+                                <input type="text" name="data[{{ $key }}][name]" class="form-control {{ $key==config('siteconfigs.general.language') ? 'link-to-slug' : '' }}" placeholder="Tiêu đề" value="{{ old('data.'.$key.'.name') }}">
                             </div>
+                            @if( $key==config('siteconfigs.general.language') )
                             <div class="form-group mb-3">
                                 <label>Slug</label>
-                                <input type="text" name="slug" class="form-control" placeholder="Slug" value="{{ old('slug') }}" required="">
+                                <input type="text" name="data[{{ $key }}][slug]" class="form-control slug" placeholder="Slug" value="{{ old('data.'.$key.'.slug') }}">
                             </div>
+                            @endif
+
+                            @if($config['description'])
+                            <div class="form-group mb-3">
+                                <label>Mô tả</label>
+                                <textarea name="data[{{ $key }}][description]" class="form-control" rows="5" placeholder="Mô tả" >{{ old('data.'.$key.'.description') }}</textarea>
+                            </div>
+                            @endif
+
+                            @if($config['contents'])
+                            <div class="form-group mb-3">
+                                <label class="control-label">Nội dung</label>
+                                <textarea name="data[{{ $key }}][contents]" class="form-control ck-editor" rows="6" placeholder="Nội dung" >{{ old('data.'.$key.'.contents') }}</textarea>
+                            </div>
+                            @endif
+
+                            @if($config['meta'])
                             <div class="form-group mb-3">
                                 <label>Meta title</label>
-                                <input type="text" name="meta[title]" class="form-control" placeholder="Title" value="{{ old('meta.title') }}">
+                                <input type="text" name="data[{{ $key }}][meta][title]" class="form-control" placeholder="Meta title" value="{{ old('data.'.$key.'.meta.title') }}">
                             </div>
                             <div class="form-group mb-3">
                                 <label>Meta keywords</label>
-                                <input type="text" name="meta[keywords]" class="form-control" placeholder="Keywords" value="{{ old('meta.keywords') }}">
+                                <input type="text" name="data[{{ $key }}][meta][keywords]" class="form-control" placeholder="Meta keywords" value="{{ old('data.'.$key.'.meta.keywords') }}">
                             </div>
                             <div class="form-group mb-3">
                                 <label>Meta description</label>
-                                <textarea type="text" name="meta[description]" class="form-control" placeholder="Description" rows="5">{{ old('meta.description') }}</textarea>
+                                <textarea type="text" name="data[{{ $key }}][meta][description]" class="form-control" placeholder="Meta description" rows="5">{{ old('data.'.$key.'.meta.description') }}</textarea>
                             </div>
+                            @endif
+
                         </div>
                         @empty
                         @endforelse
@@ -85,4 +107,14 @@
         </div>
 	</div>
 </div>
+@endsection
+
+@section('script')
+<script src="{{ asset('public/packages/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
+<script>
+var allEditors = document.querySelectorAll('.ck-editor');
+for (var i = 0; i < allEditors.length; ++i) {
+    ClassicEditor.create(allEditors[i]);
+}
+</script>
 @endsection

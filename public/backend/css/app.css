@@ -1175,3 +1175,6 @@ body[data-layout=topnav] .content-page {
         transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg)
     }
 }
+.w-120{
+    width: 120px;
+}

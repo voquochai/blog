@@ -25,7 +25,7 @@
                             <div class="form-group mb-3">
                                 <label>Chọn danh mục</label>
                                 <select name="parent_id" class="form-control">
-                                    <option value=''> Danh mục cha </option>
+                                    <option> Danh mục cha </option>
                                     <?php
                                     $traverse = function ($categories, $prefix = '') use (&$traverse, $config, $type) {
                                         foreach ($categories as $category) {
@@ -37,43 +37,65 @@
                                     ?>
                                 </select>
                             </div>
-                            <div class="form-group mb-3">
-                                <label>Thứ tự</label>
-                                <input type="number" name="priority" class="form-control" value="<?php echo e($priority+1); ?>" min="1" max="9999" placeholder="Thứ tự" disabled>
+                            <div class="form-group row mb-3">
+                                <label class="col-form-label col-auto w-120">Thứ tự</label>
+                                <div class="col-auto"><input type="number" name="priority" class="form-control" value="<?php echo e($priority+1); ?>" min="1" max="9999" placeholder="Thứ tự" disabled></div>
                             </div>
-                            <div class="form-group mb-3">
-                                <label class="col-form-label">Tình trạng</label>
+                            <div class="form-group row mb-3">
+                                <label class="col-auto w-120">Tình trạng</label>
+                                <div class="col">
                                 <?php $__empty_1 = true; $__currentLoopData = $config['status']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $v): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                <div class="custom-control custom-control-inline custom-checkbox ml-2">
-                                    <input type="checkbox" name="status[]" value="<?php echo e($k); ?>" <?php echo e(old('status') ? in_array($k,old('status')) ? 'checked' : '' : $k == 'publish' ? 'checked' : ''); ?> class="custom-control-input" id="customCheck<?php echo e($k); ?>">
-                                    <label class="custom-control-label" for="customCheck<?php echo e($k); ?>"><?php echo e($v); ?></label>
-                                </div>
+                                    <div class="custom-control custom-control-inline custom-checkbox">
+                                        <input type="checkbox" name="status[]" value="<?php echo e($k); ?>" <?php echo e(old('status') ? in_array($k,old('status')) ? 'checked' : '' : $k == 'publish' ? 'checked' : ''); ?> class="custom-control-input" id="customCheck<?php echo e($k); ?>">
+                                        <label class="custom-control-label" for="customCheck<?php echo e($k); ?>"><?php echo e($v); ?></label>
+                                    </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                 <?php endif; ?>
+                                </div>
                             </div>
                         </div>
                         <?php $__empty_1 = true; $__currentLoopData = config('siteconfigs.languages'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                         <div class="tab-pane" id="language-<?php echo e($key); ?>">
                             <div class="form-group mb-3">
                                 <label>Tiêu đề</label>
-                                <input type="text" name="name" class="form-control link-to-slug" placeholder="Tiêu đề" value="<?php echo e(old('name')); ?>" required="">
+                                <input type="text" name="data[<?php echo e($key); ?>][name]" class="form-control <?php echo e($key==config('siteconfigs.general.language') ? 'link-to-slug' : ''); ?>" placeholder="Tiêu đề" value="<?php echo e(old('data.'.$key.'.name')); ?>">
                             </div>
+                            <?php if( $key==config('siteconfigs.general.language') ): ?>
                             <div class="form-group mb-3">
                                 <label>Slug</label>
-                                <input type="text" name="slug" class="form-control" placeholder="Slug" value="<?php echo e(old('slug')); ?>" required="">
+                                <input type="text" name="data[<?php echo e($key); ?>][slug]" class="form-control slug" placeholder="Slug" value="<?php echo e(old('data.'.$key.'.slug')); ?>">
                             </div>
+                            <?php endif; ?>
+
+                            <?php if($config['description']): ?>
+                            <div class="form-group mb-3">
+                                <label>Mô tả</label>
+                                <textarea name="data[<?php echo e($key); ?>][description]" class="form-control" rows="5" placeholder="Mô tả" ><?php echo e(old('data.'.$key.'.description')); ?></textarea>
+                            </div>
+                            <?php endif; ?>
+
+                            <?php if($config['contents']): ?>
+                            <div class="form-group mb-3">
+                                <label class="control-label">Nội dung</label>
+                                <textarea name="data[<?php echo e($key); ?>][contents]" class="form-control ck-editor" rows="6" placeholder="Nội dung" ><?php echo e(old('data.'.$key.'.contents')); ?></textarea>
+                            </div>
+                            <?php endif; ?>
+
+                            <?php if($config['meta']): ?>
                             <div class="form-group mb-3">
                                 <label>Meta title</label>
-                                <input type="text" name="meta[title]" class="form-control" placeholder="Title" value="<?php echo e(old('meta.title')); ?>">
+                                <input type="text" name="data[<?php echo e($key); ?>][meta][title]" class="form-control" placeholder="Meta title" value="<?php echo e(old('data.'.$key.'.meta.title')); ?>">
                             </div>
                             <div class="form-group mb-3">
                                 <label>Meta keywords</label>
-                                <input type="text" name="meta[keywords]" class="form-control" placeholder="Keywords" value="<?php echo e(old('meta.keywords')); ?>">
+                                <input type="text" name="data[<?php echo e($key); ?>][meta][keywords]" class="form-control" placeholder="Meta keywords" value="<?php echo e(old('data.'.$key.'.meta.keywords')); ?>">
                             </div>
                             <div class="form-group mb-3">
                                 <label>Meta description</label>
-                                <textarea type="text" name="meta[description]" class="form-control" placeholder="Description" rows="5"><?php echo e(old('meta.description')); ?></textarea>
+                                <textarea type="text" name="data[<?php echo e($key); ?>][meta][description]" class="form-control" placeholder="Meta description" rows="5"><?php echo e(old('data.'.$key.'.meta.description')); ?></textarea>
                             </div>
+                            <?php endif; ?>
+
                         </div>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                         <?php endif; ?>
@@ -85,5 +107,15 @@
         </div>
 	</div>
 </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('script'); ?>
+<script src="<?php echo e(asset('public/packages/ckeditor/ckeditor.js')); ?>" type="text/javascript"></script>
+<script>
+var allEditors = document.querySelectorAll('.ck-editor');
+for (var i = 0; i < allEditors.length; ++i) {
+    ClassicEditor.create(allEditors[i]);
+}
+</script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('backend.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

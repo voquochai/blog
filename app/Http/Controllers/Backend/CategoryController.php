@@ -52,10 +52,10 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name'     => 'required|max:255',
+            'data.vi.name'     => 'required|max:255',
             'parent_id'     => 'exists:categories',
         ],[
-            'name.required'     =>  'Vui lòng nhập Tiêu đề',
+            'data.vi.name.required'     =>  'Vui lòng nhập Tiêu đề',
             'parent_id.exists' =>  'Danh mục không có thật',
         ]);
 
