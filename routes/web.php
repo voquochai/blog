@@ -15,17 +15,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::prefix('admin')->namespace('Backend')->name('admin.')->group(function () {
-	Route::get('/', 'DashboardController@index')->name('dashboard');
-	
-	Route::resources([
-		'users' => 'UserController',
-		'categories' => 'CategoryController',
-	]);
+	Auth::routes();
+	Route::middleware('auth')->group(function () {
+		Route::get('/', 'DashboardController@index')->name('dashboard');
+		
+		Route::resources([
+			'users' => 'UserController',
+			'categories' => 'CategoryController',
+		]);
 
-	Route::post('users/status', 'UserController@status')->name('users.status');
-	Route::post('users/priority', 'UserController@priority')->name('users.priority');
+		Route::post('users/status', 'UserController@status')->name('users.status');
+		Route::post('users/priority', 'UserController@priority')->name('users.priority');
 
-	Route::post('categories/status', 'CategoryController@status')->name('categories.status');
-	Route::post('categories/priority', 'CategoryController@priority')->name('categories.priority');
-
+		Route::post('categories/status', 'CategoryController@status')->name('categories.status');
+		Route::post('categories/priority', 'CategoryController@priority')->name('categories.priority');
+	});
 });
+
+
+Route::get('/home', 'HomeController@index')->name('home');

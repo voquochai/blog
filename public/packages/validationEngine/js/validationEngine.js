@@ -2146,8 +2146,8 @@
 		onSuccess: false,
 		onFailure: false,
 		validateAttribute: "class",
-		addSuccessCssClassToField: "valid",
-		addFailureCssClassToField: "invalid",
+		addSuccessCssClassToField: "is-valid",
+		addFailureCssClassToField: "is-invalid",
 
 		// Auto-hide prompt
 		autoHidePrompt: false,
