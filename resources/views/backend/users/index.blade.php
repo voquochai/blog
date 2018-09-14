@@ -10,7 +10,7 @@
 	                    <a href="javascript:void(0);" class="btn btn-outline-primary rounded-circle dropdown-toggle arrow-none" data-toggle="dropdown" aria-expanded="false">
 	                        <i class="mdi mdi-dots-horizontal"></i>
 	                    </a>
-	                    <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end">
+	                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated" x-placement="bottom-end">
                             @forelse($config['status'] as $k => $v)
                             <a href="javascript:;" class="dropdown-item" onclick="$.Tools.changeMultiStatus('{{ $k }}', event)"><i class="mdi mdi-circle-edit-outline mr-1"></i>{{ $v }}</a>
                             @empty

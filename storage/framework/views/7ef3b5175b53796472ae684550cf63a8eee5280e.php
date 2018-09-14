@@ -18,14 +18,14 @@
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <?php endif; ?>
                 </ul>
-                <form method="post" action="<?php echo e(route('admin.categories.store', ['type'=>$type])); ?>" novalidate="">
+                <form method="post" class="form-validation" action="<?php echo e(route('admin.categories.store', ['type'=>$type])); ?>" novalidate="">
                     <?php echo csrf_field(); ?>
                     <div class="tab-content">
                         <div class="tab-pane show active" id="general">
                             <div class="form-group mb-3">
                                 <label>Chọn danh mục</label>
-                                <select name="parent_id" class="form-control">
-                                    <option> Danh mục cha </option>
+                                <select name="parent_id" class="selectpicker form-control">
+                                    <option value=""> Danh mục cha </option>
                                     <?php
                                     $traverse = function ($categories, $prefix = '') use (&$traverse, $config, $type) {
                                         foreach ($categories as $category) {
@@ -58,7 +58,7 @@
                         <div class="tab-pane" id="language-<?php echo e($key); ?>">
                             <div class="form-group mb-3">
                                 <label>Tiêu đề</label>
-                                <input type="text" name="data[<?php echo e($key); ?>][name]" class="form-control <?php echo e($key==config('siteconfigs.general.language') ? 'link-to-slug' : ''); ?>" placeholder="Tiêu đề" value="<?php echo e(old('data.'.$key.'.name')); ?>">
+                                <input type="text" name="data[<?php echo e($key); ?>][name]" class="form-control <?php echo e($key==config('siteconfigs.general.language') ? 'validate[required] link-to-slug' : ''); ?>" placeholder="Tiêu đề" value="<?php echo e(old('data.'.$key.'.name')); ?>">
                             </div>
                             <?php if( $key==config('siteconfigs.general.language') ): ?>
                             <div class="form-group mb-3">

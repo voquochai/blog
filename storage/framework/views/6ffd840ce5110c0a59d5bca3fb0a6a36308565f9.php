@@ -10,7 +10,7 @@
         
         <link href="" rel="shortcut icon">
         <link href="<?php echo e(asset('public/packages/material/css/materialdesignicons.min.css')); ?>" rel="stylesheet" type="text/css">
-        <link href="<?php echo e(asset('public/packages/bootstrap/css/bootstrap.css')); ?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo e(asset('public/packages/bootstrap/css/bootstrap.min.css')); ?>" rel="stylesheet" type="text/css">
         <link href="<?php echo e(asset('public/packages/bootstrap-select/css/bootstrap-select.min.css')); ?>" rel="stylesheet" type="text/css">
         <link href="<?php echo e(asset('public/packages/metismenu/metisMenu.min.css')); ?>" rel="stylesheet" type="text/css">
         <link href="<?php echo e(asset('public/packages/toast/toast.min.css')); ?>" rel="stylesheet" type="text/css">

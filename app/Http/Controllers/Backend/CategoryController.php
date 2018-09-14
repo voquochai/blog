@@ -53,15 +53,18 @@ class CategoryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'data.vi.name'     => 'required|max:255',
-            'parent_id'     => 'exists:categories',
+            'image' => 'image|max:2048',
         ],[
             'data.vi.name.required'     =>  'Vui lòng nhập Tiêu đề',
-            'parent_id.exists' =>  'Danh mục không có thật',
+            'image.image' => 'Không đúng chuẩn hình ảnh cho phép',
+            'image.max' => 'Dung lượng vượt quá giới hạn cho phép là :max KB',
         ]);
 
         if ($validator->fails()) {
-            $errors = $validator->errors();
-            return redirect()->back()->withErrors(['errors'=>$errors->all()])->withInput();
+            if($request->ajax()){
+                return response()->json(['type'=>'danger', 'icon'=>'warning', 'message'=>$validator->errors()->first()]);
+            }
+            return redirect()->back()->withErrors($validator)->withInput();
         }else{
             $category = new Category([
                 'name'       =>  $request->input('name'),

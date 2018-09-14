@@ -62,8 +62,7 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $errors = $validator->errors();
-            return redirect()->back()->withErrors(['errors'=>$errors->all()])->withInput();
+            return redirect()->back()->withErrors($validator)->withInput();
         }else{
             $user = new User([
                 'name'       =>  $request->input('name'),
@@ -122,8 +121,7 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $errors = $validator->errors();
-            return redirect()->back()->withErrors(['errors'=>$errors->all()])->withInput();
+            return redirect()->back()->withErrors($validator)->withInput();
         }else{
             $user->name       =   $request->input('name');
             $user->email      =  $request->input('email');

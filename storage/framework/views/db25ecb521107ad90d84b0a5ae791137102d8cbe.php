@@ -10,7 +10,7 @@
 	                    <a href="javascript:void(0);" class="btn btn-outline-primary rounded-circle dropdown-toggle arrow-none" data-toggle="dropdown" aria-expanded="false">
 	                        <i class="mdi mdi-dots-horizontal"></i>
 	                    </a>
-	                    <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end">
+	                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated" x-placement="bottom-end">
                             <?php $__empty_1 = true; $__currentLoopData = $config['status']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $v): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                             <a href="javascript:;" class="dropdown-item" onclick="$.Tools.changeMultiStatus('<?php echo e($k); ?>', event)"><i class="mdi mdi-circle-edit-outline mr-1"></i><?php echo e($v); ?></a>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>

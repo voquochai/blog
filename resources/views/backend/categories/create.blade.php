@@ -18,14 +18,14 @@
                     @empty
                     @endforelse
                 </ul>
-                <form method="post" action="{{ route('admin.categories.store', ['type'=>$type]) }}" novalidate="">
+                <form method="post" class="form-validation" action="{{ route('admin.categories.store', ['type'=>$type]) }}" novalidate="">
                     @csrf
                     <div class="tab-content">
                         <div class="tab-pane show active" id="general">
                             <div class="form-group mb-3">
                                 <label>Chọn danh mục</label>
-                                <select name="parent_id" class="form-control">
-                                    <option> Danh mục cha </option>
+                                <select name="parent_id" class="selectpicker form-control">
+                                    <option value="0"> Danh mục cha </option>
                                     @php
                                     $traverse = function ($categories, $prefix = '') use (&$traverse, $config, $type) {
                                         foreach ($categories as $category) {
@@ -58,7 +58,7 @@
                         <div class="tab-pane" id="language-{{ $key }}">
                             <div class="form-group mb-3">
                                 <label>Tiêu đề</label>
-                                <input type="text" name="data[{{ $key }}][name]" class="form-control {{ $key==config('siteconfigs.general.language') ? 'link-to-slug' : '' }}" placeholder="Tiêu đề" value="{{ old('data.'.$key.'.name') }}">
+                                <input type="text" name="data[{{ $key }}][name]" class="form-control {{ $key==config('siteconfigs.general.language') ? 'validate[required] link-to-slug' : '' }}" placeholder="Tiêu đề" value="{{ old('data.'.$key.'.name') }}">
                             </div>
                             @if( $key==config('siteconfigs.general.language') )
                             <div class="form-group mb-3">
