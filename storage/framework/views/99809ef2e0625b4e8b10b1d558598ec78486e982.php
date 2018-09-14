@@ -1,14 +1,22 @@
 <!DOCTYPE html>
-    <html lang="<?php echo e(app()->getLocale()); ?>">
+    <html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>">
     <head>
         <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- CSRF Token -->
         <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
-        <title>Administrator</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title><?php echo e(config('app.name', 'Laravel')); ?></title>
+        
         <link href="" rel="shortcut icon">
         <link href="<?php echo e(asset('public/packages/bootstrap/css/bootstrap.css')); ?>" rel="stylesheet" type="text/css">
         <link href="<?php echo e(asset('public/backend/css/app.css')); ?>" rel="stylesheet" type="text/css">
         <link href="<?php echo e(asset('public/backend/css/responsive.css')); ?>" rel="stylesheet" type="text/css">
+        <style type="text/css">
+            body{
+                background-color: #f5f5f5;
+            }
+        </style>
     </head>
     <body>
         <div class="container mt-5">

@@ -199,8 +199,9 @@ input.form-control[type=range] {
 .form-control.is-valid:focus,
 .form-control:invalid:focus,
 .form-control:valid:focus {
-    -webkit-box-shadow: none!important;
-    box-shadow: none!important
+    border-color: #80bdff;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25)
 }
 .custom-select.is-invalid,
 .form-control.is-invalid,

@@ -171,7 +171,7 @@ function(e) {
     }, t.prototype.initFormValidation = function() {
         e(".needs-validation").on("submit", function(t) {
             return e(this).addClass("was-validated"), !1 !== e(this)[0].checkValidity() || (t.preventDefault(), t.stopPropagation(), !1)
-        }), e(".form-validation").validationEngine({ promptPosition: 'inline', autoHidePrompt: true, showOneMessage: true })
+        }), e(".form-validation").validationEngine({ promptPosition: 'inline', autoHidePrompt: true, showOneMessage: true, maxErrorsPerField: 1 })
     }, t.prototype.initCheckboxGroup = function() {
             var t = this;
             e('.custom-checkbox-all').on('change', 'input', function(t) {
