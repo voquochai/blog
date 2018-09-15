@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Backend\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
@@ -36,11 +36,5 @@ class ResetPasswordController extends Controller
     {
         $this->middleware('guest');
     }
-
-    public function showResetForm(Request $request, $token = null)
-    {
-        return view('backend.auth.passwords.reset')->with(
-            ['token' => $token, 'email' => $request->email]
-        );
-    }
+    
 }

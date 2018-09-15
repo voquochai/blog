@@ -34,6 +34,9 @@
                                 </th>
                                 <th style="width: 5%;">#</th>
                                 <th>Tiêu đề</th>
+                                @if($config['image'])
+                                <th> Hình ảnh </th>
+                                @endif
                                 <th>Ngày tạo</th>
                                 <th>Tình trạng</th>
                                 <th>Thực thi</th>
@@ -56,6 +59,9 @@
                                         <input type="text" name="priority" value="{{ $item->priority }}" class="form-control form-control-sm form-control-light" onchange="$.Tools.updatePriority({{ $item->id }}, this.value, event)" />
                                     </td>
                                     <td><a href="{{ route('admin.categories.edit', ['id'=>$item->id, 'type'=>$type]) }}">{{ $prefix.' '.$item->name }}</a></td>
+                                    @if($config['image'])
+                                    <td> {!! ($item->image && file_exists(public_path(get_thumbnail($config['path'].'/'.$item->image))) )?'<img src="'.asset(get_thumbnail('public/'.$config['path'].'/'.$item->image)).'" height="50" />':'' !!} </td>
+                                    @endif
                                     <td>{{ $item->created_at }}</td>
                                     <td>
                                         @php foreach($config['status'] as $k => $v){ @endphp

@@ -114,10 +114,10 @@ return [
 		'san-pham'	=>	[
 			'page-title'	=>	'Danh mục',
 			'level' =>	1,
-			'icon'	=>	false,
+			'icon'	=>	true,
 			'description' =>	true,
 			'contents'    =>	true,
-			'image'       =>	false,
+			'image'       =>	true,
 			'meta'	=>	true,
 			'thumbs'	=>	[
 				'_small' => [

@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('content'); ?>
 <div class="row">
 	<div class="col-12">
@@ -34,6 +33,9 @@
                                 </th>
                                 <th style="width: 5%;">#</th>
                                 <th>Tiêu đề</th>
+                                <?php if($config['image']): ?>
+                                <th> Hình ảnh </th>
+                                <?php endif; ?>
                                 <th>Ngày tạo</th>
                                 <th>Tình trạng</th>
                                 <th>Thực thi</th>
@@ -56,6 +58,9 @@
                                         <input type="text" name="priority" value="<?php echo e($item->priority); ?>" class="form-control form-control-sm form-control-light" onchange="$.Tools.updatePriority(<?php echo e($item->id); ?>, this.value, event)" />
                                     </td>
                                     <td><a href="<?php echo e(route('admin.categories.edit', ['id'=>$item->id, 'type'=>$type])); ?>"><?php echo e($prefix.' '.$item->name); ?></a></td>
+                                    <?php if($config['image']): ?>
+                                    <td> <?php echo ($item->image && file_exists(public_path(get_thumbnail($config['path'].'/'.$item->image))) )?'<img src="'.asset(get_thumbnail('public/'.$config['path'].'/'.$item->image)).'" height="50" />':''; ?> </td>
+                                    <?php endif; ?>
                                     <td><?php echo e($item->created_at); ?></td>
                                     <td>
                                         <?php foreach($config['status'] as $k => $v){ ?>

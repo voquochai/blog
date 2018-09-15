@@ -23,12 +23,12 @@
                         <input type="password" name="password" class="form-control" placeholder="Mật khẩu" value="">
                     </div>
                     <div class="form-group row mb-3">
-                        <label class="col-form-label col-auto w-120">Thứ tự</label>
-                        <div class="col-auto"><input type="number" name="priority" class="form-control" value="{{ $item->priority }}" min="1" max="9999" placeholder="Thứ tự" disabled></div>
+                        <label class="col-form-label col-lg-2 col-12">Thứ tự</label>
+                        <div class="col-lg-auto col-12"><input type="number" name="priority" class="form-control" value="{{ $item->priority }}" min="1" max="9999" placeholder="Thứ tự" disabled></div>
                     </div>
                     <div class="form-group row mb-3">
-                        <label class="col-auto w-120">Tình trạng</label>
-                        <div class="col">
+                        <label class="col-lg-2 col-auto">Tình trạng</label>
+                        <div class="col-lg-10 col">
                         @forelse($config['status'] as $k => $v)
                             <div class="custom-control custom-control-inline custom-checkbox">
                                 <input type="checkbox" name="status[]" value="{{ $k }}" {{ strpos($item->status,$k) !== false ? 'checked' : '' }} class="custom-control-input" id="customCheck{{ $k }}">

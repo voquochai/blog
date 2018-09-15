@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('content'); ?>
 <div class="row">
 	<div class="col-12">
@@ -22,28 +21,53 @@
                     <?php echo csrf_field(); ?>
                     <div class="tab-content">
                         <div class="tab-pane show active" id="general">
-                            <div class="form-group mb-3">
-                                <label>Chọn danh mục</label>
-                                <select name="parent_id" class="selectpicker form-control">
-                                    <option value=""> Danh mục cha </option>
-                                    <?php
-                                    $traverse = function ($categories, $prefix = '') use (&$traverse, $config, $type) {
-                                        foreach ($categories as $category) {
-                                            echo '<option value="'.$category->id.'">'.$prefix.' '.$category->name.'</option>';
-                                            $traverse($category->children, $prefix.'|--');
-                                        }
-                                    };
-                                    $traverse($categories);
-                                    ?>
-                                </select>
+                            <div class="form-group row mb-3">
+                                <label class="col-form-label col-lg-2 col-12">Chọn danh mục</label>
+                                <div class="col-lg-10 col-12">
+                                    <select name="parent_id" class="selectpicker form-control">
+                                        <option value="0"> Danh mục cha </option>
+                                        <?php
+                                        $traverse = function ($categories, $prefix = '') use (&$traverse, $config, $type) {
+                                            foreach ($categories as $category) {
+                                                echo '<option value="'.$category->id.'">'.$prefix.' '.$category->name.'</option>';
+                                                $traverse($category->children, $prefix.'|--');
+                                            }
+                                        };
+                                        $traverse($categories);
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <?php if($config['image']): ?>
+                            <div class="form-group row mb-3">
+                                <label class="col-form-label col-lg-2 col-12">Hình ảnh</label>
+                                <div class="col-lg-10 col-12">
+                                    <input type="file" name="image">
+                                </div>
                             </div>
                             <div class="form-group row mb-3">
-                                <label class="col-form-label col-auto w-120">Thứ tự</label>
-                                <div class="col-auto"><input type="number" name="priority" class="form-control" value="<?php echo e($priority+1); ?>" min="1" max="9999" placeholder="Thứ tự" disabled></div>
+                                <label class="col-form-label col-lg-2 col-12">Alt</label>
+                                <div class="col-lg-10 col-12">
+                                    <input type="text" name="data[alt]" class="form-control" value="<?php echo e(old('data.alt')); ?>">
+                                </div>
+                            </div>
+                            <?php endif; ?>
+                            
+                            <?php if($config['icon']): ?>
+                            <div class="form-group row mb-3">
+                                <label class="col-form-label col-lg-2 col-12"> <a href="https://fontawesome.com/v4.7.0/icons/" rel="nofollow" target="_blank"> Font Icon </a> </label>
+                                <div class="col-lg-10 col-12">
+                                    <input type="text" name="data[icon]" class="form-control" value="<?php echo e(old('data.icon')); ?>">
+                                </div>
+                            </div>
+                            <?php endif; ?>
+                            <div class="form-group row mb-3">
+                                <label class="col-form-label col-lg-2 col-12">Thứ tự</label>
+                                <div class="col-lg-auto col-12"><input type="number" name="priority" class="form-control" value="<?php echo e($priority+1); ?>" min="1" max="9999" placeholder="Thứ tự" disabled></div>
                             </div>
                             <div class="form-group row mb-3">
-                                <label class="col-auto w-120">Tình trạng</label>
-                                <div class="col">
+                                <label class="col-lg-2 col-auto">Tình trạng</label>
+                                <div class="col-lg-10 col">
                                 <?php $__empty_1 = true; $__currentLoopData = $config['status']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $v): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                     <div class="custom-control custom-control-inline custom-checkbox">
                                         <input type="checkbox" name="status[]" value="<?php echo e($k); ?>" <?php echo e(old('status') ? in_array($k,old('status')) ? 'checked' : '' : $k == 'publish' ? 'checked' : ''); ?> class="custom-control-input" id="customCheck<?php echo e($k); ?>">
