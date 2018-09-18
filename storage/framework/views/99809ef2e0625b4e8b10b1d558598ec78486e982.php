@@ -9,7 +9,7 @@
         <title><?php echo e(config('app.name', 'Laravel')); ?></title>
         
         <link href="" rel="shortcut icon">
-        <link href="<?php echo e(asset('public/packages/bootstrap/css/bootstrap.css')); ?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo e(asset('public/packages/bootstrap/css/bootstrap.min.css')); ?>" rel="stylesheet" type="text/css">
         <link href="<?php echo e(asset('public/backend/css/app.css')); ?>" rel="stylesheet" type="text/css">
         <link href="<?php echo e(asset('public/backend/css/responsive.css')); ?>" rel="stylesheet" type="text/css">
         <style type="text/css">
@@ -23,7 +23,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="card">
-                        <h4 class="card-header"><?php echo e(__('Login')); ?></h4>
+                        <h5 class="card-header"><?php echo e(__('Login')); ?></h5>
                         <div class="card-body">
                             <form method="POST" action="<?php echo e(route('admin.login')); ?>" aria-label="<?php echo e(__('Login')); ?>">
                                 <?php echo csrf_field(); ?>
