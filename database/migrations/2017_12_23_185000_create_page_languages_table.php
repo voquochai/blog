@@ -19,7 +19,7 @@ class CreatePageLanguagesTable extends Migration
             $table->string('slug')->nullable();
             $table->text('description')->nullable();
             $table->longText('contents')->nullable();
-            $table->json('seos')->nullable();
+            $table->json('meta')->nullable();
             $table->char('language',10)->index();
             $table->integer('page_id')->unsigned();
             $table->unique(['page_id','language']);

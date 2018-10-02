@@ -18,6 +18,7 @@ class CategoryController extends Controller
     public function __construct(Request $request){
         $this->_data['type'] = $request->type ? $request->type : 'default';
         $this->_data['path'] = config('siteconfigs.category.path');
+        $this->_data['language'] = config('siteconfigs.general.language');
         $this->_data['config'] = config('siteconfigs.category.'.$this->_data['type']);
         $this->_data['page_title'] = $this->_data['config']['page-title'];
     }
@@ -29,7 +30,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $this->_data['items'] = Category::where('type',$this->_data['type'])->orderBy('priority', 'asc')->get()->toTree();
+        $this->_data['items'] = Category::with(['languages' => function ($query) {
+                $query->where('name', $this->_data['language']);
+            }])->where('type',$this->_data['type'])->orderBy('priority', 'asc')->get()->toTree();
+        // dd($this->_data['items']);
         return view('backend.categories.index',$this->_data);
     }
 
@@ -92,13 +96,13 @@ class CategoryController extends Controller
                         $dataL[$fieldL] = $valueL;
                     }
                 }
-                if( !isset($request->dataL[config('siteconfigs.general.language')]['slug']) || $request->dataL[config('siteconfigs.general.language')]['slug'] == ''){
-                    $dataL['slug']       = str_slug($request->dataL[config('siteconfigs.general.language')]['name']);
+                if( !isset($request->dataL[$this->_data['language']]['slug']) || $request->dataL[$this->_data['language']]['slug'] == ''){
+                    $dataL['slug']  = str_slug($request->dataL[$this->_data['language']]['name']);
                 }else{
-                    $dataL['slug']       = str_slug($request->dataL[config('siteconfigs.general.language')]['slug']);
+                    $dataL['slug']  = str_slug($request->dataL[$this->_data['language']]['slug']);
                 }
-                $dataL['language']   = $lang;
-                $dataInsert[]        = new CategoryLanguage($dataL);
+                $dataL['language']  = $lang;
+                $dataInsert[]       = new CategoryLanguage($dataL);
             }
             $category->languages()->saveMany($dataInsert);
         }
@@ -147,7 +151,7 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Request $request, Category $category)
     {
         if($request->ajax()){
 
@@ -159,6 +163,7 @@ class CategoryController extends Controller
                 ]);
             }else{
                 if($category->delete()){
+                    delete_image($this->_data['path'].'/'.$category->image,$this->_data['thumbs']);
                     Category::where('type',$category->type)->where('priority', '>', $category->priority)->decrement('priority');
                     return response()->json([
                         'head'  =>  'Thành công!',
@@ -178,6 +183,7 @@ class CategoryController extends Controller
                 return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('error','Vui lòng xóa cấc phụ thuộc <b>'.$category->name.'</b> trước');
             }else{
                 if($category->delete()){
+                    delete_image($this->_data['path'].'/'.$category->image,$this->_data['config']['thumbs']);
                     Category::where('type',$this->_data['type'])->where('priority', '>', $category->priority)->decrement('priority');
                     return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('success','Xóa dữ liệu <b>'.$category->name.'</b> thành công');
                 }else{

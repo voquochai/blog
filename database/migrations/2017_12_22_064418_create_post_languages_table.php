@@ -20,7 +20,7 @@ class CreatePostLanguagesTable extends Migration
             $table->text('description')->nullable();
             $table->longText('contents')->nullable();
             $table->json('attributes')->nullable();
-            $table->json('seos')->nullable();
+            $table->json('meta')->nullable();
             $table->char('language',10)->index();
             $table->integer('post_id')->unsigned();
             $table->unique(['post_id','language']);

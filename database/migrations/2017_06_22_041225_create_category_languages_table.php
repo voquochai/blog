@@ -19,7 +19,7 @@ class CreateCategoryLanguagesTable extends Migration
             $table->string('slug');
             $table->text('description')->nullable();
             $table->longText('contents')->nullable();
-            $table->json('seos')->nullable();
+            $table->json('meta')->nullable();
             $table->char('language',10)->index();
             $table->integer('category_id')->unsigned();
             $table->unique(['category_id','language']);

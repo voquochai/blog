@@ -13,7 +13,7 @@
             stack: a
         };
         c.showHideTransition = l || "fade", e.toast().reset("all"), e.toast(c)
-    }, e.NotificationApp = new t, e.NotificationApp.Constructor = t
+    },  e.NotificationApp = new t, e.NotificationApp.Constructor = t
 }(window.jQuery),
 function(e) {
     "use strict";
@@ -42,21 +42,21 @@ function(e) {
         str = str.replace(/^-+/g, '');
         str = str.replace(/-+$/g, '');
         return str;
-    }, t.prototype.updatePriority = function(id,priority,event) {
+    },  t.prototype.updatePriority = function(id,priority,event) {
         event.preventDefault();
         var btn = event.target;
         axios.post( url + '/priority',{
             id: id,
             priority: priority
         }).then(res => {
-            if(res.data.class === 'success'){
-                e(btn).toggleClass('btn-info').toggleClass('btn-secondary');
-            }
+            // if(res.data.class === 'success'){
+            //     e(btn).toggleClass('btn-info').toggleClass('btn-secondary');
+            // }
             e.NotificationApp.send(res.data.head, res.data.message, "top-right", "rgba(0,0,0,0.2)", res.data.class);
         }).catch(error => {
             e.NotificationApp.send(error.response.status, error.response.statusText, "top-right", "rgba(0,0,0,0.2)", 'error');
         });
-    }, t.prototype.changeStatus = function(id,status,event) {
+    },  t.prototype.changeStatus = function(id,status,event) {
         event.preventDefault();
         var btn = event.target;
         axios.post( url + '/status',{
@@ -70,7 +70,7 @@ function(e) {
         }).catch(error => {
             e.NotificationApp.send(error.response.status, error.response.statusText, "top-right", "rgba(0,0,0,0.2)", 'error');
         });
-    }, t.prototype.changeMultiStatus = function(status,event){
+    },  t.prototype.changeMultiStatus = function(status,event){
         event.preventDefault();
         if( e('input[name="checkAction[]"]').is(':checked') ){
             var ids = e('input[name="checkAction[]"]:checked').map( function () { return this.value; } ).get().join(",");
@@ -91,7 +91,7 @@ function(e) {
             e.NotificationApp.send("Cảnh báo!", "Chưa có mục nào được chọn", "top-center", "rgba(0,0,0,0.2)", "warning");
         }
         
-    }, t.prototype.deleteRow = function(id,event){
+    },  t.prototype.deleteRow = function(id,event){
         event.preventDefault();
         var btn = event.target;
         swalWithBootstrapButtons({
@@ -119,7 +119,7 @@ function(e) {
                 swalWithBootstrapButtons('Hủy bỏ','Bạn đã hủy bỏ thao tác này.','error')
             }
         });
-    }, t.prototype.deleteMultiRows = function(event){
+    },  t.prototype.deleteMultiRows = function(event){
         event.preventDefault();
         if( e('input[name="checkAction[]"]').is(':checked') ){
             swalWithBootstrapButtons({
@@ -151,7 +151,7 @@ function(e) {
         }else{
             e.NotificationApp.send("Cảnh báo!", "Chưa có mục nào được chọn", "top-center", "rgba(0,0,0,0.2)", "warning");
         }
-    }, e.Tools = new t, e.Tools.Constructor = t
+    },  e.Tools = new t, e.Tools.Constructor = t
 }(window.jQuery),
 function(e) {
     "use strict";
@@ -203,7 +203,7 @@ function(e) {
             wheelStep: 5,
             touchScrollStep: 20
         })
-    }, t.prototype.initMenu = function() {
+    },  t.prototype.initMenu = function() {
         var t = this;
         e(".button-menu-mobile").on("click", function(e) {
             e.preventDefault(), t.$body.toggleClass("sidebar-enable"), t.$window.width() > 768 ? t.$body.toggleClass("enlarged") : t.$body.removeClass("enlarged"), t._resetSidebarScroll()
@@ -224,14 +224,14 @@ function(e) {
         }), e(".dropdown-menu a.dropdown-toggle").on("click", function(t) {
             return e(this).next().hasClass("show") || e(this).parents(".dropdown-menu").first().find(".show").removeClass("show"), e(this).next(".dropdown-menu").toggleClass("show"), !1
         })
-    }, t.prototype.initLayout = function() {
+    },  t.prototype.initLayout = function() {
         this.$window.width() >= 768 && this.$window.width() <= 1028 ? this.$body.addClass("enlarged") : 1 != this.$body.data("keep-enlarged") && this.$body.removeClass("enlarged")
-    }, t.prototype.init = function() {
+    },  t.prototype.init = function() {
         var t = this;
         this.initLayout(), this.initMenu(), e.Components.init(), t.$window.on("resize", function(e) {
             e.preventDefault(), t.initLayout(), t._resetSidebarScroll()
         })
-    }, e.App = new t, e.App.Constructor = t
+    },  e.App = new t, e.App.Constructor = t
 }(window.jQuery),
 function(e) {
     "use strict";

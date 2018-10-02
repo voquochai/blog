@@ -8,6 +8,8 @@ class CategoryLanguage extends Model
 {
     protected $table = 'category_languages';
     protected $guarded = [];
+    protected $casts = ['meta'=>'json'];
+    public $timestamps = false;
 
     public function category(){
     	return $this->belongsTo('App\Category', 'category_id');

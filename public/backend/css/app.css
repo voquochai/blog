@@ -170,6 +170,9 @@ select.form-control-sm:not([size]):not([multiple]) {
 .dropdown-menu{
     font-size: 0.875rem !important;
 }
+.table td, .table th{
+    padding: .5rem;
+}
 .custom-checkbox .custom-control-label{
     cursor: pointer;
 }

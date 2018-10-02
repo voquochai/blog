@@ -21,7 +21,7 @@ class CreateSuppliersTable extends Migration
             $table->string('email',100)->nullable();
             $table->string('address')->nullable();
             $table->text('description')->nullable();
-            $table->json('seos')->nullable();
+            $table->json('meta')->nullable();
             $table->smallInteger('priority')->default(1);
             $table->string('status',100)->default('publish');
             $table->char('type',50)->default('default');

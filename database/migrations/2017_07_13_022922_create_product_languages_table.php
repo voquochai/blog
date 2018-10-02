@@ -20,7 +20,7 @@ class CreateProductLanguagesTable extends Migration
             $table->text('description')->nullable();
             $table->longText('contents')->nullable();
             $table->json('properties')->nullable();
-            $table->json('seos')->nullable();
+            $table->json('meta')->nullable();
             $table->char('language',10)->index();
             $table->integer('product_id')->unsigned();
             $table->unique(['product_id','language']);

@@ -17,7 +17,7 @@ class CreateSeoLanguagesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('slug')->nullable();
-            $table->json('seos')->nullable();
+            $table->json('meta')->nullable();
             $table->char('language',10)->index();
             $table->integer('seo_id')->unsigned();
             $table->unique(['seo_id','language']);
