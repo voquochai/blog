@@ -15,7 +15,7 @@ class CreateAttributeLanguagesTable extends Migration
     {
         Schema::create('attribute_languages', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name',100);
+            $table->string('name',100)->nullable();
             $table->string('slug');
             $table->char('language',10)->index();
             $table->integer('attribute_id')->unsigned();

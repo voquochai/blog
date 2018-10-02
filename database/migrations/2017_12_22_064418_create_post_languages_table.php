@@ -15,7 +15,7 @@ class CreatePostLanguagesTable extends Migration
     {
         Schema::create('post_languages', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->string('slug');
             $table->text('description')->nullable();
             $table->longText('contents')->nullable();

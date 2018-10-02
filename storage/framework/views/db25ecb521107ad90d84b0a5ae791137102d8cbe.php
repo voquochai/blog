@@ -57,7 +57,7 @@
                                     <td>
                                         <input type="text" name="priority" value="<?php echo e($item->priority); ?>" class="form-control form-control-sm form-control-light" onchange="$.Tools.updatePriority(<?php echo e($item->id); ?>, this.value, event)" />
                                     </td>
-                                    <td><a href="<?php echo e(route('admin.categories.edit', ['id'=>$item->id, 'type'=>$type])); ?>"><?php echo e($prefix.' '.$item->name); ?></a></td>
+                                    <td><a href="<?php echo e(route('admin.categories.edit', ['id'=>$item->id, 'type'=>$type])); ?>"><?php echo e($prefix.' '.$item->languages[0]->name); ?></a></td>
                                     <?php if($config['image']): ?>
                                     <td align="center"> <?php echo ($item->image && file_exists(public_path(get_thumbnail($path.'/'.$item->image))) )?'<img src="'.asset(get_thumbnail('public/'.$path.'/'.$item->image)).'" height="50" />':''; ?> </td>
                                     <?php endif; ?>
@@ -90,4 +90,4 @@
 	</div>
 </div>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('backend.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('backend.app', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
