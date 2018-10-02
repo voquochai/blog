@@ -14,8 +14,10 @@ class CategoryController extends Controller
 {
 
     public $_data;
+
     public function __construct(Request $request){
         $this->_data['type'] = $request->type ? $request->type : 'default';
+        $this->_data['path'] = config('siteconfigs.category.path');
         $this->_data['config'] = config('siteconfigs.category.'.$this->_data['type']);
         $this->_data['page_title'] = $this->_data['config']['page-title'];
     }
@@ -52,10 +54,10 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'data.vi.name'     => 'required|max:255',
+            'dataL.vi.name'     => 'required|max:255',
             'image' => 'image|max:2048',
         ],[
-            'data.vi.name.required'     =>  'Vui lòng nhập Tiêu đề',
+            'dataL.vi.name.required'     =>  'Vui lòng nhập Tiêu đề',
             'image.image' => 'Không đúng chuẩn hình ảnh cho phép',
             'image.max' => 'Dung lượng vượt quá giới hạn cho phép là :max KB',
         ]);
@@ -66,18 +68,39 @@ class CategoryController extends Controller
             }
             return redirect()->back()->withErrors($validator)->withInput();
         }else{
-            $category = new Category([
-                'name'       =>  $request->input('name'),
-                'slug'       =>  $request->input('slug') ? $request->input('slug') : str_slug($request->input('name')),
-                'parent_id'  =>  $request->input('parent_id'),
-                'meta'       =>  $request->input('meta'),
-                'priority'   =>  Category::where('type',$this->_data['type'])->max('priority')+1,
-                'status'     =>  $request->input('status') ? implode(',',$request->input('status')) : '',
-                'type'       =>  $this->_data['type'],
-                'created_at' =>  new Datetime(),
-                'updated_at' =>  new Datetime(),
-            ]);
+            $category  = new Category;
+            if($request->data){
+                foreach($request->data as $field => $value){
+                    $category->$field = $value;
+                }
+            }
+            if($request->hasFile('image')){
+                $category->image = save_image($this->_data['path'],$request->file('image'),$this->_data['config']['thumbs']);
+            }
+            $category->priority   = Category::where('type',$this->_data['type'])->max('priority')+1;
+            $category->status     = $request->input('status') ? implode(',',$request->input('status')) : '';
+            $category->type       = $this->_data['type'];
+            $category->created_at = new DateTime();
+            $category->updated_at = new DateTime();
             $category->save();
+
+            $dataL = [];
+            $dataInsert = [];
+            foreach(config('siteconfigs.languages') as $lang => $val){
+                if($request->dataL[$lang]){
+                    foreach($request->dataL[$lang] as $fieldL => $valueL){
+                        $dataL[$fieldL] = $valueL;
+                    }
+                }
+                if( !isset($request->dataL[config('siteconfigs.general.language')]['slug']) || $request->dataL[config('siteconfigs.general.language')]['slug'] == ''){
+                    $dataL['slug']       = str_slug($request->dataL[config('siteconfigs.general.language')]['name']);
+                }else{
+                    $dataL['slug']       = str_slug($request->dataL[config('siteconfigs.general.language')]['slug']);
+                }
+                $dataL['language']   = $lang;
+                $dataInsert[]        = new CategoryLanguage($dataL);
+            }
+            $category->languages()->saveMany($dataInsert);
         }
         return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('success','Thêm dữ liệu <b>'.$category->name.'</b> thành công');
     }

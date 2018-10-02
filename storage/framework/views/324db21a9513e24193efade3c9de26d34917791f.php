@@ -15,7 +15,7 @@
                 </form>
                 <a href="javascript:;" class="dropdown-item notify-item" onclick="document.getElementById('frm-logout').submit();">
                     <i class="mdi mdi-logout"></i>
-                    <span>Logout</span>
+                    <span>Đăng xuất</span>
                 </a>
             </div>
         </li>

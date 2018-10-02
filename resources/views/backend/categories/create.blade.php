@@ -18,7 +18,7 @@
                     @empty
                     @endforelse
                 </ul>
-                <form method="post" class="form-validation" action="{{ route('admin.categories.store', ['type'=>$type]) }}" novalidate="">
+                <form method="post" class="form-validation" action="{{ route('admin.categories.store', ['type'=>$type]) }}" novalidate="" enctype="multipart/form-data">
                     @csrf
                     <div class="tab-content">
                         <div class="tab-pane show active" id="general">
@@ -56,7 +56,7 @@
                             
                             @if($config['icon'])
                             <div class="form-group row mb-3">
-                                <label class="col-form-label col-lg-2 col-12"> <a href="https://fontawesome.com/v4.7.0/icons/" rel="nofollow" target="_blank"> Font Icon </a> </label>
+                                <label class="col-form-label col-lg-2 col-12">Font Icon</label>
                                 <div class="col-lg-10 col-12">
                                     <input type="text" name="data[icon]" class="form-control" value="{{ old('data.icon') }}">
                                 </div>
@@ -83,41 +83,41 @@
                         <div class="tab-pane" id="language-{{ $key }}">
                             <div class="form-group mb-3">
                                 <label>Tiêu đề</label>
-                                <input type="text" name="data[{{ $key }}][name]" class="form-control {{ $key==config('siteconfigs.general.language') ? 'validate[required] link-to-slug' : '' }}" placeholder="Tiêu đề" value="{{ old('data.'.$key.'.name') }}">
+                                <input type="text" name="dataL[{{ $key }}][name]" class="form-control {{ $key==config('siteconfigs.general.language') ? 'validate[required] link-to-slug' : '' }}" placeholder="Tiêu đề" value="{{ old('dataL.'.$key.'.name') }}">
                             </div>
                             @if( $key==config('siteconfigs.general.language') )
                             <div class="form-group mb-3">
                                 <label>Slug</label>
-                                <input type="text" name="data[{{ $key }}][slug]" class="form-control slug" placeholder="Slug" value="{{ old('data.'.$key.'.slug') }}">
+                                <input type="text" name="dataL[{{ $key }}][slug]" class="form-control slug" placeholder="Slug" value="{{ old('dataL.'.$key.'.slug') }}">
                             </div>
                             @endif
 
                             @if($config['description'])
                             <div class="form-group mb-3">
                                 <label>Mô tả</label>
-                                <textarea name="data[{{ $key }}][description]" class="form-control" rows="5" placeholder="Mô tả" >{{ old('data.'.$key.'.description') }}</textarea>
+                                <textarea name="dataL[{{ $key }}][description]" class="form-control" rows="5" placeholder="Mô tả" >{{ old('dataL.'.$key.'.description') }}</textarea>
                             </div>
                             @endif
 
                             @if($config['contents'])
                             <div class="form-group mb-3">
                                 <label class="control-label">Nội dung</label>
-                                <textarea name="data[{{ $key }}][contents]" class="form-control ck-editor" rows="6" placeholder="Nội dung" >{{ old('data.'.$key.'.contents') }}</textarea>
+                                <textarea name="dataL[{{ $key }}][contents]" class="form-control ck-editor" rows="6" placeholder="Nội dung" >{{ old('dataL.'.$key.'.contents') }}</textarea>
                             </div>
                             @endif
 
                             @if($config['meta'])
                             <div class="form-group mb-3">
                                 <label>Meta title</label>
-                                <input type="text" name="data[{{ $key }}][meta][title]" class="form-control" placeholder="Meta title" value="{{ old('data.'.$key.'.meta.title') }}">
+                                <input type="text" name="dataL[{{ $key }}][meta][title]" class="form-control" placeholder="Meta title" value="{{ old('dataL.'.$key.'.meta.title') }}">
                             </div>
                             <div class="form-group mb-3">
                                 <label>Meta keywords</label>
-                                <input type="text" name="data[{{ $key }}][meta][keywords]" class="form-control" placeholder="Meta keywords" value="{{ old('data.'.$key.'.meta.keywords') }}">
+                                <input type="text" name="dataL[{{ $key }}][meta][keywords]" class="form-control" placeholder="Meta keywords" value="{{ old('dataL.'.$key.'.meta.keywords') }}">
                             </div>
                             <div class="form-group mb-3">
                                 <label>Meta description</label>
-                                <textarea type="text" name="data[{{ $key }}][meta][description]" class="form-control" placeholder="Meta description" rows="5">{{ old('data.'.$key.'.meta.description') }}</textarea>
+                                <textarea type="text" name="dataL[{{ $key }}][meta][description]" class="form-control" placeholder="Meta description" rows="5">{{ old('dataL.'.$key.'.meta.description') }}</textarea>
                             </div>
                             @endif
 

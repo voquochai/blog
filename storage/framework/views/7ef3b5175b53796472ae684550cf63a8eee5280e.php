@@ -17,7 +17,7 @@
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <?php endif; ?>
                 </ul>
-                <form method="post" class="form-validation" action="<?php echo e(route('admin.categories.store', ['type'=>$type])); ?>" novalidate="">
+                <form method="post" class="form-validation" action="<?php echo e(route('admin.categories.store', ['type'=>$type])); ?>" novalidate="" enctype="multipart/form-data">
                     <?php echo csrf_field(); ?>
                     <div class="tab-content">
                         <div class="tab-pane show active" id="general">
@@ -55,7 +55,7 @@
                             
                             <?php if($config['icon']): ?>
                             <div class="form-group row mb-3">
-                                <label class="col-form-label col-lg-2 col-12"> <a href="https://fontawesome.com/v4.7.0/icons/" rel="nofollow" target="_blank"> Font Icon </a> </label>
+                                <label class="col-form-label col-lg-2 col-12">Font Icon</label>
                                 <div class="col-lg-10 col-12">
                                     <input type="text" name="data[icon]" class="form-control" value="<?php echo e(old('data.icon')); ?>">
                                 </div>
@@ -82,41 +82,41 @@
                         <div class="tab-pane" id="language-<?php echo e($key); ?>">
                             <div class="form-group mb-3">
                                 <label>Tiêu đề</label>
-                                <input type="text" name="data[<?php echo e($key); ?>][name]" class="form-control <?php echo e($key==config('siteconfigs.general.language') ? 'validate[required] link-to-slug' : ''); ?>" placeholder="Tiêu đề" value="<?php echo e(old('data.'.$key.'.name')); ?>">
+                                <input type="text" name="dataL[<?php echo e($key); ?>][name]" class="form-control <?php echo e($key==config('siteconfigs.general.language') ? 'validate[required] link-to-slug' : ''); ?>" placeholder="Tiêu đề" value="<?php echo e(old('dataL.'.$key.'.name')); ?>">
                             </div>
                             <?php if( $key==config('siteconfigs.general.language') ): ?>
                             <div class="form-group mb-3">
                                 <label>Slug</label>
-                                <input type="text" name="data[<?php echo e($key); ?>][slug]" class="form-control slug" placeholder="Slug" value="<?php echo e(old('data.'.$key.'.slug')); ?>">
+                                <input type="text" name="dataL[<?php echo e($key); ?>][slug]" class="form-control slug" placeholder="Slug" value="<?php echo e(old('dataL.'.$key.'.slug')); ?>">
                             </div>
                             <?php endif; ?>
 
                             <?php if($config['description']): ?>
                             <div class="form-group mb-3">
                                 <label>Mô tả</label>
-                                <textarea name="data[<?php echo e($key); ?>][description]" class="form-control" rows="5" placeholder="Mô tả" ><?php echo e(old('data.'.$key.'.description')); ?></textarea>
+                                <textarea name="dataL[<?php echo e($key); ?>][description]" class="form-control" rows="5" placeholder="Mô tả" ><?php echo e(old('dataL.'.$key.'.description')); ?></textarea>
                             </div>
                             <?php endif; ?>
 
                             <?php if($config['contents']): ?>
                             <div class="form-group mb-3">
                                 <label class="control-label">Nội dung</label>
-                                <textarea name="data[<?php echo e($key); ?>][contents]" class="form-control ck-editor" rows="6" placeholder="Nội dung" ><?php echo e(old('data.'.$key.'.contents')); ?></textarea>
+                                <textarea name="dataL[<?php echo e($key); ?>][contents]" class="form-control ck-editor" rows="6" placeholder="Nội dung" ><?php echo e(old('dataL.'.$key.'.contents')); ?></textarea>
                             </div>
                             <?php endif; ?>
 
                             <?php if($config['meta']): ?>
                             <div class="form-group mb-3">
                                 <label>Meta title</label>
-                                <input type="text" name="data[<?php echo e($key); ?>][meta][title]" class="form-control" placeholder="Meta title" value="<?php echo e(old('data.'.$key.'.meta.title')); ?>">
+                                <input type="text" name="dataL[<?php echo e($key); ?>][meta][title]" class="form-control" placeholder="Meta title" value="<?php echo e(old('dataL.'.$key.'.meta.title')); ?>">
                             </div>
                             <div class="form-group mb-3">
                                 <label>Meta keywords</label>
-                                <input type="text" name="data[<?php echo e($key); ?>][meta][keywords]" class="form-control" placeholder="Meta keywords" value="<?php echo e(old('data.'.$key.'.meta.keywords')); ?>">
+                                <input type="text" name="dataL[<?php echo e($key); ?>][meta][keywords]" class="form-control" placeholder="Meta keywords" value="<?php echo e(old('dataL.'.$key.'.meta.keywords')); ?>">
                             </div>
                             <div class="form-group mb-3">
                                 <label>Meta description</label>
-                                <textarea type="text" name="data[<?php echo e($key); ?>][meta][description]" class="form-control" placeholder="Meta description" rows="5"><?php echo e(old('data.'.$key.'.meta.description')); ?></textarea>
+                                <textarea type="text" name="dataL[<?php echo e($key); ?>][meta][description]" class="form-control" placeholder="Meta description" rows="5"><?php echo e(old('dataL.'.$key.'.meta.description')); ?></textarea>
                             </div>
                             <?php endif; ?>
 

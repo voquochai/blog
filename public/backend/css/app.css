@@ -168,7 +168,7 @@ select.form-control-sm:not([size]):not([multiple]) {
 .btn,
 .form-control,
 .dropdown-menu{
-    font-size: 0.875rem;
+    font-size: 0.875rem !important;
 }
 .custom-checkbox .custom-control-label{
     cursor: pointer;
@@ -184,7 +184,6 @@ select.form-control-sm:not([size]):not([multiple]) {
 .custom-checkbox-single .custom-control-label::after{
     top: -0.6rem;
 }
-
 .breadcrumb-item + .breadcrumb-item::before {
     font-family: "Material Design Icons"
 }
@@ -208,6 +207,10 @@ select.form-control-sm:not([size]):not([multiple]) {
     -webkit-transition: all .3s ease-out;
     transition: all .3s ease-out;
     width: .4em
+}
+.bootstrap-select > .btn-light{
+    background-color: #e2e6ea;
+    border-color: #dae0e5;
 }
 .wrapper {
     height: 100%;
@@ -830,12 +833,12 @@ body[data-layout=topnav] .content-page {
     opacity: 0;
     -webkit-transition: all .3s ease;
     transition: all .3s ease;
-    margin-top: 20px!important
+    margin-top: 2rem !important
 }
 .show > .dropdown-menu {
     visibility: visible;
     opacity: 1;
-    margin-top: 0!important
+    margin-top: .125rem !important
 }
 .dropdown-lg {
     width: 320px
