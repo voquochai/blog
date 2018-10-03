@@ -46,7 +46,7 @@ class CategoryController extends Controller
         $this->_data['priority'] = Category::where('type',$this->_data['type'])->max('priority');
         $this->_data['categories'] = Category::with(['languages' => function ($query) {
                 $query->where('language', $this->_data['language']);
-            }])->where('type',$this->_data['type'])->orderBy('priority', 'desc')->get()->toTree();
+            }])->where('type',$this->_data['type'])->orderBy('priority', 'asc')->get()->toTree();
         return view('backend.categories.create',$this->_data);
     }
 
@@ -131,7 +131,7 @@ class CategoryController extends Controller
     {
         $this->_data['categories'] = Category::with(['languages' => function ($query) {
                 $query->where('language', $this->_data['language']);
-            }])->where('type',$this->_data['type'])->orderBy('priority', 'desc')->get()->toTree();
+            }])->where('type',$this->_data['type'])->orderBy('priority', 'asc')->get()->toTree();
         $this->_data['item'] = $category;
         return view('backend.categories.edit',$this->_data);
     }

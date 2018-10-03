@@ -30,7 +30,7 @@
                                         @php
                                         $traverse = function ($categories, $prefix = '') use (&$traverse, $config, $type) {
                                             foreach ($categories as $category) {
-                                                echo '<option value="'.$category->id.'">'.$prefix.' '.$category->name.'</option>';
+                                                echo '<option value="'.$category->id.'">'.$prefix.' '.$category->languages[0]->name.'</option>';
                                                 $traverse($category->children, $prefix.'|--');
                                             }
                                         };

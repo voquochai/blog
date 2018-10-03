@@ -29,7 +29,7 @@
                                         <?php
                                         $traverse = function ($categories, $prefix = '') use (&$traverse, $config, $type) {
                                             foreach ($categories as $category) {
-                                                echo '<option value="'.$category->id.'">'.$prefix.' '.$category->name.'</option>';
+                                                echo '<option value="'.$category->id.'">'.$prefix.' '.$category->languages[0]->name.'</option>';
                                                 $traverse($category->children, $prefix.'|--');
                                             }
                                         };
@@ -142,4 +142,4 @@ for (var i = 0; i < allEditors.length; ++i) {
 }
 </script>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('backend.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('backend.app', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>

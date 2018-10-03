@@ -31,7 +31,7 @@
                                         @php
                                         $traverse = function ($categories, $prefix = '') use (&$traverse, $item, $config, $type, $path) {
                                             foreach ($categories as $category) {
-                                                echo '<option value="'.$category->id.'" '.($category->id == $item->parent_id ? 'selected' : '').' >'.$prefix.' '.$category->name.'</option>';
+                                                echo '<option value="'.$category->id.'" '.($category->id == $item->parent_id ? 'selected' : '').' >'.$prefix.' '.$category->languages[0]->name.'</option>';
                                                 $traverse($category->children, $prefix.'|--');
                                             }
                                         };
@@ -80,49 +80,52 @@
                                 </div>
                             </div>
                         </div>
+                        @php $i = 0 @endphp
                         @forelse( config('siteconfigs.languages') as $key => $val )
+                        @php $dataL = $item->languages()->where('language',$key)->first(); @endphp
                         <div class="tab-pane" id="language-{{ $key }}">
                             <div class="form-group mb-3">
                                 <label>Tiêu đề</label>
-                                <input type="text" name="dataL[{{ $key }}][name]" class="form-control {{ $key==config('siteconfigs.general.language') ? 'validate[required] link-to-slug' : '' }}" placeholder="Tiêu đề" value="{{ $item->languages[0]->name }}">
+                                <input type="text" name="dataL[{{ $key }}][name]" class="form-control {{ $key==config('siteconfigs.general.language') ? 'validate[required] link-to-slug' : '' }}" placeholder="Tiêu đề" value="{{ $dataL->name }}">
                             </div>
                             @if( $key==config('siteconfigs.general.language') )
                             <div class="form-group mb-3">
                                 <label>Slug</label>
-                                <input type="text" name="dataL[{{ $key }}][slug]" class="form-control slug" placeholder="Slug" value="{{ $item->languages[0]->slug }}">
+                                <input type="text" name="dataL[{{ $key }}][slug]" class="form-control slug" placeholder="Slug" value="{{ $dataL->slug }}">
                             </div>
                             @endif
 
                             @if($config['description'])
                             <div class="form-group mb-3">
                                 <label>Mô tả</label>
-                                <textarea name="dataL[{{ $key }}][description]" class="form-control" rows="5" placeholder="Mô tả" >{{ $item->languages[0]->meta['title'] }}</textarea>
+                                <textarea name="dataL[{{ $key }}][description]" class="form-control" rows="5" placeholder="Mô tả" >{{ $dataL->description }}</textarea>
                             </div>
                             @endif
 
                             @if($config['contents'])
                             <div class="form-group mb-3">
                                 <label class="control-label">Nội dung</label>
-                                <textarea name="dataL[{{ $key }}][contents]" class="form-control ck-editor" rows="6" placeholder="Nội dung" >{{ old('dataL.'.$key.'.contents') }}</textarea>
+                                <textarea name="dataL[{{ $key }}][contents]" class="form-control ck-editor" rows="6" placeholder="Nội dung" >{{ $dataL->contents }}</textarea>
                             </div>
                             @endif
 
                             @if($config['meta'])
                             <div class="form-group mb-3">
                                 <label>Meta title</label>
-                                <input type="text" name="dataL[{{ $key }}][meta][title]" class="form-control" placeholder="Meta title" value="{{ old('dataL.'.$key.'.meta.title') }}">
+                                <input type="text" name="dataL[{{ $key }}][meta][title]" class="form-control" placeholder="Meta title" value="{{ $dataL->meta['title'] }}">
                             </div>
                             <div class="form-group mb-3">
                                 <label>Meta keywords</label>
-                                <input type="text" name="dataL[{{ $key }}][meta][keywords]" class="form-control" placeholder="Meta keywords" value="{{ old('dataL.'.$key.'.meta.keywords') }}">
+                                <input type="text" name="dataL[{{ $key }}][meta][keywords]" class="form-control" placeholder="Meta keywords" value="{{ $dataL->meta['keywords'] }}">
                             </div>
                             <div class="form-group mb-3">
                                 <label>Meta description</label>
-                                <textarea type="text" name="dataL[{{ $key }}][meta][description]" class="form-control" placeholder="Meta description" rows="5">{{ old('dataL.'.$key.'.meta.description') }}</textarea>
+                                <textarea type="text" name="dataL[{{ $key }}][meta][description]" class="form-control" placeholder="Meta description" rows="5">{{ $dataL->meta['description'] }}</textarea>
                             </div>
                             @endif
 
                         </div>
+                        @php $i++ @endphp
                         @empty
                         @endforelse
                         <button type="submit" class="btn btn-primary"> <i class="mdi mdi-check"></i> Lưu</button>
@@ -134,4 +137,14 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script src="{{ asset('public/packages/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
+<script>
+var allEditors = document.querySelectorAll('.ck-editor');
+for (var i = 0; i < allEditors.length; ++i) {
+    ClassicEditor.create(allEditors[i]);
+}
+</script>
 @endsection
