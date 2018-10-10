@@ -24,7 +24,7 @@
         <!-- Begin page -->
         <div class="wrapper">
             <!-- ========== Left Sidebar Start ========== -->
-            <?php echo $__env->make('backend.layouts.sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <?php echo $__env->make('backend.layouts.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             <!-- Left Sidebar End -->
 
             <!-- ============================================================== -->
@@ -33,14 +33,14 @@
             <div class="content-page">
                 <div class="content">
                     <!-- Topbar Start -->
-                    <?php echo $__env->make('backend.layouts.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    <?php echo $__env->make('backend.layouts.header', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                     <!-- end Topbar -->
                     
                     <!-- Start Content-->
                     <div class="container-fluid">
-                        <?php echo $__env->make('backend.blocks.message', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        <?php echo $__env->make('backend.blocks.message', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                         <!-- start page title -->
-                        <?php echo $__env->make('backend.blocks.breadcrumb', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        <?php echo $__env->make('backend.blocks.breadcrumb', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                         <!-- end page title -->
                         <?php echo $__env->yieldContent('content'); ?>
                     </div>
@@ -50,7 +50,7 @@
                 <!-- content -->
 
                 <!-- Footer Start -->
-                <?php echo $__env->make('backend.layouts.footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                <?php echo $__env->make('backend.layouts.footer', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <!-- end Footer -->
 
             </div>

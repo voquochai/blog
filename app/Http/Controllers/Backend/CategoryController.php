@@ -84,6 +84,7 @@ class CategoryController extends Controller
             }
             $category->priority   = Category::where('type',$this->_data['type'])->max('priority')+1;
             $category->status     = $request->input('status') ? implode(',',$request->input('status')) : '';
+            $category->parent_id  = $request->input('parent_id');
             $category->type       = $this->_data['type'];
             $category->created_at = new DateTime();
             $category->updated_at = new DateTime();
@@ -129,7 +130,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        $this->_data['categories'] = Category::with(['languages' => function ($query) {
+        $this->_data['categories'] = Category::where('id','!=',$category->id)->with(['languages' => function ($query) {
                 $query->where('language', $this->_data['language']);
             }])->where('type',$this->_data['type'])->orderBy('priority', 'asc')->get()->toTree();
         $this->_data['item'] = $category;
@@ -145,7 +146,56 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'dataL.vi.name'     => 'required|max:255',
+            'image' => 'image|max:2048',
+        ],[
+            'dataL.vi.name.required'     =>  'Vui lòng nhập Tiêu đề',
+            'image.image' => 'Không đúng chuẩn hình ảnh cho phép',
+            'image.max' => 'Dung lượng vượt quá giới hạn cho phép là :max KB',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }else{
+            if($request->data){
+                foreach($request->data as $field => $value){
+                    $category->$field = $value;
+                }
+            }
+            if($request->hasFile('image')){
+                delete_image($this->_data['path'].'/'.$category->image,$this->_data['config']['thumbs']);
+                $category->image = save_image($this->_data['path'],$request->file('image'),$this->_data['config']['thumbs']);
+            }
+            $category->status     = $request->input('status') ? implode(',',$request->input('status')) : '';
+            $category->parent_id  = $request->input('parent_id');
+            $category->type       = $this->_data['type'];
+            $category->updated_at = new DateTime();
+            $category->save();
+
+            $dataL = [];
+            $dataInsert = [];
+            $i = 0;
+            foreach(config('siteconfigs.languages') as $lang => $val){
+                $categoryL = CategoryLanguage::find($category->languages[$i]['id']);
+                if($request->dataL[$lang]){
+                    foreach($request->dataL[$lang] as $fieldL => $valueL){
+                        $categoryL->$fieldL = $valueL;
+                    }
+                }
+                if( !isset($request->dataL[$this->_data['language']]['slug']) || $request->dataL[$this->_data['language']]['slug'] == ''){
+                    $categoryL->slug  = str_slug($request->dataL[$this->_data['language']]['name']);
+                }else{
+                    $categoryL->slug  = str_slug($request->dataL[$this->_data['language']]['slug']);
+                }
+                $categoryL->language   = $lang;
+                $categoryL->save();
+                $i++;
+            }
+            return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('success','Cập nhật dữ liệu <b>'.$category->languages[0]->name.'</b> thành công');
+        }
+        return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('danger', 'Dữ liệu không tồn tại');
+        
     }
 
     /**
@@ -161,7 +211,7 @@ class CategoryController extends Controller
             if( $category->descendants->count() ){
                 return response()->json([
                     'head'  =>  'Cảnh báo!',
-                    'message'   =>  'Vui lòng xóa cấc phụ thuộc <b>'.$category->name.'</b> trước.',
+                    'message'   =>  'Vui lòng xóa các phụ thuộc <b>'.$category->name.'</b> trước.',
                     'class'   =>  'warning',
                 ]);
             }else{
@@ -183,7 +233,7 @@ class CategoryController extends Controller
             }
         }else{
             if( $category->descendants->count() ){
-                return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('error','Vui lòng xóa cấc phụ thuộc <b>'.$category->name.'</b> trước');
+                return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('error','Vui lòng xóa các phụ thuộc <b>'.$category->name.'</b> trước');
             }else{
                 if($category->delete()){
                     delete_image($this->_data['path'].'/'.$category->image,$this->_data['config']['thumbs']);

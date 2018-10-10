@@ -13,6 +13,6 @@ class Category extends Model
     protected $guarded = [];
 
     public function languages(){
-    	return $this->hasMany('App\CategoryLanguage', 'category_id', 'id');
+    	return $this->hasMany('App\CategoryLanguage', 'category_id', 'id')->orderBy('id','asc');
     }
 }

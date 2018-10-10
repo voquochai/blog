@@ -914,7 +914,6 @@ body[data-layout=topnav] .content-page {
 .table input[name="priority"]{
     width: 50px;
     padding: .28rem;
-    border-radius: 0px;
     text-align: center;
     color: #333;
 }
