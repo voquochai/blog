@@ -44,6 +44,8 @@
                             <div class="form-group row mb-3">
                                 <label class="col-form-label col-lg-2 col-12">Hình ảnh</label>
                                 <div class="col-lg-10 col-12">
+                                    <?php echo ($item->image && file_exists(public_path(get_thumbnail($path.'/'.$item->image))) ) ? '<p><img src="'.asset(get_thumbnail('public/'.$path.'/'.$item->image)).'" height="50" /></p>':''; ?>
+
                                     <input type="file" name="image">
                                 </div>
                             </div>

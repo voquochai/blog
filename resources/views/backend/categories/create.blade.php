@@ -139,7 +139,11 @@
 <script>
 var allEditors = document.querySelectorAll('.ck-editor');
 for (var i = 0; i < allEditors.length; ++i) {
-    ClassicEditor.create(allEditors[i]);
+    ClassicEditor.create(allEditors[i], {
+        ckfinder: {
+            uploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json'
+        }
+    });
 }
 </script>
 @endsection
