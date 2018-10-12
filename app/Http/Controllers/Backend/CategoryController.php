@@ -58,6 +58,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         $validator = Validator::make($request->all(), [
             'dataL.vi.name'     => 'required|max:255',
             'image' => 'image|max:2048',

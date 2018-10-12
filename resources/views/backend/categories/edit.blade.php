@@ -23,7 +23,7 @@
                     @csrf
                     <div class="tab-content">
                         <div class="tab-pane show active" id="general">
-                            <div class="form-group row mb-3">
+                            <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Chọn danh mục</label>
                                 <div class="col-lg-10 col-12">
                                     <select name="parent_id" class="selectpicker form-control">
@@ -41,14 +41,14 @@
                                 </div>
                             </div>
                             @if($config['image'])
-                            <div class="form-group row mb-3">
+                            <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Hình ảnh</label>
                                 <div class="col-lg-10 col-12">
                                     {!! ($item->image && file_exists(public_path(get_thumbnail($path.'/'.$item->image))) ) ? '<p><img src="'.asset(get_thumbnail('public/'.$path.'/'.$item->image)).'" height="50" /></p>':'' !!}
                                     <input type="file" name="image">
                                 </div>
                             </div>
-                            <div class="form-group row mb-3">
+                            <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Alt</label>
                                 <div class="col-lg-10 col-12">
                                     <input type="text" name="data[alt]" class="form-control" value="{{ $item->alt }}">
@@ -57,18 +57,18 @@
                             @endif
                             
                             @if($config['icon'])
-                            <div class="form-group row mb-3">
+                            <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Font Icon</label>
                                 <div class="col-lg-10 col-12">
                                     <input type="text" name="data[icon]" class="form-control" value="{{ $item->icon }}">
                                 </div>
                             </div>
                             @endif
-                            <div class="form-group row mb-3">
+                            <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Thứ tự</label>
                                 <div class="col-lg-auto col-12"><input type="number" name="priority" class="form-control" value="{{ $item->priority }}" min="1" max="9999" placeholder="Thứ tự" disabled></div>
                             </div>
-                            <div class="form-group row mb-3">
+                            <div class="form-group row">
                                 <label class="col-lg-2 col-auto">Tình trạng</label>
                                 <div class="col-lg-10 col">
                                 @forelse($config['status'] as $k => $v)
@@ -85,41 +85,41 @@
                         @forelse( config('siteconfigs.languages') as $key => $val )
                         @php $dataL = $item->languages()->where('language',$key)->first(); @endphp
                         <div class="tab-pane" id="language-{{ $key }}">
-                            <div class="form-group mb-3">
+                            <div class="form-group">
                                 <label>Tiêu đề</label>
                                 <input type="text" name="dataL[{{ $key }}][name]" class="form-control {{ $key==config('siteconfigs.general.language') ? 'validate[required] link-to-slug' : '' }}" placeholder="Tiêu đề" value="{{ $dataL->name }}">
                             </div>
                             @if( $key==config('siteconfigs.general.language') )
-                            <div class="form-group mb-3">
+                            <div class="form-group">
                                 <label>Slug</label>
                                 <input type="text" name="dataL[{{ $key }}][slug]" class="form-control slug" placeholder="Slug" value="{{ $dataL->slug }}">
                             </div>
                             @endif
 
                             @if($config['description'])
-                            <div class="form-group mb-3">
+                            <div class="form-group">
                                 <label>Mô tả</label>
                                 <textarea name="dataL[{{ $key }}][description]" class="form-control" rows="5" placeholder="Mô tả" >{{ $dataL->description }}</textarea>
                             </div>
                             @endif
 
                             @if($config['contents'])
-                            <div class="form-group mb-3">
+                            <div class="form-group">
                                 <label class="control-label">Nội dung</label>
                                 <textarea name="dataL[{{ $key }}][contents]" class="form-control ck-editor" rows="6" placeholder="Nội dung" >{{ $dataL->contents }}</textarea>
                             </div>
                             @endif
 
                             @if($config['meta'])
-                            <div class="form-group mb-3">
+                            <div class="form-group">
                                 <label>Meta title</label>
                                 <input type="text" name="dataL[{{ $key }}][meta][title]" class="form-control" placeholder="Meta title" value="{{ $dataL->meta['title'] }}">
                             </div>
-                            <div class="form-group mb-3">
+                            <div class="form-group">
                                 <label>Meta keywords</label>
                                 <input type="text" name="dataL[{{ $key }}][meta][keywords]" class="form-control" placeholder="Meta keywords" value="{{ $dataL->meta['keywords'] }}">
                             </div>
-                            <div class="form-group mb-3">
+                            <div class="form-group">
                                 <label>Meta description</label>
                                 <textarea type="text" name="dataL[{{ $key }}][meta][description]" class="form-control" placeholder="Meta description" rows="5">{{ $dataL->meta['description'] }}</textarea>
                             </div>

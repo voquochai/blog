@@ -9,23 +9,23 @@
             <div class="card-body">
                 <form method="post" action="{{ route('admin.users.store', ['type'=>$type]) }}" class="form-validation" novalidate="">
                     @csrf
-                    <div class="form-group mb-3">
+                    <div class="form-group">
                         <label>Họ và tên</label>
                         <input type="text" name="name" class="form-control validate[required]" placeholder="Họ và tên" value="{{ old('name') }}">
                     </div>
-                    <div class="form-group mb-3">
+                    <div class="form-group">
                         <label>Email</label>
                         <input type="email" name="email" class="form-control validate[required,custom[email]]" placeholder="Email" value="{{ old('email') }}">
                     </div>
-                    <div class="form-group mb-3">
+                    <div class="form-group">
                         <label>Mật khẩu</label>
                         <input type="password" name="password" class="form-control validate[required,minSize[6]]" placeholder="Mật khẩu" value="">
                     </div>
-                    <div class="form-group row mb-3">
+                    <div class="form-group row">
                         <label class="col-form-label col-lg-2 col-12">Thứ tự</label>
                         <div class="col-lg-auto col-12"><input type="number" name="priority" class="form-control" value="{{ $priority+1 }}" min="1" max="9999" placeholder="Thứ tự" disabled></div>
                     </div>
-                    <div class="form-group row mb-3">
+                    <div class="form-group row">
                         <label class="col-lg-2 col-auto">Tình trạng</label>
                         <div class="col-lg-10 col">
                         @forelse($config['status'] as $k => $v)

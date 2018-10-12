@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('content'); ?>
 <div class="row">
 	<div class="col-12">
@@ -22,7 +21,7 @@
                     <?php echo csrf_field(); ?>
                     <div class="tab-content">
                         <div class="tab-pane show active" id="general">
-                            <div class="form-group row mb-3">
+                            <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Chọn danh mục</label>
                                 <div class="col-lg-10 col-12">
                                     <select name="parent_id" class="selectpicker form-control">
@@ -40,13 +39,13 @@
                                 </div>
                             </div>
                             <?php if($config['image']): ?>
-                            <div class="form-group row mb-3">
+                            <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Hình ảnh</label>
                                 <div class="col-lg-10 col-12">
-                                    <input type="file" name="image">
+                                    <input type="file" name="files" data-fileuploader-limit="1">
                                 </div>
                             </div>
-                            <div class="form-group row mb-3">
+                            <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Alt</label>
                                 <div class="col-lg-10 col-12">
                                     <input type="text" name="data[alt]" class="form-control" value="<?php echo e(old('data.alt')); ?>">
@@ -55,18 +54,18 @@
                             <?php endif; ?>
                             
                             <?php if($config['icon']): ?>
-                            <div class="form-group row mb-3">
+                            <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Font Icon</label>
                                 <div class="col-lg-10 col-12">
                                     <input type="text" name="data[icon]" class="form-control" value="<?php echo e(old('data.icon')); ?>">
                                 </div>
                             </div>
                             <?php endif; ?>
-                            <div class="form-group row mb-3">
+                            <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Thứ tự</label>
                                 <div class="col-lg-auto col-12"><input type="number" name="priority" class="form-control" value="<?php echo e($priority+1); ?>" min="1" max="9999" placeholder="Thứ tự" disabled></div>
                             </div>
-                            <div class="form-group row mb-3">
+                            <div class="form-group row">
                                 <label class="col-lg-2 col-auto">Tình trạng</label>
                                 <div class="col-lg-10 col">
                                 <?php $__empty_1 = true; $__currentLoopData = $config['status']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $v): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
@@ -81,41 +80,41 @@
                         </div>
                         <?php $__empty_1 = true; $__currentLoopData = config('siteconfigs.languages'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                         <div class="tab-pane" id="language-<?php echo e($key); ?>">
-                            <div class="form-group mb-3">
+                            <div class="form-group">
                                 <label>Tiêu đề</label>
                                 <input type="text" name="dataL[<?php echo e($key); ?>][name]" class="form-control <?php echo e($key==config('siteconfigs.general.language') ? 'validate[required] link-to-slug' : ''); ?>" placeholder="Tiêu đề" value="<?php echo e(old('dataL.'.$key.'.name')); ?>">
                             </div>
                             <?php if( $key==config('siteconfigs.general.language') ): ?>
-                            <div class="form-group mb-3">
+                            <div class="form-group">
                                 <label>Slug</label>
                                 <input type="text" name="dataL[<?php echo e($key); ?>][slug]" class="form-control slug" placeholder="Slug" value="<?php echo e(old('dataL.'.$key.'.slug')); ?>">
                             </div>
                             <?php endif; ?>
 
                             <?php if($config['description']): ?>
-                            <div class="form-group mb-3">
+                            <div class="form-group">
                                 <label>Mô tả</label>
                                 <textarea name="dataL[<?php echo e($key); ?>][description]" class="form-control" rows="5" placeholder="Mô tả" ><?php echo e(old('dataL.'.$key.'.description')); ?></textarea>
                             </div>
                             <?php endif; ?>
 
                             <?php if($config['contents']): ?>
-                            <div class="form-group mb-3">
+                            <div class="form-group">
                                 <label class="control-label">Nội dung</label>
                                 <textarea name="dataL[<?php echo e($key); ?>][contents]" class="form-control tinymce-editor" rows="6" placeholder="Nội dung" ><?php echo e(old('dataL.'.$key.'.contents')); ?></textarea>
                             </div>
                             <?php endif; ?>
 
                             <?php if($config['meta']): ?>
-                            <div class="form-group mb-3">
+                            <div class="form-group">
                                 <label>Meta title</label>
                                 <input type="text" name="dataL[<?php echo e($key); ?>][meta][title]" class="form-control" placeholder="Meta title" value="<?php echo e(old('dataL.'.$key.'.meta.title')); ?>">
                             </div>
-                            <div class="form-group mb-3">
+                            <div class="form-group">
                                 <label>Meta keywords</label>
                                 <input type="text" name="dataL[<?php echo e($key); ?>][meta][keywords]" class="form-control" placeholder="Meta keywords" value="<?php echo e(old('dataL.'.$key.'.meta.keywords')); ?>">
                             </div>
-                            <div class="form-group mb-3">
+                            <div class="form-group">
                                 <label>Meta description</label>
                                 <textarea type="text" name="dataL[<?php echo e($key); ?>][meta][description]" class="form-control" placeholder="Meta description" rows="5"><?php echo e(old('dataL.'.$key.'.meta.description')); ?></textarea>
                             </div>
@@ -179,18 +178,16 @@ $(document).ready(function() {
             form.append('fileuploader', 1);
             form.append('_namee', item.name);
             form.append('_editingg', true);
-            $.ajax({
-                url: 'php/ajax_upload_file.php',
-                data: form,
-                type: 'POST',
-                processData: false,
-                contentType: false
-            });
+            // $.ajax({
+            //     url: 'php/ajax_upload_file.php',
+            //     data: form,
+            //     type: 'POST',
+            //     processData: false,
+            //     contentType: false
+            // });
         }
     };
-    $('input[name="image"]').fileuploader({
-        limit: 20,
-        fileMaxSize: 20,
+    $('input[name="files"]').fileuploader({
         extensions: ['jpg', 'jpeg', 'png', 'gif'],
         changeInput: '<div class="fileuploader-input">' +
             '<div class="fileuploader-input-inner">' +
@@ -238,85 +235,85 @@ $(document).ready(function() {
                 item.imageLoaded = true;
             },
         },
-        upload: {
-            url: 'php/ajax_upload_file.php',
-            data: null,
-            type: 'POST',
-            enctype: 'multipart/form-data',
-            start: false,
-            synchron: true,
-            beforeSend: function(item, listEl, parentEl, newInputEl, inputEl) {
-                // add image to formData
-                if (item.editor && item.editor._blob) {
-                    item.upload.data.fileuploader = 1;
-                    if (item.upload.formData.delete)
-                        item.upload.formData.delete(inputEl.attr('name'));
-                    item.upload.formData.append(inputEl.attr('name'), item.editor._blob, item.name);
-                    // add name to data
-                    if (item.editor._namee) {
-                        item.upload.data._namee = item.name;
-                    }
-                    // add is after editing to data
-                    if (item.editor._editingg) {
-                        item.upload.data._editingg = true;
-                    }
-                }
-                item.html.find('.fileuploader-action-success').removeClass('fileuploader-action-success');
-            },
-            onSuccess: function(result, item) {
-                var data = {};
-                try {
-                    data = JSON.parse(result);
-                } catch (e) {
-                    data.hasWarnings = true;
-                }
-                // if success
-                if (data.isSuccess && data.files[0]) {
-                    item.name = data.files[0].name;
-                    item.html.find('.column-title > div:first-child').text(data.files[0].name).attr('title', data.files[0].name);
-                    // send pending editor
-                    if (item.editor && item.editor.isUploadPending) {
-                        delete item.editor.isUploadPending;
-                        saveEditedImage(item.editor._blob, item);
-                    }
-                }
-                // if warnings
-                if (data.hasWarnings) {
-                    for (var warning in data.warnings) {
-                        alert(data.warnings);
-                    }
-                    item.html.removeClass('upload-successful').addClass('upload-failed');
-                    // go out from success function by calling onError function
-                    // in this case we have a animation there
-                    // you can also response in PHP with 404
-                    return this.onError ? this.onError(item) : null;
-                }
-                item.html.find('.fileuploader-action-remove').addClass('fileuploader-action-success');
-                setTimeout(function() {
-                    item.html.find('.progress-bar2').fadeOut(400);
-                }, 400);
-            },
-            onError: function(item) {
-                var progressBar = item.html.find('.progress-bar2');
-                if (progressBar.length) {
-                    progressBar.find('span').html(0 + "%");
-                    progressBar.find('.fileuploader-progressbar .bar').width(0 + "%");
-                    item.html.find('.progress-bar2').fadeOut(400);
-                }
-                item.upload.status != 'cancelled' && item.html.find('.fileuploader-action-retry').length == 0 ? item.html.find('.column-actions').prepend(
-                    '<a class="fileuploader-action fileuploader-action-retry" title="Retry"><i></i></a>'
-                ) : null;
-            },
-            onProgress: function(data, item) {
-                var progressBar = item.html.find('.progress-bar2');
-                if (progressBar.length > 0) {
-                    progressBar.show();
-                    progressBar.find('span').html(data.percentage + "%");
-                    progressBar.find('.fileuploader-progressbar .bar').width(data.percentage + "%");
-                }
-            },
-            onComplete: null,
-        },
+        // upload: {
+        //     url: 'php/ajax_upload_file.php',
+        //     data: null,
+        //     type: 'POST',
+        //     enctype: 'multipart/form-data',
+        //     start: false,
+        //     synchron: true,
+        //     beforeSend: function(item, listEl, parentEl, newInputEl, inputEl) {
+        //         // add image to formData
+        //         if (item.editor && item.editor._blob) {
+        //             item.upload.data.fileuploader = 1;
+        //             if (item.upload.formData.delete)
+        //                 item.upload.formData.delete(inputEl.attr('name'));
+        //             item.upload.formData.append(inputEl.attr('name'), item.editor._blob, item.name);
+        //             // add name to data
+        //             if (item.editor._namee) {
+        //                 item.upload.data._namee = item.name;
+        //             }
+        //             // add is after editing to data
+        //             if (item.editor._editingg) {
+        //                 item.upload.data._editingg = true;
+        //             }
+        //         }
+        //         item.html.find('.fileuploader-action-success').removeClass('fileuploader-action-success');
+        //     },
+        //     onSuccess: function(result, item) {
+        //         var data = {};
+        //         try {
+        //             data = JSON.parse(result);
+        //         } catch (e) {
+        //             data.hasWarnings = true;
+        //         }
+        //         // if success
+        //         if (data.isSuccess && data.files[0]) {
+        //             item.name = data.files[0].name;
+        //             item.html.find('.column-title > div:first-child').text(data.files[0].name).attr('title', data.files[0].name);
+        //             // send pending editor
+        //             if (item.editor && item.editor.isUploadPending) {
+        //                 delete item.editor.isUploadPending;
+        //                 saveEditedImage(item.editor._blob, item);
+        //             }
+        //         }
+        //         // if warnings
+        //         if (data.hasWarnings) {
+        //             for (var warning in data.warnings) {
+        //                 alert(data.warnings);
+        //             }
+        //             item.html.removeClass('upload-successful').addClass('upload-failed');
+        //             // go out from success function by calling onError function
+        //             // in this case we have a animation there
+        //             // you can also response in PHP with 404
+        //             return this.onError ? this.onError(item) : null;
+        //         }
+        //         item.html.find('.fileuploader-action-remove').addClass('fileuploader-action-success');
+        //         setTimeout(function() {
+        //             item.html.find('.progress-bar2').fadeOut(400);
+        //         }, 400);
+        //     },
+        //     onError: function(item) {
+        //         var progressBar = item.html.find('.progress-bar2');
+        //         if (progressBar.length) {
+        //             progressBar.find('span').html(0 + "%");
+        //             progressBar.find('.fileuploader-progressbar .bar').width(0 + "%");
+        //             item.html.find('.progress-bar2').fadeOut(400);
+        //         }
+        //         item.upload.status != 'cancelled' && item.html.find('.fileuploader-action-retry').length == 0 ? item.html.find('.column-actions').prepend(
+        //             '<a class="fileuploader-action fileuploader-action-retry" title="Retry"><i></i></a>'
+        //         ) : null;
+        //     },
+        //     onProgress: function(data, item) {
+        //         var progressBar = item.html.find('.progress-bar2');
+        //         if (progressBar.length > 0) {
+        //             progressBar.show();
+        //             progressBar.find('span').html(data.percentage + "%");
+        //             progressBar.find('.fileuploader-progressbar .bar').width(data.percentage + "%");
+        //         }
+        //     },
+        //     onComplete: null,
+        // },
         editor: {
             cropper: {
                 showGrid: true

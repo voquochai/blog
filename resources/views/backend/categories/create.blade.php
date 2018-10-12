@@ -22,7 +22,7 @@
                     @csrf
                     <div class="tab-content">
                         <div class="tab-pane show active" id="general">
-                            <div class="form-group row mb-3">
+                            <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Chọn danh mục</label>
                                 <div class="col-lg-10 col-12">
                                     <select name="parent_id" class="selectpicker form-control">
@@ -40,13 +40,13 @@
                                 </div>
                             </div>
                             @if($config['image'])
-                            <div class="form-group row mb-3">
+                            <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Hình ảnh</label>
                                 <div class="col-lg-10 col-12">
-                                    <input type="file" name="image">
+                                    <input type="file" name="files" data-fileuploader-limit="1">
                                 </div>
                             </div>
-                            <div class="form-group row mb-3">
+                            <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Alt</label>
                                 <div class="col-lg-10 col-12">
                                     <input type="text" name="data[alt]" class="form-control" value="{{ old('data.alt') }}">
@@ -55,18 +55,18 @@
                             @endif
                             
                             @if($config['icon'])
-                            <div class="form-group row mb-3">
+                            <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Font Icon</label>
                                 <div class="col-lg-10 col-12">
                                     <input type="text" name="data[icon]" class="form-control" value="{{ old('data.icon') }}">
                                 </div>
                             </div>
                             @endif
-                            <div class="form-group row mb-3">
+                            <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Thứ tự</label>
                                 <div class="col-lg-auto col-12"><input type="number" name="priority" class="form-control" value="{{ $priority+1 }}" min="1" max="9999" placeholder="Thứ tự" disabled></div>
                             </div>
-                            <div class="form-group row mb-3">
+                            <div class="form-group row">
                                 <label class="col-lg-2 col-auto">Tình trạng</label>
                                 <div class="col-lg-10 col">
                                 @forelse($config['status'] as $k => $v)
@@ -81,41 +81,41 @@
                         </div>
                         @forelse( config('siteconfigs.languages') as $key => $val )
                         <div class="tab-pane" id="language-{{ $key }}">
-                            <div class="form-group mb-3">
+                            <div class="form-group">
                                 <label>Tiêu đề</label>
                                 <input type="text" name="dataL[{{ $key }}][name]" class="form-control {{ $key==config('siteconfigs.general.language') ? 'validate[required] link-to-slug' : '' }}" placeholder="Tiêu đề" value="{{ old('dataL.'.$key.'.name') }}">
                             </div>
                             @if( $key==config('siteconfigs.general.language') )
-                            <div class="form-group mb-3">
+                            <div class="form-group">
                                 <label>Slug</label>
                                 <input type="text" name="dataL[{{ $key }}][slug]" class="form-control slug" placeholder="Slug" value="{{ old('dataL.'.$key.'.slug') }}">
                             </div>
                             @endif
 
                             @if($config['description'])
-                            <div class="form-group mb-3">
+                            <div class="form-group">
                                 <label>Mô tả</label>
                                 <textarea name="dataL[{{ $key }}][description]" class="form-control" rows="5" placeholder="Mô tả" >{{ old('dataL.'.$key.'.description') }}</textarea>
                             </div>
                             @endif
 
                             @if($config['contents'])
-                            <div class="form-group mb-3">
+                            <div class="form-group">
                                 <label class="control-label">Nội dung</label>
                                 <textarea name="dataL[{{ $key }}][contents]" class="form-control tinymce-editor" rows="6" placeholder="Nội dung" >{{ old('dataL.'.$key.'.contents') }}</textarea>
                             </div>
                             @endif
 
                             @if($config['meta'])
-                            <div class="form-group mb-3">
+                            <div class="form-group">
                                 <label>Meta title</label>
                                 <input type="text" name="dataL[{{ $key }}][meta][title]" class="form-control" placeholder="Meta title" value="{{ old('dataL.'.$key.'.meta.title') }}">
                             </div>
-                            <div class="form-group mb-3">
+                            <div class="form-group">
                                 <label>Meta keywords</label>
                                 <input type="text" name="dataL[{{ $key }}][meta][keywords]" class="form-control" placeholder="Meta keywords" value="{{ old('dataL.'.$key.'.meta.keywords') }}">
                             </div>
-                            <div class="form-group mb-3">
+                            <div class="form-group">
                                 <label>Meta description</label>
                                 <textarea type="text" name="dataL[{{ $key }}][meta][description]" class="form-control" placeholder="Meta description" rows="5">{{ old('dataL.'.$key.'.meta.description') }}</textarea>
                             </div>
@@ -179,18 +179,16 @@ $(document).ready(function() {
             form.append('fileuploader', 1);
             form.append('_namee', item.name);
             form.append('_editingg', true);
-            $.ajax({
-                url: 'php/ajax_upload_file.php',
-                data: form,
-                type: 'POST',
-                processData: false,
-                contentType: false
-            });
+            // $.ajax({
+            //     url: 'php/ajax_upload_file.php',
+            //     data: form,
+            //     type: 'POST',
+            //     processData: false,
+            //     contentType: false
+            // });
         }
     };
-    $('input[name="image"]').fileuploader({
-        limit: 20,
-        fileMaxSize: 20,
+    $('input[name="files"]').fileuploader({
         extensions: ['jpg', 'jpeg', 'png', 'gif'],
         changeInput: '<div class="fileuploader-input">' +
             '<div class="fileuploader-input-inner">' +
@@ -238,85 +236,85 @@ $(document).ready(function() {
                 item.imageLoaded = true;
             },
         },
-        upload: {
-            url: 'php/ajax_upload_file.php',
-            data: null,
-            type: 'POST',
-            enctype: 'multipart/form-data',
-            start: false,
-            synchron: true,
-            beforeSend: function(item, listEl, parentEl, newInputEl, inputEl) {
-                // add image to formData
-                if (item.editor && item.editor._blob) {
-                    item.upload.data.fileuploader = 1;
-                    if (item.upload.formData.delete)
-                        item.upload.formData.delete(inputEl.attr('name'));
-                    item.upload.formData.append(inputEl.attr('name'), item.editor._blob, item.name);
-                    // add name to data
-                    if (item.editor._namee) {
-                        item.upload.data._namee = item.name;
-                    }
-                    // add is after editing to data
-                    if (item.editor._editingg) {
-                        item.upload.data._editingg = true;
-                    }
-                }
-                item.html.find('.fileuploader-action-success').removeClass('fileuploader-action-success');
-            },
-            onSuccess: function(result, item) {
-                var data = {};
-                try {
-                    data = JSON.parse(result);
-                } catch (e) {
-                    data.hasWarnings = true;
-                }
-                // if success
-                if (data.isSuccess && data.files[0]) {
-                    item.name = data.files[0].name;
-                    item.html.find('.column-title > div:first-child').text(data.files[0].name).attr('title', data.files[0].name);
-                    // send pending editor
-                    if (item.editor && item.editor.isUploadPending) {
-                        delete item.editor.isUploadPending;
-                        saveEditedImage(item.editor._blob, item);
-                    }
-                }
-                // if warnings
-                if (data.hasWarnings) {
-                    for (var warning in data.warnings) {
-                        alert(data.warnings);
-                    }
-                    item.html.removeClass('upload-successful').addClass('upload-failed');
-                    // go out from success function by calling onError function
-                    // in this case we have a animation there
-                    // you can also response in PHP with 404
-                    return this.onError ? this.onError(item) : null;
-                }
-                item.html.find('.fileuploader-action-remove').addClass('fileuploader-action-success');
-                setTimeout(function() {
-                    item.html.find('.progress-bar2').fadeOut(400);
-                }, 400);
-            },
-            onError: function(item) {
-                var progressBar = item.html.find('.progress-bar2');
-                if (progressBar.length) {
-                    progressBar.find('span').html(0 + "%");
-                    progressBar.find('.fileuploader-progressbar .bar').width(0 + "%");
-                    item.html.find('.progress-bar2').fadeOut(400);
-                }
-                item.upload.status != 'cancelled' && item.html.find('.fileuploader-action-retry').length == 0 ? item.html.find('.column-actions').prepend(
-                    '<a class="fileuploader-action fileuploader-action-retry" title="Retry"><i></i></a>'
-                ) : null;
-            },
-            onProgress: function(data, item) {
-                var progressBar = item.html.find('.progress-bar2');
-                if (progressBar.length > 0) {
-                    progressBar.show();
-                    progressBar.find('span').html(data.percentage + "%");
-                    progressBar.find('.fileuploader-progressbar .bar').width(data.percentage + "%");
-                }
-            },
-            onComplete: null,
-        },
+        // upload: {
+        //     url: 'php/ajax_upload_file.php',
+        //     data: null,
+        //     type: 'POST',
+        //     enctype: 'multipart/form-data',
+        //     start: false,
+        //     synchron: true,
+        //     beforeSend: function(item, listEl, parentEl, newInputEl, inputEl) {
+        //         // add image to formData
+        //         if (item.editor && item.editor._blob) {
+        //             item.upload.data.fileuploader = 1;
+        //             if (item.upload.formData.delete)
+        //                 item.upload.formData.delete(inputEl.attr('name'));
+        //             item.upload.formData.append(inputEl.attr('name'), item.editor._blob, item.name);
+        //             // add name to data
+        //             if (item.editor._namee) {
+        //                 item.upload.data._namee = item.name;
+        //             }
+        //             // add is after editing to data
+        //             if (item.editor._editingg) {
+        //                 item.upload.data._editingg = true;
+        //             }
+        //         }
+        //         item.html.find('.fileuploader-action-success').removeClass('fileuploader-action-success');
+        //     },
+        //     onSuccess: function(result, item) {
+        //         var data = {};
+        //         try {
+        //             data = JSON.parse(result);
+        //         } catch (e) {
+        //             data.hasWarnings = true;
+        //         }
+        //         // if success
+        //         if (data.isSuccess && data.files[0]) {
+        //             item.name = data.files[0].name;
+        //             item.html.find('.column-title > div:first-child').text(data.files[0].name).attr('title', data.files[0].name);
+        //             // send pending editor
+        //             if (item.editor && item.editor.isUploadPending) {
+        //                 delete item.editor.isUploadPending;
+        //                 saveEditedImage(item.editor._blob, item);
+        //             }
+        //         }
+        //         // if warnings
+        //         if (data.hasWarnings) {
+        //             for (var warning in data.warnings) {
+        //                 alert(data.warnings);
+        //             }
+        //             item.html.removeClass('upload-successful').addClass('upload-failed');
+        //             // go out from success function by calling onError function
+        //             // in this case we have a animation there
+        //             // you can also response in PHP with 404
+        //             return this.onError ? this.onError(item) : null;
+        //         }
+        //         item.html.find('.fileuploader-action-remove').addClass('fileuploader-action-success');
+        //         setTimeout(function() {
+        //             item.html.find('.progress-bar2').fadeOut(400);
+        //         }, 400);
+        //     },
+        //     onError: function(item) {
+        //         var progressBar = item.html.find('.progress-bar2');
+        //         if (progressBar.length) {
+        //             progressBar.find('span').html(0 + "%");
+        //             progressBar.find('.fileuploader-progressbar .bar').width(0 + "%");
+        //             item.html.find('.progress-bar2').fadeOut(400);
+        //         }
+        //         item.upload.status != 'cancelled' && item.html.find('.fileuploader-action-retry').length == 0 ? item.html.find('.column-actions').prepend(
+        //             '<a class="fileuploader-action fileuploader-action-retry" title="Retry"><i></i></a>'
+        //         ) : null;
+        //     },
+        //     onProgress: function(data, item) {
+        //         var progressBar = item.html.find('.progress-bar2');
+        //         if (progressBar.length > 0) {
+        //             progressBar.show();
+        //             progressBar.find('span').html(data.percentage + "%");
+        //             progressBar.find('.fileuploader-progressbar .bar').width(data.percentage + "%");
+        //         }
+        //     },
+        //     onComplete: null,
+        // },
         editor: {
             cropper: {
                 showGrid: true
@@ -325,11 +323,11 @@ $(document).ready(function() {
             maxHeight: 600,
             quality: 98
         },
-        onRemove: function(item) {
-            $.post('./php/ajax_remove_file.php', {
-                file: item.name
-            });
-        },
+        // onRemove: function(item) {
+        //     $.post('./php/ajax_remove_file.php', {
+        //         file: item.name
+        //     });
+        // },
         captions: {
             feedback: 'Drag and drop files here',
             or: 'or',
