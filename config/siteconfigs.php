@@ -116,7 +116,7 @@ return [
 			'level' =>	1,
 			'icon'	=>	true,
 			'description' =>	true,
-			'contents'    =>	true,
+			'contents'    =>	false,
 			'image'       =>	true,
 			'meta'	=>	true,
 			'thumbs'	=>	[

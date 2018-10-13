@@ -60,6 +60,10 @@ h6 {
     margin: 10px 0;
     font-weight: 700
 }
+input[data-fileuploader-single],
+input[data-fileuploader-multiple] {
+    display: none
+}
 input[data-switch] {
     display: none
 }

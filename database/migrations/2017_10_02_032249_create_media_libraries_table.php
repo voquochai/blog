@@ -14,7 +14,7 @@ class CreateMediaLibrariesTable extends Migration
     {
         Schema::create('media_libraries', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('image')->nullable();
+            $table->string('name')->nullable();
             $table->string('alt')->nullable();
             $table->string('link')->nullable();
             $table->integer('size')->default(0);

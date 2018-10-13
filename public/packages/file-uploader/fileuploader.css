@@ -419,6 +419,9 @@
 .fileuploader-items .fileuploader-item .fileuploader-action.fileuploader-action-preview i:after {
     content: "\e90d"
 }
+.fileuploader-items .fileuploader-item .fileuploader-action.fileuploader-action-default i:after {
+    content: "\e90b"
+}
 .fileuploader-items .fileuploader-item .fileuploader-action.fileuploader-action-success i {
     color: #fff;
     font-size: 14px;
@@ -966,7 +969,7 @@
 .fileuploader-theme-thumbnails .fileuploader-items-list .fileuploader-item {
     position: relative;
     display: inline-block;
-    margin: 16px 0 0 16px;
+    /*margin: 16px 0 0 16px;*/
     padding: 0;
     vertical-align: top;
     width: 25%;
