@@ -44,8 +44,25 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Hình ảnh</label>
                                 <div class="col-lg-10 col-12">
-                                    {!! ($item->image && file_exists(public_path(get_thumbnail($path.'/'.$item->image))) ) ? '<p><img src="'.asset(get_thumbnail('public/'.$path.'/'.$item->image)).'" height="50" /></p>':'' !!}
-                                    <input type="file" name="image">
+                                    @if( $item->image && file_exists( public_path($path.'/'.$item->image) ) )
+                                    @php
+                                        $imageInfo = getimagesize('public/'.$path.'/'.$item->image);
+                                        $imageInfo['size'] = filesize('public/'.$path.'/'.$item->image);
+                                    @endphp
+                                    <input type="file" name="image" data-fileuploader="single" data-fileuploader-files='[{
+                                        "name":"{{ $item->image }}",
+                                        "type":"{{ $imageInfo['mime'] }}",
+                                        "size":"{{ $imageInfo['size'] }}",
+                                        "file":"{{ asset( 'public/'.$path.'/'.$item->image ) }}",
+                                        "data": {
+                                            "id": "{{ $item->id }}",
+                                            "thumbnail": "{{ asset( 'public/'.$path.'/'.$item->image ) }}"
+                                        }
+                                    }]'>
+                                    @else
+                                    <input type="file" name="image" data-fileuploader="single"/>
+                                    @endif
+
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -140,12 +157,15 @@
 </div>
 @endsection
 
+@section('style')
+<link href="{{ asset('public/packages/file-uploader/fileuploader.css') }}" rel="stylesheet" type="text/css">
+@endsection
+
 @section('script')
-<script src="{{ asset('public/packages/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
-<script>
-var allEditors = document.querySelectorAll('.ck-editor');
-for (var i = 0; i < allEditors.length; ++i) {
-    ClassicEditor.create(allEditors[i]);
-}
-</script>
+<script src="{{ asset('public/packages/file-uploader/fileuploader.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/packages/file-uploader/fileuploader.config.js') }}" type="text/javascript"></script>
+@if($config['contents'])
+<script src="{{ asset('public/packages/tinymce/tinymce.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/packages/tinymce/tinymce.config.js') }}" type="text/javascript"></script>
+@endif
 @endsection

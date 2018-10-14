@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('content'); ?>
 <div class="row">
 	<div class="col-12">
@@ -42,7 +43,7 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Hình ảnh</label>
                                 <div class="col-lg-10 col-12">
-                                    <input type="file" name="image" data-fileuploader-single>
+                                    <input type="file" name="image" data-fileuploader="single">
                                 </div>
                             </div>
                             <div class="form-group row">

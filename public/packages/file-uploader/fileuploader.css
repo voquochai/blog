@@ -161,6 +161,9 @@
     border-radius: 6px;
     line-height: normal
 }
+.fileuploader.fileuploader-theme-thumbnails{
+    background: none;
+}
 .fileuploader-input {
     position: relative;
     display: -webkit-box;
@@ -1022,6 +1025,7 @@
 }
 .fileuploader-theme-thumbnails .fileuploader-items .fileuploader-item {
     border-bottom: 0;
+    margin-right: 16px;
 }
 .fileuploader-theme-thumbnails .fileuploader-items .fileuploader-item:last-child {
     margin-bottom: 0;

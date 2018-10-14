@@ -99,7 +99,7 @@ function(e) {
             text: "Bạn không thể hoàn nguyên thao tác này!",
             type: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Có, xóa nó!',
+            confirmButtonText: 'Có, đồng ý xóa!',
             cancelButtonText: 'Không, hủy bỏ!',
             reverseButtons: true
         }).then((res) => {

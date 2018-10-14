@@ -2489,28 +2489,28 @@
             feedback2: function(options) {
                 return options.length + ' ' + (options.length > 1 ? ' files were' : ' file was') + ' chosen'
             },
-            confirm: 'Confirm',
-            cancel: 'Cancel',
-            name: 'Name',
-            type: 'Type',
-            size: 'Size',
-            dimensions: 'Dimensions',
+            confirm: 'Xác nhận',
+            cancel: 'Hủy bỏ',
+            name: 'Tên hình',
+            type: 'Loại hình',
+            size: 'Kích cỡ',
+            dimensions: 'Kích thước',
             duration: 'Duration',
-            crop: 'Crop',
-            rotate: 'Rotate',
-            sort: 'Sort',
-            download: 'Download',
-            remove: 'Remove',
-            drop: 'Drop the files here to Upload',
+            crop: 'Cắt hình',
+            rotate: 'Xoay hình',
+            sort: 'Sắp xếp',
+            download: 'Tải về',
+            remove: 'Xóa hình',
+            drop: 'Thả hình vào đây để tải lên',
             paste: '<div class="fileuploader-pending-loader"></div> Pasting a file, click here to cancel.',
-            removeConfirmation: 'Are you sure you want to remove this file?',
+            removeConfirmation: 'Bạn có chắc chắn muốn xóa tệp này không?',
             errors: {
-                filesLimit: 'Only ${limit} files are allowed to be uploaded.',
-                filesType: 'Only ${extensions} files are allowed to be uploaded.',
-                fileSize: '${name} is too large! Please choose a file up to ${fileMaxSize}MB.',
-                filesSizeAll: 'Files that you chose are too large! Please upload files up to ${maxSize} MB.',
-                fileName: 'File with the name ${name} is already selected.',
-                folderUpload: 'You are not allowed to upload folders.'
+                filesLimit: 'Chỉ có ${limit} tệp được phép tải lên.',
+                filesType: 'Chỉ có ${extensions} được phép tải lên.',
+                fileSize: '${name} quá lớn! Vui lòng chọn tệp có dung lượng tối đa ${fileMaxSize}MB.',
+                filesSizeAll: 'Các tệp bạn chọn quá lớn! Vui lòng tải lên các tệp tối đa ${maxSize} MB.',
+                fileName: 'Tệp có tên ${name} đã được chọn.',
+                folderUpload: 'Bạn không được phép tải lên thư mục.'
             }
         }
     }

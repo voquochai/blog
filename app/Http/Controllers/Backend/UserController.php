@@ -205,25 +205,33 @@ class UserController extends Controller
     }
 
     public function priority(Request $request){
-        $id = $request->id;
-        $user = User::findOrFail($id);
-        $up = $request->priority;
-        $curr = $user->priority;
-        $max = User::where('type',$user->type)->max('priority');
-        if($up > $max){
-            $up = $max;
-        }
-        if( $up > $curr ){
-            User::where('type',$user->type)->whereBetween('priority', [$curr+1, $up])->decrement('priority');
-        }else{
-            User::where('type',$user->type)->whereBetween('priority', [$up, $curr-1])->increment('priority');
-        }
+        if($request->ajax()){
+            $id = $request->id;
+            $user = User::findOrFail($id);
+            $up = $request->priority;
+            $curr = $user->priority;
+            $max = User::where('type',$user->type)->max('priority');
+            if($up > $max){
+                $up = $max;
+            }
+            if( $up > $curr ){
+                User::where('type',$user->type)->whereBetween('priority', [$curr+1, $up])->decrement('priority');
+            }else{
+                User::where('type',$user->type)->whereBetween('priority', [$up, $curr-1])->increment('priority');
+            }
 
-        $user->update(['priority'=>$up]);
-        return response()->json([
-            'head'  =>  'Thành công!',
-            'message'   =>  'Cập nhật thành công.',
-            'class'   =>  'success',
-        ]);
+            $user->update(['priority'=>$up]);
+            return response()->json([
+                'head'  =>  'Thành công!',
+                'message'   =>  'Cập nhật thành công.',
+                'class'   =>  'success',
+            ]);
+        }else{
+            return response()->json([
+                'head'  =>  'Nguy hiểm!',
+                'message'   =>  'Unauthorized.',
+                'class'   =>  'error',
+            ]);
+        }
     }
 }

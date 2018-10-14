@@ -7,6 +7,7 @@ use App\CategoryLanguage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
+use Intervention\Image\Facades\Image;
 
 use Datetime;
 
@@ -58,7 +59,6 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
         $validator = Validator::make($request->all(), [
             'dataL.vi.name'     => 'required|max:255',
             'image' => 'image|max:2048',
@@ -81,7 +81,9 @@ class CategoryController extends Controller
                 }
             }
             if($request->hasFile('image')){
-                $category->image = save_image($this->_data['path'],$request->file('image'),$this->_data['config']['thumbs']);
+                $fileuploader = json_decode($request->input('fileuploader-list-image'),true);
+                $file = $request->file('image');
+                $category->image = save_image($this->_data['path'],$file,$fileuploader[0],$this->_data['config']['thumbs']);
             }
             $category->priority   = Category::where('type',$this->_data['type'])->max('priority')+1;
             $category->status     = $request->input('status') ? implode(',',$request->input('status')) : '';
@@ -166,7 +168,36 @@ class CategoryController extends Controller
             }
             if($request->hasFile('image')){
                 delete_image($this->_data['path'].'/'.$category->image,$this->_data['config']['thumbs']);
-                $category->image = save_image($this->_data['path'],$request->file('image'),$this->_data['config']['thumbs']);
+                $fileuploader = json_decode($request->input('fileuploader-list-image'),true);
+                $file = $request->file('image');
+                $category->image = save_image($this->_data['path'],$file,$fileuploader[0],$this->_data['config']['thumbs']);
+            }elseif( $request->input('fileuploader-list-image') ){
+                $fileuploader = json_decode($request->input('fileuploader-list-image'),true);
+                if( isset($fileuploader[0]['editor']) ){
+                    $path = $this->_data['path']; $image = $category->image; $uploader = $fileuploader[0];
+                    $createImage = function($suffix = '') use ( $path, $image, $uploader ) {
+                        $thumbnailFileName = get_thumbnail($image, $suffix);
+                        $newImage  = Image::make( public_path($path.'/'.$thumbnailFileName) );
+                        if( @$uploader['editor']['rotation'] ){
+                            $rotation = -(int)$uploader['editor']['rotation'];
+                            $newImage->rotate($rotation);
+                        }
+                        if( @$uploader['editor']['crop'] ){
+                            $width  = round($uploader['editor']['crop']['width']);
+                            $height = round($uploader['editor']['crop']['height']);
+                            $left   = round($uploader['editor']['crop']['left']);
+                            $top    = round($uploader['editor']['crop']['top']);
+                            $newImage->crop($width,$height,$left,$top);
+                        }
+                        $newImage->save( public_path($path.'/'.$thumbnailFileName) );
+                    };
+                    $createImage();
+                    if($this->_data['config']['thumbs'] !== null){
+                        foreach($this->_data['config']['thumbs'] as $k => $v){
+                            $createImage($k);
+                        }
+                    }
+                }
             }
             $category->status     = $request->input('status') ? implode(',',$request->input('status')) : '';
             $category->parent_id  = $request->input('parent_id');
@@ -217,7 +248,7 @@ class CategoryController extends Controller
                 ]);
             }else{
                 if($category->delete()){
-                    delete_image($this->_data['path'].'/'.$category->image,$this->_data['thumbs']);
+                    delete_image($this->_data['path'].'/'.$category->image,$this->_data['config']['thumbs']);
                     Category::where('type',$category->type)->where('priority', '>', $category->priority)->decrement('priority');
                     return response()->json([
                         'head'  =>  'Thành công!',
@@ -285,26 +316,53 @@ class CategoryController extends Controller
     }
 
     public function priority(Request $request){
-        $id = $request->id;
-        $category = Category::findOrFail($id);
-        
-        $up = $request->priority;
-        $curr = $category->priority;
-        $max = Category::where('type',$category->type)->max('priority');
-        if($up > $max){
-            $up = $max;
-        }
-        if( $up > $curr ){
-            Category::where('type',$category->type)->whereBetween('priority', [$curr+1, $up])->decrement('priority');
-        }else{
-            Category::where('type',$category->type)->whereBetween('priority', [$up, $curr-1, ])->increment('priority');
-        }
+        if($request->ajax()){
+            $id = $request->id;
+            $category = Category::findOrFail($id);
+            
+            $up = $request->priority;
+            $curr = $category->priority;
+            $max = Category::where('type',$category->type)->max('priority');
+            if($up > $max){
+                $up = $max;
+            }
+            if( $up > $curr ){
+                Category::where('type',$category->type)->whereBetween('priority', [$curr+1, $up])->decrement('priority');
+            }else{
+                Category::where('type',$category->type)->whereBetween('priority', [$up, $curr-1, ])->increment('priority');
+            }
 
-        $category->update(['priority'=>$up]);
-        return response()->json([
-            'head'  =>  'Thành công!',
-            'message'   =>  'Cập nhật thành công.',
-            'class'   =>  'success',
-        ]);
+            $category->update(['priority'=>$up]);
+            return response()->json([
+                'head'  =>  'Thành công!',
+                'message'   =>  'Cập nhật thành công.',
+                'class'   =>  'success',
+            ]);
+        }else{
+            return response()->json([
+                'head'  =>  'Nguy hiểm!',
+                'message'   =>  'Unauthorized.',
+                'class'   =>  'error',
+            ]);
+        }
+    }
+
+    public function remove(Request $request, $id){
+        if($request->ajax()){
+            $category = Category::findOrFail($id);
+            delete_image($this->_data['path'].'/'.$category->image,$this->_data['config']['thumbs']);
+            $category->update(['image'=>'']);
+            return response()->json([
+                'head'  =>  'Thành công!',
+                'message'   =>  'Xóa hình ảnh thành công.',
+                'class'   =>  'success',
+            ]);
+        }else{
+            return response()->json([
+                'head'  =>  'Nguy hiểm!',
+                'message'   =>  'Unauthorized.',
+                'class'   =>  'error',
+            ]);
+        }
     }
 }

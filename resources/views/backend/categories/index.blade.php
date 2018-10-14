@@ -60,7 +60,7 @@
                                     </td>
                                     <td><a href="{{ route('admin.categories.edit', ['id'=>$item->id, 'type'=>$type]) }}">{{ $prefix.' '.$item->languages[0]->name }}</a></td>
                                     @if($config['image'])
-                                    <td align="center"> {!! ($item->image && file_exists(public_path(get_thumbnail($path.'/'.$item->image))) ) ? '<img src="'.asset(get_thumbnail('public/'.$path.'/'.$item->image)).'" height="50" />':'' !!} </td>
+                                    <td align="center"> <a href="{{ route('admin.categories.edit', ['id'=>$item->id, 'type'=>$type]) }}"> {!! ($item->image && file_exists(public_path(get_thumbnail($path.'/'.$item->image))) ) ? '<img src="'.asset(get_thumbnail('public/'.$path.'/'.$item->image)).'" height="50" />':'' !!} </a> </td>
                                     @endif
                                     <td align="center">{{ $item->created_at }}</td>
                                     <td align="center">

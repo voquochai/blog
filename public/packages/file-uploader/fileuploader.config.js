@@ -1,5 +1,11 @@
 $(document).ready(function() {
-    var saveEditedImage = function(image, item) {
+    axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+    const swalWithBootstrapButtons = swal.mixin({
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+    });
+    const saveEditedImage = function(image, item) {
         // set new image
         item.editor._blob = image;
         // if still uploading
@@ -45,8 +51,9 @@ $(document).ready(function() {
         }
     };
 
-    $('input[data-fileuploader-single]').fileuploader({
+    $('input[data-fileuploader="single"]').fileuploader({
         limit: 1,
+        addMore: false,
         extensions: ['jpg', 'jpeg', 'png', 'gif'],
         changeInput: '',
         theme: 'thumbnails',
@@ -88,6 +95,7 @@ $(document).ready(function() {
                 '</li>',
             startImageRenderer: true,
             canvasImage: false,
+            removeConfirmation: false,
             _selectors: {
                 list: '.fileuploader-items-list',
                 item: '.fileuploader-item',
@@ -115,10 +123,39 @@ $(document).ready(function() {
             });
         },
         onRemove: function(item, listEl, parentEl, newInputEl, inputEl) {
-            var plusInput = listEl.find('.fileuploader-thumbnails-input'),
-                api = $.fileuploader.getInstance(inputEl.get(0));
-            if (api.getOptions().limit && api.getChoosedFiles().length - 1 < api.getOptions().limit)
-                plusInput.show();
+            
+            console.log(item);
+            var url = window.location.href.split(/[?#]/)[0];
+            url = url.split('/create')[0]; url = url.split('/edit')[0];
+
+            swalWithBootstrapButtons({
+                title: 'Xóa dữ liệu?',
+                text: "Bạn không thể hoàn nguyên thao tác này!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Có, đồng ý xóa!',
+                cancelButtonText: 'Không, hủy bỏ!',
+                reverseButtons: true
+            }).then((res) => {
+                if (res.value) {
+
+                    var plusInput = listEl.find('.fileuploader-thumbnails-input'),
+                    api = $.fileuploader.getInstance(inputEl.get(0));
+
+                    axios.delete( url + '/remove')
+                    .then(res => {
+                        if(res.data.class === 'success'){
+                            if (api.getOptions().limit && api.getChoosedFiles().length - 1 < api.getOptions().limit)
+                                plusInput.show();
+                        }
+                        swalWithBootstrapButtons(res.data.head,res.data.message,res.data.class);
+                    }).catch(error => {
+                        $.NotificationApp.send(error.response.status, error.response.statusText, "top-right", "rgba(0,0,0,0.2)", 'error');
+                    });
+                } else if ( res.dismiss === swal.DismissReason.cancel ) {
+                    swalWithBootstrapButtons('Hủy bỏ','Bạn đã hủy bỏ thao tác này.','error')
+                }
+            });
         },
         editor: {
             cropper: {
@@ -127,11 +164,11 @@ $(document).ready(function() {
             maxWidth: 800,
             maxHeight: 600,
             quality: 98
-        },
+        }
     });
 
 
-    $('input[name="files"]').fileuploader({
+    $('input[data-fileuploader="multiple"]').fileuploader({
         addMore: true,
         extensions: ['jpg', 'jpeg', 'png', 'gif'],
         changeInput: '<div class="fileuploader-input">' +

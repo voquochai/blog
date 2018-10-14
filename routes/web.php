@@ -29,6 +29,7 @@ Route::prefix('admin')->namespace('Backend')->name('admin.')->group(function () 
 
 		Route::post('categories/status', 'CategoryController@status')->name('categories.status');
 		Route::post('categories/priority', 'CategoryController@priority')->name('categories.priority');
+		Route::delete('categories/{id}/remove', 'CategoryController@remove')->name('categories.remove')->where('id','[0-9]+');
 	});
 });
 

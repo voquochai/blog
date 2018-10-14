@@ -74,7 +74,7 @@ class ToolFactory {
         }
     }
 
-    public function saveImage($path,$image,$thumbs = ['_small' => ['width' => 300, 'height' => 200 ]]) {
+    public function saveImage($path,$image,$uploader,$thumbs = ['_small' => ['width' => 300, 'height' => 200 ]]) {
         if ( !empty($image) ) {
             $folderName = date('Y-m');
             $fileName = $image->getClientOriginalName();
@@ -93,7 +93,25 @@ class ToolFactory {
             }
             // Di chuyển file vào folder Uploads
             $imageName = "$folderName/$fileName";
-            $image->move( public_path($path.'/'.$folderName), $fileName );
+            
+
+            if( isset($uploader['editor']) ){
+                $newImage  = Image::make( $image );
+                if( @$uploader['editor']['rotation'] ){
+                    $rotation = -(int)$uploader['editor']['rotation'];
+                    $newImage->rotate($rotation);
+                }
+                if( @$uploader['editor']['crop'] ){
+                    $width  = round($uploader['editor']['crop']['width']);
+                    $height = round($uploader['editor']['crop']['height']);
+                    $left   = round($uploader['editor']['crop']['left']);
+                    $top    = round($uploader['editor']['crop']['top']);
+                    $newImage->crop($width,$height,$left,$top);
+                }
+                $newImage->save( public_path($path.'/'.$imageName) );
+            }else{
+                $image->move( public_path($path.'/'.$folderName), $fileName );
+            }
 
             // Tạo các hình ảnh theo tỉ lệ giao diện
             $createImage = function($suffix = '_small', $width = 300, $height = 200) use($path, $folderName, $imageName, $fileNameSlug, $fileExtension) {
