@@ -17,9 +17,8 @@ class AttributeController extends Controller
 
     public function __construct(Request $request){
         $this->_data['type'] = $request->type ? $request->type : 'default';
-        $this->_data['path'] = config('siteconfigs.category.path');
         $this->_data['language'] = config('siteconfigs.general.language');
-        $this->_data['config'] = config('siteconfigs.category.'.$this->_data['type']);
+        $this->_data['config'] = config('siteconfigs.attribute.'.$this->_data['type']);
         $this->_data['page_title'] = $this->_data['config']['page-title'];
     }
     
@@ -30,7 +29,10 @@ class AttributeController extends Controller
      */
     public function index()
     {
-        //
+        $this->_data['items'] = Attribute::with(['languages' => function ($query) {
+                $query->where('language', $this->_data['language']);
+            }])->where('type',$this->_data['type'])->orderBy('priority', 'asc')->paginate(25);
+        return view('backend.attributes.index',$this->_data);
     }
 
     /**

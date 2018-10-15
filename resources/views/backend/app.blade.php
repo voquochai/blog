@@ -16,6 +16,7 @@
         <link href="{{ asset('public/packages/toast/toast.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('public/packages/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('public/packages/validationEngine/css/validationEngine.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('public/packages/waves/waves.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('public/backend/css/app.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('public/backend/css/responsive.css') }}" rel="stylesheet" type="text/css">
         @yield('style')
@@ -76,6 +77,7 @@
         <script src="{{ asset('public/packages/slimScroll/jquery.slimscroll.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('public/packages/validationEngine/js/validationEngine.js') }}" type="text/javascript"></script>
         <script src="{{ asset('public/packages/validationEngine/js/languages/jquery.validationEngine-vi.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('public/packages/waves/waves.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('public/backend/js/app.js') }}" type="text/javascript"></script>
         @yield('script')
     </body>

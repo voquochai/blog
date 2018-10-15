@@ -32,6 +32,10 @@ Route::prefix('admin')->namespace('Backend')->name('admin.')->group(function () 
 		Route::post('suppliers/status', 'SupplierController@status')->name('suppliers.status');
 		Route::post('suppliers/priority', 'SupplierController@priority')->name('suppliers.priority');
 
+		Route::resource('attributes', 'AttributeController');
+		Route::post('attributes/status', 'AttributeController@status')->name('attributes.status');
+		Route::post('attributes/priority', 'AttributeController@priority')->name('attributes.priority');
+
 		Route::resource('products', 'ProductController');
 
 

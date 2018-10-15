@@ -16,6 +16,7 @@
         <link href="<?php echo e(asset('public/packages/toast/toast.min.css')); ?>" rel="stylesheet" type="text/css">
         <link href="<?php echo e(asset('public/packages/sweetalert2/sweetalert2.min.css')); ?>" rel="stylesheet" type="text/css">
         <link href="<?php echo e(asset('public/packages/validationEngine/css/validationEngine.css')); ?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo e(asset('public/packages/waves/waves.min.css')); ?>" rel="stylesheet" type="text/css">
         <link href="<?php echo e(asset('public/backend/css/app.css')); ?>" rel="stylesheet" type="text/css">
         <link href="<?php echo e(asset('public/backend/css/responsive.css')); ?>" rel="stylesheet" type="text/css">
         <?php echo $__env->yieldContent('style'); ?>
@@ -77,6 +78,7 @@
         <script src="<?php echo e(asset('public/packages/slimScroll/jquery.slimscroll.min.js')); ?>" type="text/javascript"></script>
         <script src="<?php echo e(asset('public/packages/validationEngine/js/validationEngine.js')); ?>" type="text/javascript"></script>
         <script src="<?php echo e(asset('public/packages/validationEngine/js/languages/jquery.validationEngine-vi.js')); ?>" type="text/javascript"></script>
+        <script src="<?php echo e(asset('public/packages/waves/waves.min.js')); ?>" type="text/javascript"></script>
         <script src="<?php echo e(asset('public/backend/js/app.js')); ?>" type="text/javascript"></script>
         <?php echo $__env->yieldContent('script'); ?>
     </body>

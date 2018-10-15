@@ -156,7 +156,9 @@ function(e) {
 function(e) {
     "use strict";
     var t = function() {};
-    t.prototype.initTooltipPlugin = function() {
+    t.prototype.initWaves = function() {
+        var config = { duration: 500, delay: 200 }; Waves.init(config), Waves.attach('.side-nav a', ['waves-light']), Waves.attach('.btn', ['waves-light']);
+    }, t.prototype.initTooltipPlugin = function() {
         e.fn.tooltip && e('[data-toggle="tooltip"]').tooltip()
     }, t.prototype.initPopoverPlugin = function() {
         e.fn.popover && e('[data-toggle="popover"]').popover()
@@ -186,7 +188,7 @@ function(e) {
                 e(this).val(str);
             })
     }, t.prototype.init = function() {
-        this.initTooltipPlugin(), this.initPopoverPlugin(), this.initSlimScrollPlugin(), this.initFormValidation(), this.initCheckboxGroup(), this.initSlug()
+        this.initWaves(), this.initTooltipPlugin(), this.initPopoverPlugin(), this.initSlimScrollPlugin(), this.initFormValidation(), this.initCheckboxGroup(), this.initSlug()
     }, e.Components = new t, e.Components.Constructor = t
 }(window.jQuery),
 function(e) {

@@ -316,11 +316,11 @@ return [
 	],
 	'attribute' => [
 		'san-pham' 	=>	[
-			'product_colors'	=>	true,
-			'product_sizes'	=>	true,
-			'product_tags'	=>	true,
+			'product_color'	=>	true,
+			'product_size'	=>	true,
+			'product_tag'	=>	true,
 		],
-		'product_colors' 	=>	[
+		'product_color' 	=>	[
 			'page-title'	=>	'Màu sắc',
 			'price'			=>	false,
 			'colorpicker'	=>	true,
@@ -328,7 +328,7 @@ return [
 				'publish'     => 'Hiển thị',
 			]
 		],
-		'product_sizes' 	=>	[
+		'product_size' 	=>	[
 			'page-title'	=>	'Kích cỡ',
 			'price'			=>	false,
 			'colorpicker'	=>	false,
@@ -336,7 +336,7 @@ return [
 				'publish'     => 'Hiển thị',
 			]
 		],
-		'product_tags' 	=>	[
+		'product_tag' 	=>	[
 			'page-title'	=>	'Thẻ',
 			'price'			=>	false,
 			'colorpicker'	=>	false,

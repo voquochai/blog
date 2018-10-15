@@ -27,7 +27,7 @@
             </li>
 
             <li class="side-nav-item">
-                <a href="javascript: void(0);" class="side-nav-link">
+                <a href="javascript: void(0);" class="side-nav-link waves-light">
                     <i class="mdi mdi-checkbox-marked-circle-outline"></i>
                     <span> Sản phẩm </span>
                     <span class="menu-arrow"></span>
