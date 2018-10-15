@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('content'); ?>
 <div class="row">
 	<div class="col-12">
@@ -59,6 +58,7 @@
                                 <label class="col-form-label col-lg-2 col-12">Font Icon</label>
                                 <div class="col-lg-10 col-12">
                                     <input type="text" name="data[icon]" class="form-control" value="<?php echo e(old('data.icon')); ?>">
+                                    <small> Find here: <a href="https://cdn.materialdesignicons.com/2.8.94/" target="_blank">Material Design Icons</a> </small>
                                 </div>
                             </div>
                             <?php endif; ?>

@@ -30,20 +30,6 @@ return [
 		'3'	=>	'primary',
 		'4'	=>	'danger',
 	],
-	'payment_method_thuexe' => [
-		'1'	=>	'Thanh toán tại cửa hàng',
-		'2'	=>	'Chuyển khoản ngân hàng',
-	],
-	'order_thuexe_status' => [
-		'1'	=>	'Đang thuê xe',
-		'2'	=>	'Đã hoàn thành',
-		'3'	=>	'Hủy phiếu',
-	],
-	'order_thuexe_labels' => [
-		'1'	=>	'warning',
-		'2'	=>	'success',
-		'3'	=>	'danger',
-	],
 	'order' => [
 		'san-pham' 	=>	[
 			'page-title'	=>	'Đơn hàng',
@@ -94,7 +80,6 @@ return [
 			],
 		],
 	],
-
 	'user'	=>	[
 		'mod' 	=>	[
 			'page-title'	=>	'Tài khoản',
@@ -109,7 +94,6 @@ return [
 			]
 		],
 	],
-
 	'category' => [
 		'san-pham'	=>	[
 			'page-title'	=>	'Danh mục',
@@ -332,18 +316,9 @@ return [
 	],
 	'attribute' => [
 		'san-pham' 	=>	[
-			'product_hosting'	=>	false,
 			'product_colors'	=>	true,
 			'product_sizes'	=>	true,
-			'product_tags'	=>	false,
-		],
-		'product_hosting' 	=>	[
-			'page-title'	=>	'Hosting',
-			'price'			=>	true,
-			'colorpicker'	=>	false,
-			'status'      => [
-				'publish'     => 'Hiển thị',
-			]
+			'product_tags'	=>	true,
 		],
 		'product_colors' 	=>	[
 			'page-title'	=>	'Màu sắc',

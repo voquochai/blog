@@ -123,9 +123,11 @@ class UserController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }else{
-            $user->name       =   $request->input('name');
+            if ($request->has('password')) {
+                $user->password = bcrypt($request->input('password'));
+            }
+            $user->name       =  $request->input('name');
             $user->email      =  $request->input('email');
-            $user->password   =  bcrypt($request->input('password'));
             $user->status     =  $request->input('status') ? implode(',',$request->input('status')) : '';
             $user->updated_at =  new Datetime();
             $user->save();

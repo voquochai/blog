@@ -36,6 +36,9 @@
                     <li>
                         <a href="{{ route('admin.categories.index', ['type'=>'san-pham']) }}">Danh mục</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.suppliers.index', ['type'=>'default']) }}">Nhà cung cấp</a>
+                    </li>
                 </ul>
             </li>
 

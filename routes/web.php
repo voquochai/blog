@@ -18,18 +18,23 @@ Route::prefix('admin')->namespace('Backend')->name('admin.')->group(function () 
 	Auth::routes();
 	Route::middleware('auth')->group(function () {
 		Route::get('/', 'DashboardController@index')->name('dashboard');
-		
-		Route::resources([
-			'users' => 'UserController',
-			'categories' => 'CategoryController',
-		]);
 
+		Route::resource('users', 'UserController');
 		Route::post('users/status', 'UserController@status')->name('users.status');
 		Route::post('users/priority', 'UserController@priority')->name('users.priority');
 
+		Route::resource('categories', 'CategoryController');
 		Route::post('categories/status', 'CategoryController@status')->name('categories.status');
 		Route::post('categories/priority', 'CategoryController@priority')->name('categories.priority');
 		Route::delete('categories/{id}/remove', 'CategoryController@remove')->name('categories.remove')->where('id','[0-9]+');
+
+		Route::resource('suppliers', 'SupplierController');
+		Route::post('suppliers/status', 'SupplierController@status')->name('suppliers.status');
+		Route::post('suppliers/priority', 'SupplierController@priority')->name('suppliers.priority');
+
+		Route::resource('products', 'ProductController');
+
+
 	});
 });
 
