@@ -32,6 +32,9 @@
                     <li>
                         <a href="<?php echo e(route('admin.suppliers.index', ['type'=>'default'])); ?>">Nhà cung cấp</a>
                     </li>
+                    <li>
+                        <a href="<?php echo e(route('admin.attributes.index', ['type'=>'color'])); ?>">Color</a>
+                    </li>
                 </ul>
             </li>
 

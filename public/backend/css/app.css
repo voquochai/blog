@@ -161,7 +161,7 @@ input[data-switch=dark]:checked + label {
 }
 input.form-control[type=color],
 input.form-control[type=range] {
-    min-height: 39px
+    min-width: 88px
 }
 select.form-control:not([size]):not([multiple]) {
     height: calc(2.2125rem + 2px)

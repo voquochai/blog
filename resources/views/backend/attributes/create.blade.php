@@ -22,51 +22,36 @@
                     @csrf
                     <div class="tab-content">
                         <div class="tab-pane show active" id="general">
+
+                            @if($config['price'])
                             <div class="form-group row">
-                                <label class="col-form-label col-lg-2 col-12">Chọn danh mục</label>
+                                <label class="col-form-label col-lg-2 col-12"> Giá bán </label>
                                 <div class="col-lg-10 col-12">
-                                    <select name="parent_id" class="selectpicker form-control">
-                                        <option value="0"> Danh mục cha </option>
-                                        @php
-                                        $traverse = function ($categories, $prefix = '') use (&$traverse, $config, $type) {
-                                            foreach ($categories as $category) {
-                                                echo '<option value="'.$category->id.'">'.$prefix.' '.$category->languages[0]->name.'</option>';
-                                                $traverse($category->children, $prefix.'|--');
-                                            }
-                                        };
-                                        $traverse($categories);
-                                        @endphp
-                                    </select>
-                                </div>
-                            </div>
-                            @if($config['image'])
-                            <div class="form-group row">
-                                <label class="col-form-label col-lg-2 col-12">Hình ảnh</label>
-                                <div class="col-lg-10 col-12">
-                                    <input type="file" name="image" data-fileuploader="single">
+                                    <input type="text" name="regular_price" class="form-control validate[custom[integer]]" value="{{ old('regular_price') }}">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-form-label col-lg-2 col-12">Alt</label>
+                                <label class="col-form-label col-lg-2 col-12"> Giá khuyến mãi </label>
                                 <div class="col-lg-10 col-12">
-                                    <input type="text" name="data[alt]" class="form-control" value="{{ old('data.alt') }}">
+                                    <input type="text" name="sale_price" class="form-control validate[custom[integer]]" value="{{ old('sale_price') }}">
                                 </div>
                             </div>
                             @endif
-                            
-                            @if($config['icon'])
+
+                            @if($config['colorpicker'])
                             <div class="form-group row">
-                                <label class="col-form-label col-lg-2 col-12">Font Icon</label>
-                                <div class="col-lg-10 col-12">
-                                    <input type="text" name="data[icon]" class="form-control" value="{{ old('data.icon') }}">
-                                    <small> Find here: <a href="https://cdn.materialdesignicons.com/2.8.94/" target="_blank">Material Design Icons</a> </small>
+                                <label class="col-form-label col-lg-2 col-12">Mã màu</label>
+                                <div class="col-lg-auto col-12">
+                                    <input type="color" name="data[value]" class="form-control validate[required]" value="{{ old('data.value') }}">
                                 </div>
                             </div>
                             @endif
+
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Thứ tự</label>
                                 <div class="col-lg-auto col-12"><input type="number" name="priority" class="form-control" value="{{ $priority+1 }}" min="1" max="9999" placeholder="Thứ tự" disabled></div>
                             </div>
+
                             <div class="form-group row">
                                 <label class="col-lg-2 col-auto">Tình trạng</label>
                                 <div class="col-lg-10 col">
@@ -84,44 +69,8 @@
                         <div class="tab-pane" id="language-{{ $key }}">
                             <div class="form-group">
                                 <label>Tiêu đề</label>
-                                <input type="text" name="dataL[{{ $key }}][name]" class="form-control {{ $key==config('siteconfigs.general.language') ? 'validate[required] link-to-slug' : '' }}" placeholder="Tiêu đề" value="{{ old('dataL.'.$key.'.name') }}">
+                                <input type="text" name="dataL[{{ $key }}][name]" class="form-control {{ $key==config('siteconfigs.general.language') ? 'validate[required]' : '' }}" placeholder="Tiêu đề" value="{{ old('dataL.'.$key.'.name') }}">
                             </div>
-                            @if( $key==config('siteconfigs.general.language') )
-                            <div class="form-group">
-                                <label>Slug</label>
-                                <input type="text" name="dataL[{{ $key }}][slug]" class="form-control slug" placeholder="Slug" value="{{ old('dataL.'.$key.'.slug') }}">
-                            </div>
-                            @endif
-
-                            @if($config['description'])
-                            <div class="form-group">
-                                <label>Mô tả</label>
-                                <textarea name="dataL[{{ $key }}][description]" class="form-control" rows="5" placeholder="Mô tả" >{{ old('dataL.'.$key.'.description') }}</textarea>
-                            </div>
-                            @endif
-
-                            @if($config['contents'])
-                            <div class="form-group">
-                                <label class="control-label">Nội dung</label>
-                                <textarea name="dataL[{{ $key }}][contents]" class="form-control tinymce-editor" rows="6" placeholder="Nội dung" >{{ old('dataL.'.$key.'.contents') }}</textarea>
-                            </div>
-                            @endif
-
-                            @if($config['meta'])
-                            <div class="form-group">
-                                <label>Meta title</label>
-                                <input type="text" name="dataL[{{ $key }}][meta][title]" class="form-control" placeholder="Meta title" value="{{ old('dataL.'.$key.'.meta.title') }}">
-                            </div>
-                            <div class="form-group">
-                                <label>Meta keywords</label>
-                                <input type="text" name="dataL[{{ $key }}][meta][keywords]" class="form-control" placeholder="Meta keywords" value="{{ old('dataL.'.$key.'.meta.keywords') }}">
-                            </div>
-                            <div class="form-group">
-                                <label>Meta description</label>
-                                <textarea type="text" name="dataL[{{ $key }}][meta][description]" class="form-control" placeholder="Meta description" rows="5">{{ old('dataL.'.$key.'.meta.description') }}</textarea>
-                            </div>
-                            @endif
-
                         </div>
                         @empty
                         @endforelse
@@ -136,14 +85,7 @@
 @endsection
 
 @section('style')
-<link href="{{ asset('public/packages/file-uploader/fileuploader.css') }}" rel="stylesheet" type="text/css">
 @endsection
 
 @section('script')
-<script src="{{ asset('public/packages/file-uploader/fileuploader.js') }}" type="text/javascript"></script>
-<script src="{{ asset('public/packages/file-uploader/fileuploader.config.js') }}" type="text/javascript"></script>
-@if($config['contents'])
-<script src="{{ asset('public/packages/tinymce/tinymce.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('public/packages/tinymce/tinymce.config.js') }}" type="text/javascript"></script>
-@endif
 @endsection
