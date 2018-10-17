@@ -79,6 +79,8 @@
         <script src="<?php echo e(asset('public/packages/validationEngine/js/validationEngine.js')); ?>" type="text/javascript"></script>
         <script src="<?php echo e(asset('public/packages/validationEngine/js/languages/jquery.validationEngine-vi.js')); ?>" type="text/javascript"></script>
         <script src="<?php echo e(asset('public/packages/waves/waves.min.js')); ?>" type="text/javascript"></script>
+        <script src="<?php echo e(asset('public/packages/jquery.mask.min.js')); ?>" type="text/javascript"></script>
+        <script src="<?php echo e(asset('public/packages/jquery.bootstrap-touchspin.min.js')); ?>" type="text/javascript"></script>
         <script src="<?php echo e(asset('public/backend/js/app.js')); ?>" type="text/javascript"></script>
         <?php echo $__env->yieldContent('script'); ?>
     </body>

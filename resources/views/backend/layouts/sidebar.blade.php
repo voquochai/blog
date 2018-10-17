@@ -42,6 +42,9 @@
                     <li>
                         <a href="{{ route('admin.attributes.index', ['type'=>'color']) }}">Color</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.products.index', ['type'=>'san-pham']) }}">Sản phẩm</a>
+                    </li>
                 </ul>
             </li>
 

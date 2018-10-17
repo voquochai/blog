@@ -87,7 +87,6 @@ class CategoryController extends Controller
             }
             $category->priority   = Category::where('type',$this->_data['type'])->max('priority')+1;
             $category->status     = $request->input('status') ? implode(',',$request->input('status')) : '';
-            $category->parent_id  = $request->input('parent_id');
             $category->type       = $this->_data['type'];
             $category->created_at = new DateTime();
             $category->updated_at = new DateTime();
@@ -200,7 +199,6 @@ class CategoryController extends Controller
                 }
             }
             $category->status     = $request->input('status') ? implode(',',$request->input('status')) : '';
-            $category->parent_id  = $request->input('parent_id');
             $category->type       = $this->_data['type'];
             $category->updated_at = new DateTime();
             $category->save();

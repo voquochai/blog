@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('content'); ?>
 <div class="row">
 	<div class="col-12">
@@ -32,7 +31,7 @@
                                         <label class="custom-control-label" for="customCheckAll"></label>
                                     </div>
                             	</th>
-                                <th style="width: 5%;">#</th>
+                                <th style="width: 1%; text-align: center;">#</th>
                                 <th>Họ và tên</th>
                                 <th>Email</th>
                                 <th>Ngày đăng ký</th>
@@ -52,8 +51,8 @@
                                 <td>
                                     <input type="text" name="priority" value="<?php echo e($item->priority); ?>" class="form-control form-control-sm form-control-light" onchange="$.Tools.updatePriority(<?php echo e($item->id); ?>, this.value, event)" />
                                 </td>
-                                <td><?php echo e($item->name); ?></td>
-                                <td><?php echo e($item->email); ?></td>
+                                <td><a href="<?php echo e(route('admin.suppliers.edit', ['id'=>$item->id, 'type'=>$type])); ?>"><?php echo e($item->name); ?></a></td>
+                                <td><a href="<?php echo e(route('admin.suppliers.edit', ['id'=>$item->id, 'type'=>$type])); ?>"><?php echo e($item->email); ?></a></td>
                                 <td><?php echo e($item->created_at); ?></td>
                                 <td>
                                     <?php $__empty_2 = true; $__currentLoopData = $config['status']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $v): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_2 = false; ?>

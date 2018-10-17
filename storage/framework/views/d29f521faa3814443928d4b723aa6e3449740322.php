@@ -25,17 +25,17 @@
                     <table class="table table-centered">
                         <thead class="thead-light">
                             <tr>
-                                <th width="1%" style="text-align: center;">
+                                <th style="width: 1%; text-align: center;">
                                     <div class="custom-control custom-checkbox custom-checkbox-all custom-checkbox-single">
                                         <input type="checkbox" name="" class="custom-control-input" id="customCheckAll" data-group="all">
                                         <label class="custom-control-label" for="customCheckAll"></label>
                                     </div>
                                 </th>
-                                <th width="1%" style="text-align: center;">#</th>
+                                <th style="width: 1%; text-align: center;">#</th>
                                 <th>Tiêu đề</th>
-                                <th width="15%" style="text-align: center;">Ngày tạo</th>
-                                <th width="20%" style="text-align: center;">Tình trạng</th>
-                                <th width="20%" style="text-align: center;">Thực thi</th>
+                                <th>Ngày tạo</th>
+                                <th>Tình trạng</th>
+                                <th>Thực thi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -50,7 +50,7 @@
                                 <td>
                                     <input type="text" name="priority" value="<?php echo e($item->priority); ?>" class="form-control form-control-sm form-control-light" onchange="$.Tools.updatePriority(<?php echo e($item->id); ?>, this.value, event)" />
                                 </td>
-                                <td><?php echo e($item->languages[0]->name); ?></td>
+                                <td><a href="<?php echo e(route('admin.attributes.edit', ['id'=>$item->id, 'type'=>$type])); ?>"><?php echo e($item->languages[0]->name); ?></a></td>
                                 <td><?php echo e($item->created_at); ?></td>
                                 <td>
                                     <?php $__empty_2 = true; $__currentLoopData = $config['status']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $v): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_2 = false; ?>

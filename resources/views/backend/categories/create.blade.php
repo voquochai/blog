@@ -20,17 +20,23 @@
                 </ul>
                 <form method="post" class="form-validation" action="{{ route('admin.categories.store', ['type'=>$type]) }}" novalidate="" enctype="multipart/form-data">
                     @csrf
+                    @php
+                        if( old('data.parent_id') )
+                            $parent_id = old('data.parent_id');
+                        else
+                            $parent_id = 0;
+                    @endphp
                     <div class="tab-content">
                         <div class="tab-pane show active" id="general">
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Chọn danh mục</label>
                                 <div class="col-lg-10 col-12">
-                                    <select name="parent_id" class="selectpicker form-control">
-                                        <option value="0"> Danh mục cha </option>
+                                    <select name="data[parent_id]" class="selectpicker form-control">
+                                        <option value="0"> -- Danh mục cha -- </option>
                                         @php
-                                        $traverse = function ($categories, $prefix = '') use (&$traverse, $config, $type) {
+                                        $traverse = function ($categories, $prefix = '') use (&$traverse, $parent_id, $config, $type) {
                                             foreach ($categories as $category) {
-                                                echo '<option value="'.$category->id.'">'.$prefix.' '.$category->languages[0]->name.'</option>';
+                                                echo '<option value="'.$category->id.'" '.($category->id == $parent_id ? 'selected' : '').' >'.$prefix.' '.$category->languages[0]->name.'</option>';
                                                 $traverse($category->children, $prefix.'|--');
                                             }
                                         };
@@ -102,7 +108,7 @@
 
                             @if($config['contents'])
                             <div class="form-group">
-                                <label class="control-label">Nội dung</label>
+                                <label>Nội dung</label>
                                 <textarea name="dataL[{{ $key }}][contents]" class="form-control tinymce-editor" rows="6" placeholder="Nội dung" >{{ old('dataL.'.$key.'.contents') }}</textarea>
                             </div>
                             @endif

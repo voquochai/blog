@@ -35,6 +35,9 @@
                     <li>
                         <a href="<?php echo e(route('admin.attributes.index', ['type'=>'color'])); ?>">Color</a>
                     </li>
+                    <li>
+                        <a href="<?php echo e(route('admin.products.index', ['type'=>'san-pham'])); ?>">Sản phẩm</a>
+                    </li>
                 </ul>
             </li>
 

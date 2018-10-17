@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('content'); ?>
 <div class="row">
 	<div class="col-12">
@@ -32,7 +31,7 @@
                                         <label class="custom-control-label" for="customCheckAll"></label>
                                     </div>
                             	</th>
-                                <th style="width: 5%;">#</th>
+                                <th style="width: 1%; text-align: center;">#</th>
                                 <th>Họ và tên</th>
                                 <th>Email</th>
                                 <th>Ngày đăng ký</th>

@@ -1,4 +1,27 @@
-!function(e) {
+!function(t) {
+    "use strict";
+    var e = function() {
+        this.$body = t("body"), this.$window = t(window)
+    };
+    e.prototype.initMask = function() {
+        t('[data-toggle="input-mask"]').each(function(e, n) {
+            var i = t(n).data("maskFormat"),
+                s = t(n).data("reverse");
+            null != s ? t(n).mask(i, {
+                reverse: s
+            }) : t(n).mask(i)
+        })
+    }, e.prototype.initTouchspin = function() {
+        var e = {};
+        t('[data-toggle="touchspin"]').each(function(n, i) {
+            var s = t.extend({}, e, t(i).data());
+            t(i).TouchSpin(s)
+        })
+    }, e.prototype.init = function() {
+        this.initMask(), this.initTouchspin()
+    }, t.AdvanceFormApp = new e, t.AdvanceFormApp.Constructor = e
+}(window.jQuery),
+function(e) {
     "use strict";
     var t = function() {};
     t.prototype.send = function(t, n, i, r, o, s, a, l) {
@@ -45,6 +68,8 @@ function(e) {
     },  t.prototype.updatePriority = function(id,priority,event) {
         event.preventDefault();
         var btn = event.target;
+        console.log(btn);
+        btn.disabled = true;
         axios.post( url + '/priority',{
             id: id,
             priority: priority
@@ -52,6 +77,7 @@ function(e) {
             // if(res.data.class === 'success'){
             //     e(btn).toggleClass('btn-info').toggleClass('btn-secondary');
             // }
+            btn.disabled = false;
             e.NotificationApp.send(res.data.head, res.data.message, "top-right", "rgba(0,0,0,0.2)", res.data.class);
         }).catch(error => {
             e.NotificationApp.send(error.response.status, error.response.statusText, "top-right", "rgba(0,0,0,0.2)", 'error');
@@ -230,7 +256,7 @@ function(e) {
         this.$window.width() >= 768 && this.$window.width() <= 1028 ? this.$body.addClass("enlarged") : 1 != this.$body.data("keep-enlarged") && this.$body.removeClass("enlarged")
     },  t.prototype.init = function() {
         var t = this;
-        this.initLayout(), this.initMenu(), e.Components.init(), t.$window.on("resize", function(e) {
+        this.initLayout(), this.initMenu(), e.AdvanceFormApp.init(), e.Components.init(), t.$window.on("resize", function(e) {
             e.preventDefault(), t.initLayout(), t._resetSidebarScroll()
         })
     },  e.App = new t, e.App.Constructor = t

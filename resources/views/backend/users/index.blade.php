@@ -32,7 +32,7 @@
                                         <label class="custom-control-label" for="customCheckAll"></label>
                                     </div>
                             	</th>
-                                <th style="width: 5%;">#</th>
+                                <th style="width: 1%; text-align: center;">#</th>
                                 <th>Họ và tên</th>
                                 <th>Email</th>
                                 <th>Ngày đăng ký</th>
@@ -52,7 +52,7 @@
                                 <td>
                                     <input type="text" name="priority" value="{{ $item->priority }}" class="form-control form-control-sm form-control-light" onchange="$.Tools.updatePriority({{ $item->id }}, this.value, event)" />
                                 </td>
-                                <td>{{ $item->name }}</td>
+                                <td><a href="{{ route('admin.users.edit', ['id'=>$item->id, 'type'=>$type]) }}">{{ $item->name }}</a></td>
                                 <td>{{ $item->email }}</td>
                                 <td>{{ $item->created_at }}</td>
                                 <td>

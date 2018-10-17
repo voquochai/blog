@@ -18,7 +18,7 @@
                     @empty
                     @endforelse
                 </ul>
-                <form method="post" class="form-validation" action="{{ route('admin.categories.store', ['type'=>$type]) }}" novalidate="" enctype="multipart/form-data">
+                <form method="post" class="form-validation" action="{{ route('admin.attributes.store', ['type'=>$type]) }}" novalidate="">
                     @csrf
                     <div class="tab-content">
                         <div class="tab-pane show active" id="general">
@@ -27,13 +27,24 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12"> Giá bán </label>
                                 <div class="col-lg-10 col-12">
-                                    <input type="text" name="regular_price" class="form-control validate[custom[integer]]" value="{{ old('regular_price') }}">
+                                    <div class="input-group">
+                                        <input type="text" name="regular_price" class="form-control" data-toggle="input-mask" data-mask-format="000.000.000.000.000" data-reverse="true" value="{{ old('regular_price') }}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text bg-primary text-white">Đ</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12"> Giá khuyến mãi </label>
                                 <div class="col-lg-10 col-12">
-                                    <input type="text" name="sale_price" class="form-control validate[custom[integer]]" value="{{ old('sale_price') }}">
+                                    <div class="input-group">
+                                        <input type="text" name="sale_price" class="form-control" data-toggle="input-mask" data-mask-format="000.000.000.000.000" data-reverse="true" value="{{ old('sale_price') }}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text bg-primary text-white">Đ</span>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
                             </div>
                             @endif
@@ -82,10 +93,4 @@
         </div>
 	</div>
 </div>
-@endsection
-
-@section('style')
-@endsection
-
-@section('script')
 @endsection

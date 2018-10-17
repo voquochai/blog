@@ -26,8 +26,8 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Chọn danh mục</label>
                                 <div class="col-lg-10 col-12">
-                                    <select name="parent_id" class="selectpicker form-control">
-                                        <option value="0"> Danh mục cha </option>
+                                    <select name="data[parent_id]" class="selectpicker form-control">
+                                        <option value="0"> -- Danh mục cha -- </option>
                                         @php
                                         $traverse = function ($categories, $prefix = '') use (&$traverse, $item, $config, $type, $path) {
                                             foreach ($categories as $category) {
@@ -122,7 +122,7 @@
 
                             @if($config['contents'])
                             <div class="form-group">
-                                <label class="control-label">Nội dung</label>
+                                <label>Nội dung</label>
                                 <textarea name="dataL[{{ $key }}][contents]" class="form-control ck-editor" rows="6" placeholder="Nội dung" >{{ $dataL->contents }}</textarea>
                             </div>
                             @endif

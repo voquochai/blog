@@ -26,17 +26,17 @@
                     <table class="table table-centered">
                         <thead class="thead-light">
                             <tr>
-                                <th width="1%" style="text-align: center;">
+                                <th style="width: 1%; text-align: center;">
                                     <div class="custom-control custom-checkbox custom-checkbox-all custom-checkbox-single">
                                         <input type="checkbox" name="" class="custom-control-input" id="customCheckAll" data-group="all">
                                         <label class="custom-control-label" for="customCheckAll"></label>
                                     </div>
                                 </th>
-                                <th width="1%" style="text-align: center;">#</th>
+                                <th style="width: 1%; text-align: center;">#</th>
                                 <th>Tiêu đề</th>
-                                <th width="15%" style="text-align: center;">Ngày tạo</th>
-                                <th width="20%" style="text-align: center;">Tình trạng</th>
-                                <th width="20%" style="text-align: center;">Thực thi</th>
+                                <th>Ngày tạo</th>
+                                <th>Tình trạng</th>
+                                <th>Thực thi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,7 +51,7 @@
                                 <td>
                                     <input type="text" name="priority" value="{{ $item->priority }}" class="form-control form-control-sm form-control-light" onchange="$.Tools.updatePriority({{ $item->id }}, this.value, event)" />
                                 </td>
-                                <td>{{ $item->languages[0]->name }}</td>
+                                <td><a href="{{ route('admin.attributes.edit', ['id'=>$item->id, 'type'=>$type]) }}">{{ $item->languages[0]->name }}</a></td>
                                 <td>{{ $item->created_at }}</td>
                                 <td>
                                     @forelse($config['status'] as $k => $v)

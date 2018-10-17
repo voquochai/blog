@@ -78,6 +78,8 @@
         <script src="{{ asset('public/packages/validationEngine/js/validationEngine.js') }}" type="text/javascript"></script>
         <script src="{{ asset('public/packages/validationEngine/js/languages/jquery.validationEngine-vi.js') }}" type="text/javascript"></script>
         <script src="{{ asset('public/packages/waves/waves.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('public/packages/jquery.mask.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('public/packages/jquery.bootstrap-touchspin.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('public/backend/js/app.js') }}" type="text/javascript"></script>
         @yield('script')
     </body>

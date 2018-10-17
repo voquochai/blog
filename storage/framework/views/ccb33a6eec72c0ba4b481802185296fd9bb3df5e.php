@@ -17,7 +17,7 @@
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <?php endif; ?>
                 </ul>
-                <form method="post" class="form-validation" action="<?php echo e(route('admin.categories.store', ['type'=>$type])); ?>" novalidate="" enctype="multipart/form-data">
+                <form method="post" class="form-validation" action="<?php echo e(route('admin.attributes.store', ['type'=>$type])); ?>" novalidate="" enctype="multipart/form-data">
                     <?php echo csrf_field(); ?>
                     <div class="tab-content">
                         <div class="tab-pane show active" id="general">
@@ -26,13 +26,13 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12"> Giá bán </label>
                                 <div class="col-lg-10 col-12">
-                                    <input type="text" name="regular_price" class="form-control validate[custom[integer]]" value="<?php echo e(old('regular_price')); ?>">
+                                    <input type="text" name="regular_price" class="form-control" data-toggle="input-mask" data-mask-format="000.000.000.000.000" data-reverse="true" value="<?php echo e(old('regular_price')); ?>">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12"> Giá khuyến mãi </label>
                                 <div class="col-lg-10 col-12">
-                                    <input type="text" name="sale_price" class="form-control validate[custom[integer]]" value="<?php echo e(old('sale_price')); ?>">
+                                    <input type="text" name="sale_price" class="form-control" data-toggle="input-mask" data-mask-format="000.000.000.000.000" data-reverse="true" value="<?php echo e(old('sale_price')); ?>">
                                 </div>
                             </div>
                             <?php endif; ?>

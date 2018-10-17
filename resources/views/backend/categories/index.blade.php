@@ -26,20 +26,20 @@
                     <table class="table table-centered">
                         <thead class="thead-light">
                             <tr>
-                                <th width="1%" style="text-align: center;">
+                                <th style="width: 1%; text-align: center;">
                                     <div class="custom-control custom-checkbox custom-checkbox-all custom-checkbox-single">
                                         <input type="checkbox" name="" class="custom-control-input" id="customCheckAll" data-group="all">
                                         <label class="custom-control-label" for="customCheckAll"></label>
                                     </div>
                                 </th>
-                                <th width="1%" style="text-align: center;">#</th>
+                                <th style="width: 1%; text-align: center;">#</th>
                                 <th>Tiêu đề</th>
                                 @if($config['image'])
-                                <th width="15%" style="text-align: center;"> Hình ảnh </th>
+                                <th> Hình ảnh </th>
                                 @endif
-                                <th width="15%" style="text-align: center;">Ngày tạo</th>
-                                <th width="20%" style="text-align: center;">Tình trạng</th>
-                                <th width="20%" style="text-align: center;">Thực thi</th>
+                                <th>Ngày tạo</th>
+                                <th>Tình trạng</th>
+                                <th>Thực thi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,15 +60,15 @@
                                     </td>
                                     <td><a href="{{ route('admin.categories.edit', ['id'=>$item->id, 'type'=>$type]) }}">{{ $prefix.' '.$item->languages[0]->name }}</a></td>
                                     @if($config['image'])
-                                    <td align="center"> <a href="{{ route('admin.categories.edit', ['id'=>$item->id, 'type'=>$type]) }}"> {!! ($item->image && file_exists(public_path(get_thumbnail($path.'/'.$item->image))) ) ? '<img src="'.asset(get_thumbnail('public/'.$path.'/'.$item->image)).'" height="50" />':'' !!} </a> </td>
+                                    <td> <a href="{{ route('admin.categories.edit', ['id'=>$item->id, 'type'=>$type]) }}"> {!! ($item->image && file_exists(public_path(get_thumbnail($path.'/'.$item->image))) ) ? '<img src="'.asset(get_thumbnail('public/'.$path.'/'.$item->image)).'" height="50" />':'' !!} </a> </td>
                                     @endif
-                                    <td align="center">{{ $item->created_at }}</td>
-                                    <td align="center">
+                                    <td>{{ $item->created_at }}</td>
+                                    <td>
                                         @php foreach($config['status'] as $k => $v){ @endphp
                                         <button type="button" class="btn btn-sm btn-{{ strpos($item->status,$k) !== false ? 'info' : 'secondary' }} btn-status-{{ $k }}" onclick="$.Tools.changeStatus({{ $item->id }}, '{{ $k }}', event)"> {{ $v }} </button>
                                         @php } @endphp
                                     </td>
-                                    <td align="center">
+                                    <td>
                                         <a href="{{ route('admin.categories.edit', ['id'=>$item->id, 'type'=>$type]) }}" class="btn btn-sm btn-primary">
                                             <i class="mdi mdi-circle-edit-outline"></i>
                                         </a>
