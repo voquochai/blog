@@ -15,10 +15,10 @@ class Product extends Model
     public function category(){
     	return $this->belongsTo('App\Category', 'category_id');
     }
-    // public function attribute(){
-    // 	return $this->belongsToMany('App\Attribute','product_attribute','product_id','attribute_id');
-    // }
-    // public function getIdsAttribute($type=''){
-    //     return $this->attribute->where('type',$type)->pluck('id')->toArray();
-    // }
+    public function attribute(){
+    	return $this->belongsToMany('App\Attribute','product_attribute','product_id','attribute_id');
+    }
+    public function getIdsAttribute($type=''){
+        return $this->attribute->where('type',$type)->pluck('id')->toArray();
+    }
 }

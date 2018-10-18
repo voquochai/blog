@@ -66,7 +66,7 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12"> Mã sản phẩm </label>
                                 <div class="col-lg-10 col-12">
-                                    <input type="text" name="data[code]" class="form-control" value="{{ old('data.code') }}">
+                                    <input type="text" name="data[code]" class="form-control text-uppercase validate[required]" value="{{ old('data.code') }}">
                                 </div>
                             </div>
 
