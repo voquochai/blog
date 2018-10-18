@@ -20,8 +20,8 @@
                 <form method="post" class="form-validation" action="<?php echo e(route('admin.categories.store', ['type'=>$type])); ?>" novalidate="" enctype="multipart/form-data">
                     <?php echo csrf_field(); ?>
                     <?php
-                        if( old('parent_id') )
-                            $parent_id = old('parent_id');
+                        if( old('data.parent_id') )
+                            $parent_id = old('data.parent_id');
                         else
                             $parent_id = 0;
                     ?>
@@ -30,8 +30,8 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Chọn danh mục</label>
                                 <div class="col-lg-10 col-12">
-                                    <select name="parent_id" class="selectpicker form-control">
-                                        <option value="0"> Danh mục cha </option>
+                                    <select name="data[parent_id]" class="selectpicker form-control">
+                                        <option value="0"> -- Danh mục cha -- </option>
                                         <?php
                                         $traverse = function ($categories, $prefix = '') use (&$traverse, $parent_id, $config, $type) {
                                             foreach ($categories as $category) {

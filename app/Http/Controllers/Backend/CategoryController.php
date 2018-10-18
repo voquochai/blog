@@ -61,7 +61,7 @@ class CategoryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'dataL.vi.name'     => 'required|max:255',
-            'image' => 'image|max:2048',
+            'image' => 'image|max:3072',
         ],[
             'dataL.vi.name.required'     =>  'Vui lòng nhập Tiêu đề',
             'image.image' => 'Không đúng chuẩn hình ảnh cho phép',

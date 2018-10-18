@@ -47,7 +47,7 @@
     margin: 0;
     padding: 14px 20px;
     border: none;
-    border-radius: 6px;
+    border-radius: .15rem;
     outline: 0;
     font-weight: 700;
     cursor: pointer;
@@ -1049,7 +1049,7 @@
     display: none;
 }
 .fileuploader-theme-thumbnails .fileuploader-items .fileuploader-item .fileuploader-action-popup {
-    border-radius: 6px;
+    border-radius: .15rem;
     z-index: 1;
 }
 .fileuploader-theme-thumbnails .fileuploader-item .type-holder {
