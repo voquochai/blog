@@ -104,7 +104,25 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Hình ảnh</label>
                                 <div class="col-lg-10 col-12">
-                                    <input type="file" name="images[]" data-fileuploader="multiple">
+                                    <input type="file" name="images[]" data-fileuploader="multiple" 
+                                    @if($media !== null)
+                                    data-fileuploader-files='[
+                                        @forelse($media as $key => $image)
+                                        {
+                                            "name":"{{ $image->name }}",
+                                            "type":"{{ $image->mime_type }}",
+                                            "size":"{{ $image->size }}",
+                                            "file":"{{ asset( 'public/'.$path.'/'.$image->name ) }}",
+                                            "data": {
+                                                "id": "{{ $image->id }}",
+                                                "thumbnail": "{{ asset( 'public/'.$path.'/'.$item->name ) }}"
+                                            }
+                                        }
+                                        @empty
+                                        @endforelse
+                                    ]'
+                                    @endif
+                                    >
                                 </div>
                             </div>
                             <div class="form-group row">

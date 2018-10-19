@@ -13,7 +13,7 @@ class Product extends Model
     	return $this->hasMany('App\ProductLanguage', 'product_id', 'id')->orderBy('id','asc');
     }
     public function category(){
-    	return $this->belongsTo('App\Category', 'category_id');
+        return $this->belongsTo('App\Category', 'category_id');
     }
     public function attribute(){
     	return $this->belongsToMany('App\Attribute','product_attribute','product_id','attribute_id');

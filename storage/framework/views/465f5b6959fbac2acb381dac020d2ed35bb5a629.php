@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('content'); ?>
 <div class="row">
     <div class="col-12">
@@ -103,7 +104,25 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Hình ảnh</label>
                                 <div class="col-lg-10 col-12">
-                                    <input type="file" name="images[]" data-fileuploader="multiple">
+                                    <input type="file" name="images[]" data-fileuploader="multiple" 
+                                    <?php if($media !== null): ?>
+                                    data-fileuploader-files='[
+                                        <?php $__empty_1 = true; $__currentLoopData = $media; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                        {
+                                            "name":"<?php echo e($image->name); ?>",
+                                            "type":"<?php echo e($image->mime_type); ?>",
+                                            "size":"<?php echo e($image->size); ?>",
+                                            "file":"<?php echo e(asset( 'public/'.$path.'/'.$image->name )); ?>",
+                                            "data": {
+                                                "id": "<?php echo e($image->id); ?>",
+                                                "thumbnail": "<?php echo e(asset( 'public/'.$path.'/'.$item->name )); ?>"
+                                            }
+                                        }
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                        <?php endif; ?>
+                                    ]'
+                                    <?php endif; ?>
+                                    >
                                 </div>
                             </div>
                             <div class="form-group row">

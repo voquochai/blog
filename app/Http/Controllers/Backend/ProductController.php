@@ -142,7 +142,7 @@ class ProductController extends Controller
             }
             $product->languages()->saveMany($dataInsert);
         }
-        return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('success','Thêm dữ liệu <b>'.$product->languages[0]->name.'</b> thành công');
+        return redirect()->route('admin.products.index', ['type'=>$this->_data['type']])->with('success','Thêm dữ liệu <b>'.$product->languages[0]->name.'</b> thành công');
     }
 
     /**
@@ -166,6 +166,8 @@ class ProductController extends Controller
     {
         $this->_data['categories'] = Category::where('type',$this->_data['type'])->orderBy('priority', 'asc')->get()->toTree();
         $this->_data['suppliers'] = Supplier::select('id','name')->where('type','default')->orderBy('priority', 'asc')->get();
+        $this->_data['media'] = MediaLibrary::whereIn('id', explode(',',$product->attachments) )->orderBy('id', 'asc')->get();
+
         $this->_data['item'] = $product;
 
         return view('backend.products.edit',$this->_data);
@@ -189,8 +191,32 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Request $request, Product $product)
     {
-        //
+        if($request->ajax()){
+            if($product->delete()){
+                delete_image($this->_data['path'].'/'.$product->image,$this->_data['config']['thumbs']);
+                Category::where('type',$product->type)->where('priority', '>', $product->priority)->decrement('priority');
+                return response()->json([
+                    'head'  =>  'Thành công!',
+                    'message'   =>  'Xóa dữ liệu <b>'.$product->name.'</b> thành công.',
+                    'class'   =>  'success',
+                ]);
+            }else{
+                return response()->json([
+                    'head'  =>  'Cảnh báo!',
+                    'message'   =>  'Xóa dữ liệu <b>'.$product->name.'</b> thất bại.',
+                    'class'   =>  'warning',
+                ]);
+            }
+        }else{
+            if($product->delete()){
+                delete_image($this->_data['path'].'/'.$product->image,$this->_data['config']['thumbs']);
+                Category::where('type',$this->_data['type'])->where('priority', '>', $product->priority)->decrement('priority');
+                return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('success','Xóa dữ liệu <b>'.$product->name.'</b> thành công');
+            }else{
+                return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('error','Xóa dữ liệu <b>'.$product->name.'</b> thất bại');
+            }
+        }
     }
 }
