@@ -49,7 +49,7 @@
                     <div class="form-group row">
                         <label class="col-form-label col-lg-2 col-12">Thứ tự</label>
                         <div class="col-lg-auto col-12">
-                            <input type="number" name="priority" class="form-control" value="{{ $item->priority }}" min="1" max="9999" placeholder="Thứ tự" disabled>
+                            <input type="number" name="priority" class="form-control" value="{{ $item->priority }}" placeholder="Thứ tự" disabled>
                         </div>
                     </div>
                     <div class="form-group row">

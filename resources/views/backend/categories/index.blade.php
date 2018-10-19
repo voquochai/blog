@@ -58,7 +58,7 @@
                                     <td>
                                         <input type="text" name="priority" value="{{ $item->priority }}" class="form-control form-control-sm form-control-light" onchange="$.Tools.updatePriority({{ $item->id }}, this.value, event)" />
                                     </td>
-                                    <td><a href="{{ route('admin.categories.edit', ['id'=>$item->id, 'type'=>$type]) }}">{{ $prefix.' '.$item->languages[0]->name }}</a></td>
+                                    <td><a href="{{ route('admin.categories.edit', ['id'=>$item->id, 'type'=>$type]) }}">{{ $prefix.' '.$item->languages->first()->name }}</a></td>
                                     @if($config['image'])
                                     <td> <a href="{{ route('admin.categories.edit', ['id'=>$item->id, 'type'=>$type]) }}"> {!! ($item->image && file_exists(public_path(get_thumbnail($path.'/'.$item->image))) ) ? '<img src="'.asset(get_thumbnail('public/'.$path.'/'.$item->image)).'" height="50" />':'' !!} </a> </td>
                                     @endif

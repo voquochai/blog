@@ -7,8 +7,12 @@ use App\ProductLanguage;
 use App\Category;
 use App\CategoryLanguage;
 use App\Supplier;
+use App\MediaLibrary;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 
 use Datetime;
@@ -32,9 +36,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $this->_data['items'] = Product::with(['languages' => function ($query) {
-                $query->where('language', $this->_data['language']);
-            }])->where('type',$this->_data['type'])->orderBy('priority', 'asc')->paginate(25);
+        $this->_data['items'] = Product::where('type',$this->_data['type'])->orderBy('priority', 'asc')->paginate(25);
         return view('backend.products.index',$this->_data);
     }
 
@@ -46,11 +48,7 @@ class ProductController extends Controller
     public function create()
     {
         $this->_data['priority'] = Product::where('type',$this->_data['type'])->max('priority');
-
-        $this->_data['categories'] = Category::with(['languages' => function ($query) {
-                $query->where('language', $this->_data['language']);
-            }])->where('type',$this->_data['type'])->orderBy('priority', 'asc')->get()->toTree();
-
+        $this->_data['categories'] = Category::where('type',$this->_data['type'])->orderBy('priority', 'asc')->get()->toTree();
         $this->_data['suppliers'] = Supplier::select('id','name')->where('type','default')->orderBy('priority', 'asc')->get();
 
         return view('backend.products.create',$this->_data);
@@ -67,13 +65,11 @@ class ProductController extends Controller
         $validator = Validator::make($request->all(), [
             'dataL.vi.name'   => 'required|max:255',
             'data.code'        => 'required|max:50|unique:products,code',
-            'data.category_id' => 'exists:categories,id',
             'image'            => 'image|max:2048'
         ], [
             'dataL.vi.name.required'   => 'Vui lòng nhập Tiêu đề',
             'data.code.required'   => 'Vui lòng nhập Mã Sản Phẩm',
             'data.code.unique'          => 'Mã sản phẩm đã tồn tại, vui lòng nhập mã khác',
-            'data.category_id.exists'   => 'Vui lòng chọn Danh mục',
             'image.image'               => 'Không đúng chuẩn hình ảnh cho phép',
             'image.max'                 => 'Dung lượng vượt quá giới hạn cho phép là :max KB',
         ]);
@@ -95,9 +91,35 @@ class ProductController extends Controller
                 $file = $request->file('image');
                 $product->image = save_image($this->_data['path'],$file,$fileuploader[0],$this->_data['config']['thumbs']);
             }
+            if($request->hasFile('images')){
+                $fileuploader = json_decode($request->input('fileuploader-list-images'),true);
+                $files = $request->file('images');
+                foreach($files as $key => $file){
+                    $fileName  = $file->getClientOriginalName();
+                    $fileMime  = $file->getClientMimeType();
+                    $fileSize  = $file->getClientSize();
+                    $imageName = save_image($this->_data['path'],$file,$fileuploader[$key],$this->_data['config']['thumbs']);
+                    $media = new MediaLibrary([
+                        'image' => $imageName,
+                        'editor' => isset($fileuploader[$key]['editor']) ? $fileuploader[$key]['editor'] : '',
+                        'mime_type' => $fileMime,
+                        'type' => $this->_data['type'],
+                        'size' => $fileSize,
+                    ]);
+                    $media_list_id[] = $media->id;
+                }
+                $product->attachments = implode(',',$media_list_id);
+            }
+
+            $product->original_price  = floatval(str_replace('.', '', $request->input('original_price')));
+            $product->regular_price  = floatval(str_replace('.', '', $request->input('regular_price')));
+            $product->sale_price     = floatval(str_replace('.', '', $request->input('sale_price')));
+            $product->weight     = floatval(str_replace('.', '', $request->input('weight')));
+
             $product->priority   = Product::where('type',$this->_data['type'])->max('priority')+1;
             $product->status     = $request->input('status') ? implode(',',$request->input('status')) : '';
             $product->type       = $this->_data['type'];
+            $product->user_id    = Auth::id();
             $product->created_at = new DateTime();
             $product->updated_at = new DateTime();
             $product->save();
@@ -120,7 +142,7 @@ class ProductController extends Controller
             }
             $product->languages()->saveMany($dataInsert);
         }
-        return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('success','Thêm dữ liệu <b>'.$product->name.'</b> thành công');
+        return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('success','Thêm dữ liệu <b>'.$product->languages[0]->name.'</b> thành công');
     }
 
     /**
@@ -142,7 +164,11 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $this->_data['categories'] = Category::where('type',$this->_data['type'])->orderBy('priority', 'asc')->get()->toTree();
+        $this->_data['suppliers'] = Supplier::select('id','name')->where('type','default')->orderBy('priority', 'asc')->get();
+        $this->_data['item'] = $product;
+
+        return view('backend.products.edit',$this->_data);
     }
 
     /**

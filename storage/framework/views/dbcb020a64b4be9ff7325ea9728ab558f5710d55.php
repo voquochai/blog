@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('content'); ?>
 <div class="row">
 	<div class="col-12">
@@ -51,7 +50,7 @@
                                 <td>
                                     <input type="text" name="priority" value="<?php echo e($item->priority); ?>" class="form-control form-control-sm form-control-light" onchange="$.Tools.updatePriority(<?php echo e($item->id); ?>, this.value, event)" />
                                 </td>
-                                <td><a href="<?php echo e(route('admin.products.edit', ['id'=>$item->id, 'type'=>$type])); ?>"><?php echo e($item->languages[0]->name); ?></a></td>
+                                <td><a href="<?php echo e(route('admin.products.edit', ['id'=>$item->id, 'type'=>$type])); ?>"><?php echo e($item->languages->first()->name); ?></a></td>
                                 <td><?php echo e($item->created_at); ?></td>
                                 <td>
                                     <?php $__empty_2 = true; $__currentLoopData = $config['status']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $v): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_2 = false; ?>

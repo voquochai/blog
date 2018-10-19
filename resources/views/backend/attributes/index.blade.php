@@ -51,7 +51,7 @@
                                 <td>
                                     <input type="text" name="priority" value="{{ $item->priority }}" class="form-control form-control-sm form-control-light" onchange="$.Tools.updatePriority({{ $item->id }}, this.value, event)" />
                                 </td>
-                                <td><a href="{{ route('admin.attributes.edit', ['id'=>$item->id, 'type'=>$type]) }}">{{ $item->languages[0]->name }}</a></td>
+                                <td><a href="{{ route('admin.attributes.edit', ['id'=>$item->id, 'type'=>$type]) }}">{{ $item->languages->first()->name }}</a></td>
                                 <td>{{ $item->created_at }}</td>
                                 <td>
                                     @forelse($config['status'] as $k => $v)

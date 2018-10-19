@@ -31,9 +31,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $this->_data['items'] = Category::with(['languages' => function ($query) {
-                $query->where('language', $this->_data['language']);
-            }])->where('type',$this->_data['type'])->orderBy('priority', 'asc')->get()->toTree();
+        $this->_data['items'] = Category::where('type',$this->_data['type'])->orderBy('priority', 'asc')->get()->toTree();
         return view('backend.categories.index',$this->_data);
     }
 
@@ -45,9 +43,7 @@ class CategoryController extends Controller
     public function create()
     {
         $this->_data['priority'] = Category::where('type',$this->_data['type'])->max('priority');
-        $this->_data['categories'] = Category::with(['languages' => function ($query) {
-                $query->where('language', $this->_data['language']);
-            }])->where('type',$this->_data['type'])->orderBy('priority', 'asc')->get()->toTree();
+        $this->_data['categories'] = Category::where('type',$this->_data['type'])->orderBy('priority', 'asc')->get()->toTree();
         return view('backend.categories.create',$this->_data);
     }
 
@@ -110,7 +106,7 @@ class CategoryController extends Controller
             }
             $category->languages()->saveMany($dataInsert);
         }
-        return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('success','Thêm dữ liệu <b>'.$category->name.'</b> thành công');
+        return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('success','Thêm dữ liệu <b>'.$category->languages[0]->name.'</b> thành công');
     }
 
     /**
@@ -132,9 +128,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        $this->_data['categories'] = Category::where('id','!=',$category->id)->with(['languages' => function ($query) {
-                $query->where('language', $this->_data['language']);
-            }])->where('type',$this->_data['type'])->orderBy('priority', 'asc')->get()->toTree();
+        $this->_data['categories'] = Category::where('id','!=',$category->id)->where('type',$this->_data['type'])->orderBy('priority', 'asc')->get()->toTree();
         $this->_data['item'] = $category;
         return view('backend.categories.edit',$this->_data);
     }

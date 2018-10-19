@@ -37,7 +37,7 @@
                                         @php
                                         $traverse = function ($categories, $prefix = '') use (&$traverse, $category_id, $config, $type) {
                                             foreach ($categories as $category) {
-                                                echo '<option value="'.$category->id.'" '.($category->id == $category_id ? 'selected' : '').' >'.$prefix.' '.$category->languages[0]->name.'</option>';
+                                                echo '<option value="'.$category->id.'" '.($category->id == $category_id ? 'selected' : '').' >'.$prefix.' '.$category->languages->first()->name.'</option>';
                                                 $traverse($category->children, $prefix.'|--');
                                             }
                                         };
@@ -109,7 +109,7 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Hình ảnh</label>
                                 <div class="col-lg-10 col-12">
-                                    <input type="file" name="image" data-fileuploader="multiple">
+                                    <input type="file" name="images[]" data-fileuploader="multiple">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -143,7 +143,7 @@
 
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Thứ tự</label>
-                                <div class="col-lg-auto col-12"><input type="number" name="priority" class="form-control" value="{{ $priority+1 }}" min="1" max="9999" placeholder="Thứ tự" disabled></div>
+                                <div class="col-lg-auto col-12"><input type="number" name="priority" class="form-control" value="{{ $priority+1 }}" placeholder="Thứ tự" disabled></div>
                             </div>
 
                             <div class="form-group row">
@@ -163,7 +163,7 @@
                         <div class="tab-pane" id="language-{{ $key }}">
                             <div class="form-group">
                                 <label>Tiêu đề</label>
-                                <input type="text" name="dataL[{{ $key }}][name]" class="form-control {{ $key==config('siteconfigs.general.language') ? 'validate[required]' : '' }}" placeholder="Tiêu đề" value="{{ old('dataL.'.$key.'.name') }}">
+                                <input type="text" name="dataL[{{ $key }}][name]" class="form-control {{ $key==config('siteconfigs.general.language') ? 'validate[required] link-to-slug' : '' }}" placeholder="Tiêu đề" value="{{ old('dataL.'.$key.'.name') }}">
                             </div>
                             @if( $key==config('siteconfigs.general.language') )
                             <div class="form-group">

@@ -29,9 +29,7 @@ class AttributeController extends Controller
      */
     public function index()
     {
-        $this->_data['items'] = Attribute::with(['languages' => function ($query) {
-                $query->where('language', $this->_data['language']);
-            }])->where('type',$this->_data['type'])->orderBy('priority', 'asc')->paginate(25);
+        $this->_data['items'] = Attribute::where('type',$this->_data['type'])->orderBy('priority', 'asc')->paginate(25);
         return view('backend.attributes.index',$this->_data);
     }
 

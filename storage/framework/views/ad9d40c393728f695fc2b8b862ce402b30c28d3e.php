@@ -99,7 +99,7 @@
                         </div>
                         <?php $i = 0 ?>
                         <?php $__empty_1 = true; $__currentLoopData = config('siteconfigs.languages'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                        <?php $dataL = $item->languages()->where('language',$key)->first(); ?>
+                        <?php $dataL = $item->languages->where('language',$key)->first(); ?>
                         <div class="tab-pane" id="language-<?php echo e($key); ?>">
                             <div class="form-group">
                                 <label>Tiêu đề</label>

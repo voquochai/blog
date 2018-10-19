@@ -31,7 +31,7 @@
                                         @php
                                         $traverse = function ($categories, $prefix = '') use (&$traverse, $item, $config, $type, $path) {
                                             foreach ($categories as $category) {
-                                                echo '<option value="'.$category->id.'" '.($category->id == $item->parent_id ? 'selected' : '').' >'.$prefix.' '.$category->languages[0]->name.'</option>';
+                                                echo '<option value="'.$category->id.'" '.($category->id == $item->parent_id ? 'selected' : '').' >'.$prefix.' '.$category->languages->first()->name.'</option>';
                                                 $traverse($category->children, $prefix.'|--');
                                             }
                                         };
@@ -83,7 +83,7 @@
                             @endif
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Thứ tự</label>
-                                <div class="col-lg-auto col-12"><input type="number" name="priority" class="form-control" value="{{ $item->priority }}" min="1" max="9999" placeholder="Thứ tự" disabled></div>
+                                <div class="col-lg-auto col-12"><input type="number" name="priority" class="form-control" value="{{ $item->priority }}" placeholder="Thứ tự" disabled></div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-lg-2 col-auto">Tình trạng</label>
@@ -100,7 +100,7 @@
                         </div>
                         @php $i = 0 @endphp
                         @forelse( config('siteconfigs.languages') as $key => $val )
-                        @php $dataL = $item->languages()->where('language',$key)->first(); @endphp
+                        @php $dataL = $item->languages->where('language',$key)->first(); @endphp
                         <div class="tab-pane" id="language-{{ $key }}">
                             <div class="form-group">
                                 <label>Tiêu đề</label>
