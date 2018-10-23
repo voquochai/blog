@@ -17,7 +17,7 @@
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <?php endif; ?>
                 </ul>
-                <form method="post" class="form-validation" action="<?php echo e(route('admin.attributes.update', ['id'=>$item->id, 'type'=>$type])); ?>" novalidate="" enctype="multipart/form-data">
+                <form method="post" class="form-validation" action="<?php echo e(route('admin.attributes.update', ['id'=>$item->id, 'type'=>$type])); ?>" novalidate="">
                     <?php echo method_field('PUT'); ?>
                     <?php echo csrf_field(); ?>
                     <div class="tab-content">
@@ -26,13 +26,24 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12"> Giá bán </label>
                                 <div class="col-lg-10 col-12">
-                                    <input type="text" name="regular_price" class="form-control" data-toggle="input-mask" data-mask-format="000.000.000.000.000" data-reverse="true" value="<?php echo e($item->regular_price); ?>">
+                                    <div class="input-group">
+                                        <input type="text" name="regular_price" class="form-control" data-toggle="input-mask" data-mask-format="000.000.000.000.000" data-reverse="true" value="<?php echo e($item->regular_price); ?>">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text bg-primary text-white">Đ</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12"> Giá khuyến mãi </label>
                                 <div class="col-lg-10 col-12">
-                                    <input type="text" name="sale_price" class="form-control" data-toggle="input-mask" data-mask-format="000.000.000.000.000" data-reverse="true" value="<?php echo e($item->sale_price); ?>">
+                                    <div class="input-group">
+                                        <input type="text" name="sale_price" class="form-control" data-toggle="input-mask" data-mask-format="000.000.000.000.000" data-reverse="true" value="<?php echo e($item->sale_price); ?>">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text bg-primary text-white">Đ</span>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
                             </div>
                             <?php endif; ?>
@@ -47,7 +58,7 @@
                             <?php endif; ?>
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Thứ tự</label>
-                                <div class="col-lg-auto col-12"><input type="number" name="priority" class="form-control" value="<?php echo e($item->priority); ?>" min="1" max="9999" placeholder="Thứ tự" disabled></div>
+                                <div class="col-lg-auto col-12"><input type="number" name="priority" class="form-control" value="<?php echo e($item->priority); ?>" placeholder="Thứ tự" disabled></div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-lg-2 col-auto">Tình trạng</label>
@@ -63,7 +74,7 @@
                             </div>
                         </div>
                         <?php $__empty_1 = true; $__currentLoopData = config('siteconfigs.languages'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                        <?php $dataL = $item->languages()->where('language',$key)->first(); ?>
+                        <?php $dataL = $item->languages->where('language',$key)->first(); ?>
                         <div class="tab-pane" id="language-<?php echo e($key); ?>">
                             <div class="form-group">
                                 <label>Tiêu đề</label>

@@ -106,7 +106,7 @@ class CategoryController extends Controller
             }
             $category->languages()->saveMany($dataInsert);
         }
-        return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('success','Thêm dữ liệu <b>'.$category->languages[0]->name.'</b> thành công');
+        return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('success','Thêm dữ liệu <b>'.$request->dataL[$this->_data['language']]['name'].'</b> thành công');
     }
 
     /**
@@ -216,7 +216,7 @@ class CategoryController extends Controller
                 $categoryL->save();
                 $i++;
             }
-            return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('success','Cập nhật dữ liệu <b>'.$category->languages[0]->name.'</b> thành công');
+            return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('success','Cập nhật dữ liệu <b>'.$request->dataL[$this->_data['language']]['name'].'</b> thành công');
         }
         return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('danger', 'Dữ liệu không tồn tại');
         
@@ -235,7 +235,7 @@ class CategoryController extends Controller
             if( $category->descendants->count() ){
                 return response()->json([
                     'head'  =>  'Cảnh báo!',
-                    'message'   =>  'Vui lòng xóa các phụ thuộc <b>'.$category->name.'</b> trước.',
+                    'message'   =>  'Vui lòng xóa các phụ thuộc trước.',
                     'class'   =>  'warning',
                 ]);
             }else{
@@ -244,27 +244,27 @@ class CategoryController extends Controller
                     Category::where('type',$category->type)->where('priority', '>', $category->priority)->decrement('priority');
                     return response()->json([
                         'head'  =>  'Thành công!',
-                        'message'   =>  'Xóa dữ liệu <b>'.$category->name.'</b> thành công.',
+                        'message'   =>  'Xóa dữ liệu thành công.',
                         'class'   =>  'success',
                     ]);
                 }else{
                     return response()->json([
                         'head'  =>  'Cảnh báo!',
-                        'message'   =>  'Xóa dữ liệu <b>'.$category->name.'</b> thất bại.',
+                        'message'   =>  'Xóa dữ liệu thất bại.',
                         'class'   =>  'warning',
                     ]);
                 }
             }
         }else{
             if( $category->descendants->count() ){
-                return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('error','Vui lòng xóa các phụ thuộc <b>'.$category->name.'</b> trước');
+                return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('error','Vui lòng xóa các phụ thuộc trước');
             }else{
                 if($category->delete()){
                     delete_image($this->_data['path'].'/'.$category->image,$this->_data['config']['thumbs']);
                     Category::where('type',$this->_data['type'])->where('priority', '>', $category->priority)->decrement('priority');
-                    return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('success','Xóa dữ liệu <b>'.$category->name.'</b> thành công');
+                    return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('success','Xóa dữ liệu thành công');
                 }else{
-                    return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('error','Xóa dữ liệu <b>'.$category->name.'</b> thất bại');
+                    return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('error','Xóa dữ liệu thất bại');
                 }
             }
         }

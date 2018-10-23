@@ -99,8 +99,8 @@ class ProductController extends Controller
                     $fileMime  = $file->getClientMimeType();
                     $fileSize  = $file->getClientSize();
                     $imageName = save_image($this->_data['path'],$file,$fileuploader[$key],$this->_data['config']['thumbs']);
-                    $media = new MediaLibrary([
-                        'image' => $imageName,
+                    $media = MediaLibrary::create([
+                        'name' => $imageName,
                         'editor' => isset($fileuploader[$key]['editor']) ? $fileuploader[$key]['editor'] : '',
                         'mime_type' => $fileMime,
                         'type' => $this->_data['type'],
@@ -142,7 +142,7 @@ class ProductController extends Controller
             }
             $product->languages()->saveMany($dataInsert);
         }
-        return redirect()->route('admin.products.index', ['type'=>$this->_data['type']])->with('success','Thêm dữ liệu <b>'.$product->languages[0]->name.'</b> thành công');
+        return redirect()->route('admin.products.index', ['type'=>$this->_data['type']])->with('success','Thêm dữ liệu <b>'.$request->dataL[$this->_data['language']]['name'].'</b> thành công');
     }
 
     /**
@@ -166,7 +166,7 @@ class ProductController extends Controller
     {
         $this->_data['categories'] = Category::where('type',$this->_data['type'])->orderBy('priority', 'asc')->get()->toTree();
         $this->_data['suppliers'] = Supplier::select('id','name')->where('type','default')->orderBy('priority', 'asc')->get();
-        $this->_data['media'] = MediaLibrary::whereIn('id', explode(',',$product->attachments) )->orderBy('id', 'asc')->get();
+        $this->_data['media'] = $product->attachments ? MediaLibrary::whereIn('id', explode(',',$product->attachments) )->orderBy('id', 'asc')->get() : null;
 
         $this->_data['item'] = $product;
 
@@ -182,7 +182,89 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'dataL.vi.name'   => 'required|max:255',
+            'data.code'        => 'required|max:50|unique:products,code,'.$product->id,
+            'image'            => 'image|max:2048'
+        ], [
+            'dataL.vi.name.required'   => 'Vui lòng nhập Tiêu đề',
+            'data.code.required'   => 'Vui lòng nhập Mã Sản Phẩm',
+            'data.code.unique'          => 'Mã sản phẩm đã tồn tại, vui lòng nhập mã khác',
+            'image.image'               => 'Không đúng chuẩn hình ảnh cho phép',
+            'image.max'                 => 'Dung lượng vượt quá giới hạn cho phép là :max KB',
+        ]);
+
+        if ($validator->fails()) {
+            if($request->ajax()){
+                return response()->json(['type'=>'danger', 'icon'=>'warning', 'message'=>$validator->errors()->first()]);
+            }
+            return redirect()->back()->withErrors($validator)->withInput();
+        }else{
+            if($request->data){
+                foreach($request->data as $field => $value){
+                    $product->$field = $value;
+                }
+            }
+            if($request->hasFile('image')){
+                delete_image($this->_data['path'].'/'.$product->image,$this->_data['config']['thumbs']);
+                $fileuploader = json_decode($request->input('fileuploader-list-image'),true);
+                $file = $request->file('image');
+                $product->image = save_image($this->_data['path'],$file,$fileuploader[0],$this->_data['config']['thumbs']);
+            }elseif( $request->input('fileuploader-list-image') ){
+                $fileuploader = json_decode($request->input('fileuploader-list-image'),true);
+                if( isset($fileuploader[0]['editor']) ){
+                    $path = $this->_data['path']; $image = $product->image; $uploader = $fileuploader[0];
+                    $createImage = function($suffix = '') use ( $path, $image, $uploader ) {
+                        $thumbnailFileName = get_thumbnail($image, $suffix);
+                        $newImage  = Image::make( public_path($path.'/'.$thumbnailFileName) );
+                        if( @$uploader['editor']['rotation'] ){
+                            $rotation = -(int)$uploader['editor']['rotation'];
+                            $newImage->rotate($rotation);
+                        }
+                        if( @$uploader['editor']['crop'] ){
+                            $width  = round($uploader['editor']['crop']['width']);
+                            $height = round($uploader['editor']['crop']['height']);
+                            $left   = round($uploader['editor']['crop']['left']);
+                            $top    = round($uploader['editor']['crop']['top']);
+                            $newImage->crop($width,$height,$left,$top);
+                        }
+                        $newImage->save( public_path($path.'/'.$thumbnailFileName) );
+                    };
+                    $createImage();
+                    if($this->_data['config']['thumbs'] !== null){
+                        foreach($this->_data['config']['thumbs'] as $k => $v){
+                            $createImage($k);
+                        }
+                    }
+                }
+            }
+            $product->status     = $request->input('status') ? implode(',',$request->input('status')) : '';
+            $product->type       = $this->_data['type'];
+            $product->updated_at = new DateTime();
+            $product->save();
+
+            $dataL = [];
+            $dataInsert = [];
+            $i = 0;
+            foreach(config('siteconfigs.languages') as $lang => $val){
+                $productL = ProductLanguage::find($product->languages[$i]['id']);
+                if($request->dataL[$lang]){
+                    foreach($request->dataL[$lang] as $fieldL => $valueL){
+                        $productL->$fieldL = $valueL;
+                    }
+                }
+                if( !isset($request->dataL[$this->_data['language']]['slug']) || $request->dataL[$this->_data['language']]['slug'] == ''){
+                    $productL->slug  = str_slug($request->dataL[$this->_data['language']]['name']);
+                }else{
+                    $productL->slug  = str_slug($request->dataL[$this->_data['language']]['slug']);
+                }
+                $productL->language   = $lang;
+                $productL->save();
+                $i++;
+            }
+            return redirect()->route('admin.products.index', ['type'=>$this->_data['type']])->with('success','Cập nhật dữ liệu <b>'.$request->dataL[$this->_data['language']]['name'].'</b> thành công');
+        }
+        return redirect()->route('admin.products.index', ['type'=>$this->_data['type']])->with('danger', 'Dữ liệu không tồn tại');
     }
 
     /**
@@ -199,13 +281,13 @@ class ProductController extends Controller
                 Category::where('type',$product->type)->where('priority', '>', $product->priority)->decrement('priority');
                 return response()->json([
                     'head'  =>  'Thành công!',
-                    'message'   =>  'Xóa dữ liệu <b>'.$product->name.'</b> thành công.',
+                    'message'   =>  'Xóa dữ liệu thành công.',
                     'class'   =>  'success',
                 ]);
             }else{
                 return response()->json([
                     'head'  =>  'Cảnh báo!',
-                    'message'   =>  'Xóa dữ liệu <b>'.$product->name.'</b> thất bại.',
+                    'message'   =>  'Xóa dữ liệu thất bại.',
                     'class'   =>  'warning',
                 ]);
             }
@@ -213,9 +295,9 @@ class ProductController extends Controller
             if($product->delete()){
                 delete_image($this->_data['path'].'/'.$product->image,$this->_data['config']['thumbs']);
                 Category::where('type',$this->_data['type'])->where('priority', '>', $product->priority)->decrement('priority');
-                return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('success','Xóa dữ liệu <b>'.$product->name.'</b> thành công');
+                return redirect()->route('admin.products.index', ['type'=>$this->_data['type']])->with('success','Xóa dữ liệu thành công');
             }else{
-                return redirect()->route('admin.categories.index', ['type'=>$this->_data['type']])->with('error','Xóa dữ liệu <b>'.$product->name.'</b> thất bại');
+                return redirect()->route('admin.products.index', ['type'=>$this->_data['type']])->with('error','Xóa dữ liệu thất bại');
             }
         }
     }

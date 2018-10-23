@@ -17,7 +17,7 @@
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <?php endif; ?>
                 </ul>
-                <form method="post" class="form-validation" action="<?php echo e(route('admin.attributes.store', ['type'=>$type])); ?>" novalidate="" enctype="multipart/form-data">
+                <form method="post" class="form-validation" action="<?php echo e(route('admin.attributes.store', ['type'=>$type])); ?>" novalidate="">
                     <?php echo csrf_field(); ?>
                     <div class="tab-content">
                         <div class="tab-pane show active" id="general">
@@ -26,13 +26,24 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12"> Giá bán </label>
                                 <div class="col-lg-10 col-12">
-                                    <input type="text" name="regular_price" class="form-control" data-toggle="input-mask" data-mask-format="000.000.000.000.000" data-reverse="true" value="<?php echo e(old('regular_price')); ?>">
+                                    <div class="input-group">
+                                        <input type="text" name="regular_price" class="form-control" data-toggle="input-mask" data-mask-format="000.000.000.000.000" data-reverse="true" value="<?php echo e(old('regular_price')); ?>">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text bg-primary text-white">Đ</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12"> Giá khuyến mãi </label>
                                 <div class="col-lg-10 col-12">
-                                    <input type="text" name="sale_price" class="form-control" data-toggle="input-mask" data-mask-format="000.000.000.000.000" data-reverse="true" value="<?php echo e(old('sale_price')); ?>">
+                                    <div class="input-group">
+                                        <input type="text" name="sale_price" class="form-control" data-toggle="input-mask" data-mask-format="000.000.000.000.000" data-reverse="true" value="<?php echo e(old('sale_price')); ?>">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text bg-primary text-white">Đ</span>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
                             </div>
                             <?php endif; ?>
@@ -48,7 +59,7 @@
 
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Thứ tự</label>
-                                <div class="col-lg-auto col-12"><input type="number" name="priority" class="form-control" value="<?php echo e($priority+1); ?>" min="1" max="9999" placeholder="Thứ tự" disabled></div>
+                                <div class="col-lg-auto col-12"><input type="number" name="priority" class="form-control" value="<?php echo e($priority+1); ?>" placeholder="Thứ tự" disabled></div>
                             </div>
 
                             <div class="form-group row">
@@ -81,11 +92,5 @@
         </div>
 	</div>
 </div>
-<?php $__env->stopSection(); ?>
-
-<?php $__env->startSection('style'); ?>
-<?php $__env->stopSection(); ?>
-
-<?php $__env->startSection('script'); ?>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('backend.app', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -108,10 +108,10 @@ class AttributeController extends Controller
                         $newData .= '<option value="'.$item->id.'" '.( ( $item->id == $attribute->id || in_array($item->id,$arrIDs) ) ? 'selected' : '' ).'> '.$item->languages[0]['name'].' </option>';
                     }
                 }
-                return response()->json(['type'=>'success', 'icon'=>'check', 'message'=>'Thêm dữ liệu <b>'.$attribute->languages[0]->name.'</b> thành công', 'newData'=>$newData]);
+                return response()->json(['type'=>'success', 'icon'=>'check', 'message'=>'Thêm dữ liệu <b>'.$request->dataL[$this->_data['language']]['name'].'</b> thành công', 'newData'=>$newData]);
             }
         }
-        return redirect()->route('admin.attributes.index', ['type'=>$this->_data['type']])->with('success','Thêm dữ liệu <b>'.$attribute->name.'</b> thành công');
+        return redirect()->route('admin.attributes.index', ['type'=>$this->_data['type']])->with('success','Thêm dữ liệu <b>'.$request->dataL[$this->_data['language']]['name'].'</b> thành công');
     }
 
     /**
@@ -188,7 +188,7 @@ class AttributeController extends Controller
                 $attributeL->save();
                 $i++;
             }
-            return redirect()->route('admin.attributes.index', ['type'=>$this->_data['type']])->with('success','Cập nhật dữ liệu <b>'.$attribute->languages[0]->name.'</b> thành công');
+            return redirect()->route('admin.attributes.index', ['type'=>$this->_data['type']])->with('success','Cập nhật dữ liệu <b>'.$request->dataL[$this->_data['language']]['name'].'</b> thành công');
         }
         return redirect()->route('admin.attributes.index', ['type'=>$this->_data['type']])->with('danger', 'Dữ liệu không tồn tại');
     }
@@ -206,22 +206,22 @@ class AttributeController extends Controller
                 Attribute::where('type',$attribute->type)->where('priority', '>', $attribute->priority)->decrement('priority');
                 return response()->json([
                     'head'  =>  'Thành công!',
-                    'message'   =>  'Xóa dữ liệu <b>'.$attribute->name.'</b> thành công.',
+                    'message'   =>  'Xóa dữ liệu thành công.',
                     'class'   =>  'success',
                 ]);
             }else{
                 return response()->json([
                     'head'  =>  'Cảnh báo!',
-                    'message'   =>  'Xóa dữ liệu <b>'.$attribute->name.'</b> thất bại.',
+                    'message'   =>  'Xóa dữ liệu thất bại.',
                     'class'   =>  'warning',
                 ]);
             }
         }else{
             if($attribute->delete()){
                 Attribute::where('type',$this->_data['type'])->where('priority', '>', $attribute->priority)->decrement('priority');
-                return redirect()->route('admin.attributes.index', ['type'=>$this->_data['type']])->with('success','Xóa dữ liệu <b>'.$attribute->name.'</b> thành công');
+                return redirect()->route('admin.attributes.index', ['type'=>$this->_data['type']])->with('success','Xóa dữ liệu thành công');
             }else{
-                return redirect()->route('admin.attributes.index', ['type'=>$this->_data['type']])->with('error','Xóa dữ liệu <b>'.$attribute->name.'</b> thất bại');
+                return redirect()->route('admin.attributes.index', ['type'=>$this->_data['type']])->with('error','Xóa dữ liệu thất bại');
             }
         }
     }

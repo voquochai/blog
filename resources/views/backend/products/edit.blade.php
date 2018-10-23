@@ -114,8 +114,7 @@
                                             "size":"{{ $image->size }}",
                                             "file":"{{ asset( 'public/'.$path.'/'.$image->name ) }}",
                                             "data": {
-                                                "id": "{{ $image->id }}",
-                                                "thumbnail": "{{ asset( 'public/'.$path.'/'.$item->name ) }}"
+                                                "id": "{{ $image->id }}"
                                             }
                                         }
                                         @empty

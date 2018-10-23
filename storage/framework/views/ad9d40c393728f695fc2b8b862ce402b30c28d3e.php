@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('content'); ?>
 <div class="row">
     <div class="col-12">
@@ -55,8 +54,7 @@
                                         "size":"<?php echo e($imageInfo['size']); ?>",
                                         "file":"<?php echo e(asset( 'public/'.$path.'/'.$item->image )); ?>",
                                         "data": {
-                                            "id": "<?php echo e($item->id); ?>",
-                                            "thumbnail": "<?php echo e(asset( 'public/'.$path.'/'.$item->image )); ?>"
+                                            "id": "<?php echo e($item->id); ?>"
                                         }
                                     }]'>
                                     <?php else: ?>

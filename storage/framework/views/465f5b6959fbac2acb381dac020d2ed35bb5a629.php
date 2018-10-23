@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('content'); ?>
 <div class="row">
     <div class="col-12">
@@ -114,8 +113,7 @@
                                             "size":"<?php echo e($image->size); ?>",
                                             "file":"<?php echo e(asset( 'public/'.$path.'/'.$image->name )); ?>",
                                             "data": {
-                                                "id": "<?php echo e($image->id); ?>",
-                                                "thumbnail": "<?php echo e(asset( 'public/'.$path.'/'.$item->name )); ?>"
+                                                "id": "<?php echo e($image->id); ?>"
                                             }
                                         }
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>

@@ -148,13 +148,13 @@ class UserController extends Controller
                 User::where('type',$user->type)->where('priority', '>', $user->priority)->decrement('priority');
                 return response()->json([
                     'head'  =>  'Thành công!',
-                    'message'   =>  'Xóa dữ liệu <b>'.$user->name.'</b> thành công.',
+                    'message'   =>  'Xóa dữ liệu thành công.',
                     'class'   =>  'success',
                 ]);
             }else{
                 return response()->json([
                     'head'  =>  'Cảnh báo!',
-                    'message'   =>  'Xóa dữ liệu <b>'.$user->name.'</b> thất bại.',
+                    'message'   =>  'Xóa dữ liệu thất bại.',
                     'class'   =>  'warning',
                 ]);
             }
@@ -162,9 +162,9 @@ class UserController extends Controller
         }else{
             if($user->delete()){
                 User::where('type',$user->type)->where('priority', '>', $user->priority)->decrement('priority');
-                return redirect()->route('admin.users.index', ['type'=>$this->_data['type']])->with('success','Xóa dữ liệu <b>'.$user->name.'</b> thành công');
+                return redirect()->route('admin.users.index', ['type'=>$this->_data['type']])->with('success','Xóa dữ liệu thành công');
             }else{
-                return redirect()->route('admin.users.index', ['type'=>$this->_data['type']])->with('error','Xóa dữ liệu <b>'.$user->name.'</b> thất bại');
+                return redirect()->route('admin.users.index', ['type'=>$this->_data['type']])->with('error','Xóa dữ liệu thất bại');
             }
         }
     }

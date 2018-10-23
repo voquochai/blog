@@ -55,8 +55,7 @@
                                         "size":"{{ $imageInfo['size'] }}",
                                         "file":"{{ asset( 'public/'.$path.'/'.$item->image ) }}",
                                         "data": {
-                                            "id": "{{ $item->id }}",
-                                            "thumbnail": "{{ asset( 'public/'.$path.'/'.$item->image ) }}"
+                                            "id": "{{ $item->id }}"
                                         }
                                     }]'>
                                     @else

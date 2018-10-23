@@ -38,7 +38,6 @@ Route::prefix('admin')->namespace('Backend')->name('admin.')->group(function () 
 
 		Route::resource('products', 'ProductController');
 
-
 	});
 });
 

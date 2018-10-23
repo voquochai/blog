@@ -159,13 +159,13 @@ class SupplierController extends Controller
                 Supplier::where('type',$supplier->type)->where('priority', '>', $supplier->priority)->decrement('priority');
                 return response()->json([
                     'head'  =>  'Thành công!',
-                    'message'   =>  'Xóa dữ liệu <b>'.$supplier->name.'</b> thành công.',
+                    'message'   =>  'Xóa dữ liệu thành công.',
                     'class'   =>  'success',
                 ]);
             }else{
                 return response()->json([
                     'head'  =>  'Cảnh báo!',
-                    'message'   =>  'Xóa dữ liệu <b>'.$supplier->name.'</b> thất bại.',
+                    'message'   =>  'Xóa dữ liệu thất bại.',
                     'class'   =>  'warning',
                 ]);
             }
@@ -173,9 +173,9 @@ class SupplierController extends Controller
         }else{
             if($supplier->delete()){
                 Supplier::where('type',$supplier->type)->where('priority', '>', $supplier->priority)->decrement('priority');
-                return redirect()->route('admin.suppliers.index', ['type'=>$this->_data['type']])->with('success','Xóa dữ liệu <b>'.$supplier->name.'</b> thành công');
+                return redirect()->route('admin.suppliers.index', ['type'=>$this->_data['type']])->with('success','Xóa dữ liệu thành công');
             }else{
-                return redirect()->route('admin.suppliers.index', ['type'=>$this->_data['type']])->with('error','Xóa dữ liệu <b>'.$supplier->name.'</b> thất bại');
+                return redirect()->route('admin.suppliers.index', ['type'=>$this->_data['type']])->with('error','Xóa dữ liệu thất bại');
             }
         }
     }
