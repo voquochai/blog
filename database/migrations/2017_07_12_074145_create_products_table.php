@@ -28,9 +28,9 @@ class CreateProductsTable extends Migration
             $table->string('status',100)->default('publish');
             $table->integer('supplier_id')->unsigned()->nullable();
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onUpdate('cascade')->onDelete('cascade');
-            $table->integer('category_id')->unsigned()->default(1);
+            $table->integer('category_id')->unsigned()->nullable();
             $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade')->onDelete('cascade');
-            $table->integer('user_id')->unsigned()->default(0);
+            $table->integer('user_id')->unsigned()->default(1);
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->char('type',50)->default('default');
             $table->smallInteger('viewed')->default(0);

@@ -91,30 +91,30 @@ class ProductController extends Controller
                 $file = $request->file('image');
                 $product->image = save_image($this->_data['path'],$file,$fileuploader[0],$this->_data['config']['thumbs']);
             }
-            if($request->hasFile('images')){
-                $fileuploader = json_decode($request->input('fileuploader-list-images'),true);
-                $files = $request->file('images');
-                foreach($files as $key => $file){
-                    $fileName  = $file->getClientOriginalName();
-                    $fileMime  = $file->getClientMimeType();
-                    $fileSize  = $file->getClientSize();
-                    $imageName = save_image($this->_data['path'],$file,$fileuploader[$key],$this->_data['config']['thumbs']);
-                    $media = MediaLibrary::create([
-                        'name' => $imageName,
-                        'editor' => isset($fileuploader[$key]['editor']) ? $fileuploader[$key]['editor'] : '',
-                        'mime_type' => $fileMime,
-                        'type' => $this->_data['type'],
-                        'size' => $fileSize,
-                    ]);
-                    $media_list_id[] = $media->id;
-                }
-                $product->attachments = implode(',',$media_list_id);
-            }
+            // if($request->hasFile('images')){
+            //     $fileuploader = json_decode($request->input('fileuploader-list-images'),true);
+            //     $files = $request->file('images');
+            //     foreach($files as $key => $file){
+            //         $fileName  = $file->getClientOriginalName();
+            //         $fileMime  = $file->getClientMimeType();
+            //         $fileSize  = $file->getClientSize();
+            //         $imageName = save_image($this->_data['path'],$file,$fileuploader[$key],$this->_data['config']['thumbs']);
+            //         $media = MediaLibrary::create([
+            //             'name' => $imageName,
+            //             'editor' => isset($fileuploader[$key]['editor']) ? $fileuploader[$key]['editor'] : '',
+            //             'mime_type' => $fileMime,
+            //             'type' => $this->_data['type'],
+            //             'size' => $fileSize,
+            //         ]);
+            //         $media_list_id[] = $media->id;
+            //     }
+            //     $product->attachments = implode(',',$media_list_id);
+            // }
 
             $product->original_price  = floatval(str_replace('.', '', $request->input('original_price')));
-            $product->regular_price  = floatval(str_replace('.', '', $request->input('regular_price')));
-            $product->sale_price     = floatval(str_replace('.', '', $request->input('sale_price')));
-            $product->weight     = floatval(str_replace('.', '', $request->input('weight')));
+            $product->regular_price   = floatval(str_replace('.', '', $request->input('regular_price')));
+            $product->sale_price      = floatval(str_replace('.', '', $request->input('sale_price')));
+            $product->weight          = floatval(str_replace('.', '', $request->input('weight')));
 
             $product->priority   = Product::where('type',$this->_data['type'])->max('priority')+1;
             $product->status     = $request->input('status') ? implode(',',$request->input('status')) : '';
@@ -184,11 +184,11 @@ class ProductController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'dataL.vi.name'   => 'required|max:255',
-            'data.code'        => 'required|max:50|unique:products,code,'.$product->id,
-            'image'            => 'image|max:2048'
+            'data.code'       => 'required|max:50|unique:products,code,'.$product->id,
+            'image'           => 'image|max:2048'
         ], [
-            'dataL.vi.name.required'   => 'Vui lòng nhập Tiêu đề',
-            'data.code.required'   => 'Vui lòng nhập Mã Sản Phẩm',
+            'dataL.vi.name.required'    => 'Vui lòng nhập Tiêu đề',
+            'data.code.required'        => 'Vui lòng nhập Mã Sản Phẩm',
             'data.code.unique'          => 'Mã sản phẩm đã tồn tại, vui lòng nhập mã khác',
             'image.image'               => 'Không đúng chuẩn hình ảnh cho phép',
             'image.max'                 => 'Dung lượng vượt quá giới hạn cho phép là :max KB',
@@ -238,6 +238,12 @@ class ProductController extends Controller
                     }
                 }
             }
+            
+            $product->original_price  = floatval(str_replace('.', '', $request->input('original_price')));
+            $product->regular_price   = floatval(str_replace('.', '', $request->input('regular_price')));
+            $product->sale_price      = floatval(str_replace('.', '', $request->input('sale_price')));
+            $product->weight          = floatval(str_replace('.', '', $request->input('weight')));
+
             $product->status     = $request->input('status') ? implode(',',$request->input('status')) : '';
             $product->type       = $this->_data['type'];
             $product->updated_at = new DateTime();

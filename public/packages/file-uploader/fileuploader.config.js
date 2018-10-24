@@ -53,7 +53,7 @@ $(document).ready(function() {
 
     $('input[data-fileuploader="single"]').fileuploader({
         limit: 1,
-        addMore: false,
+        addMore: true,
         extensions: ['jpg', 'jpeg', 'png', 'gif'],
         changeInput: '',
         theme: 'thumbnails',
@@ -95,7 +95,7 @@ $(document).ready(function() {
                 '</li>',
             startImageRenderer: true,
             canvasImage: false,
-            removeConfirmation: true,
+            removeConfirmation: false,
             _selectors: {
                 list: '.fileuploader-items-list',
                 item: '.fileuploader-item',

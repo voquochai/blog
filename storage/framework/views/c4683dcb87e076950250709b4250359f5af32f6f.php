@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('content'); ?>
 <div class="row">
 	<div class="col-12">
@@ -33,7 +32,7 @@
                                 <label class="col-form-label col-lg-2 col-12">Danh mục</label>
                                 <div class="col-lg-10 col-12">
                                     <select name="data[category_id]" class="selectpicker form-control">
-                                        <option value="0"> -- Chọn danh mục -- </option>
+                                        <option value=""> -- Chọn danh mục -- </option>
                                         <?php
                                         $traverse = function ($categories, $prefix = '') use (&$traverse, $category_id, $config, $type) {
                                             foreach ($categories as $category) {
@@ -53,7 +52,7 @@
                                 <label class="col-form-label col-lg-2 col-12">Nhà cung cấp</label>
                                 <div class="col-lg-10 col-12">
                                     <select name="data[supplier_id]" class="selectpicker form-control">
-                                        <option value="0"> -- Chọn danh mục -- </option>
+                                        <option value=""> -- Chọn danh mục -- </option>
                                         <?php $__empty_1 = true; $__currentLoopData = $suppliers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $supplier): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                         <option value="<?php echo e($supplier->id); ?>" <?php echo e(($supplier->id == old('data.supplier_id') ? 'selected' : '')); ?> ><?php echo e($supplier->name); ?></option>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
@@ -109,7 +108,7 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Hình ảnh</label>
                                 <div class="col-lg-10 col-12">
-                                    <input type="file" name="images[]" data-fileuploader="multiple">
+                                    <input type="file" name="image" data-fileuploader="single">
                                 </div>
                             </div>
                             <div class="form-group row">

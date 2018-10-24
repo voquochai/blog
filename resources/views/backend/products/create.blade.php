@@ -33,7 +33,7 @@
                                 <label class="col-form-label col-lg-2 col-12">Danh mục</label>
                                 <div class="col-lg-10 col-12">
                                     <select name="data[category_id]" class="selectpicker form-control">
-                                        <option value="0"> -- Chọn danh mục -- </option>
+                                        <option value=""> -- Chọn danh mục -- </option>
                                         @php
                                         $traverse = function ($categories, $prefix = '') use (&$traverse, $category_id, $config, $type) {
                                             foreach ($categories as $category) {
@@ -53,7 +53,7 @@
                                 <label class="col-form-label col-lg-2 col-12">Nhà cung cấp</label>
                                 <div class="col-lg-10 col-12">
                                     <select name="data[supplier_id]" class="selectpicker form-control">
-                                        <option value="0"> -- Chọn danh mục -- </option>
+                                        <option value=""> -- Chọn danh mục -- </option>
                                         @forelse($suppliers as $supplier)
                                         <option value="{{ $supplier->id }}" {{ ($supplier->id == old('data.supplier_id') ? 'selected' : '') }} >{{ $supplier->name }}</option>
                                         @empty
@@ -109,7 +109,7 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Hình ảnh</label>
                                 <div class="col-lg-10 col-12">
-                                    <input type="file" name="images[]" data-fileuploader="multiple">
+                                    <input type="file" name="image" data-fileuploader="single">
                                 </div>
                             </div>
                             <div class="form-group row">

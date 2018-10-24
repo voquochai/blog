@@ -21,7 +21,7 @@ class CreatePostsTable extends Migration
             $table->string('attachments')->nullable();
             $table->smallInteger('priority')->default(1);
             $table->string('status',100)->default('publish');
-            $table->integer('category_id')->unsigned()->default(1);
+            $table->integer('category_id')->unsigned()->nullable();
             $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('user_id')->unsigned()->default(1);
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');

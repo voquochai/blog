@@ -28,7 +28,7 @@
                                 <label class="col-form-label col-lg-2 col-12">Danh mục</label>
                                 <div class="col-lg-10 col-12">
                                     <select name="data[category_id]" class="selectpicker form-control">
-                                        <option value="0"> -- Chọn danh mục -- </option>
+                                        <option value=""> -- Chọn danh mục -- </option>
                                         @php
                                         $traverse = function ($categories, $prefix = '') use (&$traverse, $item, $config, $type) {
                                             foreach ($categories as $category) {
@@ -48,7 +48,7 @@
                                 <label class="col-form-label col-lg-2 col-12">Nhà cung cấp</label>
                                 <div class="col-lg-10 col-12">
                                     <select name="data[supplier_id]" class="selectpicker form-control">
-                                        <option value="0"> -- Chọn danh mục -- </option>
+                                        <option value=""> -- Chọn danh mục -- </option>
                                         @forelse($suppliers as $supplier)
                                         <option value="{{ $supplier->id }}" {{ ($supplier->id == $item->supplier_id) ? 'selected' : '' }} >{{ $supplier->name }}</option>
                                         @empty
@@ -104,24 +104,23 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Hình ảnh</label>
                                 <div class="col-lg-10 col-12">
-                                    <input type="file" name="images[]" data-fileuploader="multiple" 
-                                    @if($media !== null)
-                                    data-fileuploader-files='[
-                                        @forelse($media as $key => $image)
-                                        {
-                                            "name":"{{ $image->name }}",
-                                            "type":"{{ $image->mime_type }}",
-                                            "size":"{{ $image->size }}",
-                                            "file":"{{ asset( 'public/'.$path.'/'.$image->name ) }}",
-                                            "data": {
-                                                "id": "{{ $image->id }}"
-                                            }
+                                    @if( $item->image && file_exists( public_path($path.'/'.$item->image) ) )
+                                    @php
+                                        $imageInfo = getimagesize('public/'.$path.'/'.$item->image);
+                                        $imageInfo['size'] = filesize('public/'.$path.'/'.$item->image);
+                                    @endphp
+                                    <input type="file" name="image" data-fileuploader="single" data-fileuploader-files='[{
+                                        "name":"{{ $item->image }}",
+                                        "type":"{{ $imageInfo['mime'] }}",
+                                        "size":"{{ $imageInfo['size'] }}",
+                                        "file":"{{ asset( 'public/'.$path.'/'.$item->image ) }}",
+                                        "data": {
+                                            "id": "{{ $item->id }}"
                                         }
-                                        @empty
-                                        @endforelse
-                                    ]'
+                                    }]'>
+                                    @else
+                                    <input type="file" name="image" data-fileuploader="single"/>
                                     @endif
-                                    >
                                 </div>
                             </div>
                             <div class="form-group row">
