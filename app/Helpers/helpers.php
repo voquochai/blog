@@ -27,8 +27,8 @@ if (!function_exists('get_currency_vn')) {
 }
 
 if (!function_exists('save_image')) {
-    function save_image($path, $image, $thumbs = ['_small' => ['width' => 300, 'height' => 200 ]]) {
-        return Tool::saveImage($path, $image, $thumbs);
+    function save_image($path, $image, $uploader, $thumbs = ['_small' => ['width' => 300, 'height' => 200 ]]) {
+        return Tool::saveImage($path, $image, $uploader, $thumbs);
     }
 }
 

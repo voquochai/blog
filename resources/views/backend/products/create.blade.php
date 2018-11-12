@@ -17,6 +17,12 @@
                     </li>
                     @empty
                     @endforelse
+                    
+                    @if($config['images'])
+                    <li class="nav-item">
+                        <a href="#images" data-toggle="tab" aria-expanded="false" class="nav-link"> Thư viện ảnh </a>
+                    </li>
+                    @endif
                 </ul>
                 <form method="post" class="form-validation" action="{{ route('admin.products.store', ['type'=>$type]) }}" novalidate="" enctype="multipart/form-data">
                     @csrf
@@ -32,8 +38,7 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Danh mục</label>
                                 <div class="col-lg-10 col-12">
-                                    <select name="data[category_id]" class="selectpicker form-control">
-                                        <option value=""> -- Chọn danh mục -- </option>
+                                    <select name="data[category_id]" class="selectpicker form-control" title="-- Chọn danh mục --">
                                         @php
                                         $traverse = function ($categories, $prefix = '') use (&$traverse, $category_id, $config, $type) {
                                             foreach ($categories as $category) {
@@ -52,8 +57,7 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Nhà cung cấp</label>
                                 <div class="col-lg-10 col-12">
-                                    <select name="data[supplier_id]" class="selectpicker form-control">
-                                        <option value=""> -- Chọn danh mục -- </option>
+                                    <select name="data[supplier_id]" class="selectpicker form-control" title="-- Chọn danh mục --">
                                         @forelse($suppliers as $supplier)
                                         <option value="{{ $supplier->id }}" {{ ($supplier->id == old('data.supplier_id') ? 'selected' : '') }} >{{ $supplier->name }}</option>
                                         @empty
@@ -210,6 +214,13 @@
                         </div>
                         @empty
                         @endforelse
+
+                        @if($config['images'])
+                        <div class="tab-pane" id="images">
+                            <input type="file" name="images" data-fileuploader="multiple">
+                        </div>
+                        @endif
+
                         <button type="submit" class="btn btn-primary"> <i class="mdi mdi-check"></i> Lưu</button>
                         <a href="{{ route('admin.products.index', ['type'=>$type]) }}" class="btn btn-danger" > <i class="mdi mdi-close"></i> Thoát</a>
                     </div>

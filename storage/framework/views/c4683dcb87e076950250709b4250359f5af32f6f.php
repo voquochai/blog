@@ -16,6 +16,12 @@
                     </li>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <?php endif; ?>
+                    
+                    <?php if($config['images']): ?>
+                    <li class="nav-item">
+                        <a href="#images" data-toggle="tab" aria-expanded="false" class="nav-link"> Thư viện ảnh </a>
+                    </li>
+                    <?php endif; ?>
                 </ul>
                 <form method="post" class="form-validation" action="<?php echo e(route('admin.products.store', ['type'=>$type])); ?>" novalidate="" enctype="multipart/form-data">
                     <?php echo csrf_field(); ?>
@@ -31,8 +37,7 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Danh mục</label>
                                 <div class="col-lg-10 col-12">
-                                    <select name="data[category_id]" class="selectpicker form-control">
-                                        <option value=""> -- Chọn danh mục -- </option>
+                                    <select name="data[category_id]" class="selectpicker form-control" title="-- Chọn danh mục --">
                                         <?php
                                         $traverse = function ($categories, $prefix = '') use (&$traverse, $category_id, $config, $type) {
                                             foreach ($categories as $category) {
@@ -51,8 +56,7 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-2 col-12">Nhà cung cấp</label>
                                 <div class="col-lg-10 col-12">
-                                    <select name="data[supplier_id]" class="selectpicker form-control">
-                                        <option value=""> -- Chọn danh mục -- </option>
+                                    <select name="data[supplier_id]" class="selectpicker form-control" title="-- Chọn danh mục --">
                                         <?php $__empty_1 = true; $__currentLoopData = $suppliers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $supplier): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                         <option value="<?php echo e($supplier->id); ?>" <?php echo e(($supplier->id == old('data.supplier_id') ? 'selected' : '')); ?> ><?php echo e($supplier->name); ?></option>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
@@ -209,6 +213,13 @@
                         </div>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                         <?php endif; ?>
+
+                        <?php if($config['images']): ?>
+                        <div class="tab-pane" id="images">
+                            <input type="file" name="images" data-fileuploader="multiple">
+                        </div>
+                        <?php endif; ?>
+
                         <button type="submit" class="btn btn-primary"> <i class="mdi mdi-check"></i> Lưu</button>
                         <a href="<?php echo e(route('admin.products.index', ['type'=>$type])); ?>" class="btn btn-danger" > <i class="mdi mdi-close"></i> Thoát</a>
                     </div>
