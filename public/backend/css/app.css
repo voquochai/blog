@@ -223,6 +223,15 @@ select.form-control-sm:not([size]):not([multiple]) {
     background-color: #e2e6ea;
     border-color: #dae0e5;
 }
+.tab-content > .tab-pane {
+    display: block;
+    height: 0;
+    overflow: hidden;
+}
+.tab-content > .active {
+    height: auto;
+    overflow: visible;
+}
 .wrapper {
     height: 100%;
     overflow: hidden;

@@ -17,6 +17,12 @@
                     </li>
                     @empty
                     @endforelse
+
+                    @if($config['images'])
+                    <li class="nav-item">
+                        <a href="#images" data-toggle="tab" aria-expanded="false" class="nav-link"> Thư viện ảnh </a>
+                    </li>
+                    @endif
                 </ul>
                 <form method="post" class="form-validation" action="{{ route('admin.products.update', ['id'=>$item->id, 'type'=>$type]) }}" novalidate="" enctype="multipart/form-data">
                     @method('PUT')
@@ -225,6 +231,26 @@
                         @php $i++ @endphp
                         @empty
                         @endforelse
+
+                        @if($config['images'])
+                        <div class="tab-pane" id="images">
+                            <input type="file" name="images" data-fileuploader="multiple" data-fileuploader-files='[
+                                @forelse( $images as $key => $image)
+                                    {{ (($key > 0) ? ',' : '') }}
+                                    {
+                                        "name":"{{ $image->name }}",
+                                        "size": {{ $image->size }},
+                                        "type":"{{ $image->mime_type }}",
+                                        "file":"{{ asset('public/'.$path.'/'.$image->name) }}",
+                                        "data":{
+                                            "id":"{{ $image->id }}"
+                                        }
+                                    }
+                                @empty
+                                @endforelse
+                            ]'>
+                        </div>
+                        @endif
                         <button type="submit" class="btn btn-primary"> <i class="mdi mdi-check"></i> Lưu</button>
                         <a href="{{ route('admin.products.index', ['type'=>$type]) }}" class="btn btn-danger" > <i class="mdi mdi-close"></i> Thoát</a>
                     </div>

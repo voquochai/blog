@@ -16,6 +16,12 @@
                     </li>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <?php endif; ?>
+
+                    <?php if($config['images']): ?>
+                    <li class="nav-item">
+                        <a href="#images" data-toggle="tab" aria-expanded="false" class="nav-link"> Thư viện ảnh </a>
+                    </li>
+                    <?php endif; ?>
                 </ul>
                 <form method="post" class="form-validation" action="<?php echo e(route('admin.products.update', ['id'=>$item->id, 'type'=>$type])); ?>" novalidate="" enctype="multipart/form-data">
                     <?php echo method_field('PUT'); ?>
@@ -223,6 +229,27 @@
                         </div>
                         <?php $i++ ?>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                        <?php endif; ?>
+
+                        <?php if($config['images']): ?>
+                        <div class="tab-pane" id="images">
+                            <input type="file" name="images" data-fileuploader="multiple" data-fileuploader-files='[
+                                <?php $__empty_1 = true; $__currentLoopData = $images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                    <?php echo e((($key > 0) ? ',' : '')); ?>
+
+                                    {
+                                        "name":"<?php echo e($image->name); ?>",
+                                        "size": <?php echo e($image->size); ?>,
+                                        "type":"<?php echo e($image->mime_type); ?>",
+                                        "file":"<?php echo e(asset('public/'.$path.'/'.$image->name)); ?>",
+                                        "data":{
+                                            "id":"<?php echo e($image->id); ?>"
+                                        }
+                                    }
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                <?php endif; ?>
+                            ]'>
+                        </div>
                         <?php endif; ?>
                         <button type="submit" class="btn btn-primary"> <i class="mdi mdi-check"></i> Lưu</button>
                         <a href="<?php echo e(route('admin.products.index', ['type'=>$type])); ?>" class="btn btn-danger" > <i class="mdi mdi-close"></i> Thoát</a>

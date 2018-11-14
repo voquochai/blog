@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('content'); ?>
 <div class="row">
 	<div class="col-12">
@@ -34,6 +33,9 @@
                                 </th>
                                 <th style="width: 1%; text-align: center;">#</th>
                                 <th>Tiêu đề</th>
+                                <?php if($config['image']): ?>
+                                <th> Hình ảnh </th>
+                                <?php endif; ?>
                                 <th>Ngày tạo</th>
                                 <th>Tình trạng</th>
                                 <th>Thực thi</th>
@@ -52,6 +54,9 @@
                                     <input type="text" name="priority" value="<?php echo e($item->priority); ?>" class="form-control form-control-sm form-control-light" onchange="$.Tools.updatePriority(<?php echo e($item->id); ?>, this.value, event)" />
                                 </td>
                                 <td><a href="<?php echo e(route('admin.products.edit', ['id'=>$item->id, 'type'=>$type])); ?>"><?php echo e($item->languages->first()->name); ?></a></td>
+                                <?php if($config['image']): ?>
+                                <td> <a href="<?php echo e(route('admin.products.edit', ['id'=>$item->id, 'type'=>$type])); ?>"> <?php echo ($item->image && file_exists(public_path(get_thumbnail($path.'/'.$item->image))) ) ? '<img src="'.asset(get_thumbnail('public/'.$path.'/'.$item->image)).'" height="50" />':''; ?> </a> </td>
+                                <?php endif; ?>
                                 <td><?php echo e($item->created_at); ?></td>
                                 <td>
                                     <?php $__empty_2 = true; $__currentLoopData = $config['status']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $v): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_2 = false; ?>

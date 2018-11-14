@@ -166,8 +166,7 @@ class ProductController extends Controller
     {
         $this->_data['categories'] = Category::where('type',$this->_data['type'])->orderBy('priority', 'asc')->get()->toTree();
         $this->_data['suppliers'] = Supplier::select('id','name')->where('type','default')->orderBy('priority', 'asc')->get();
-        $this->_data['media'] = $product->attachments ? MediaLibrary::whereIn('id', explode(',',$product->attachments) )->orderBy('id', 'asc')->get() : null;
-
+        $this->_data['images'] = $product->attachments ? MediaLibrary::whereIn('id', explode(',',$product->attachments) )->orderBy('id', 'asc')->get() : null;
         $this->_data['item'] = $product;
 
         return view('backend.products.edit',$this->_data);
@@ -182,6 +181,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        dd($request->all());
         $validator = Validator::make($request->all(), [
             'dataL.vi.name'   => 'required|max:255',
             'data.code'       => 'required|max:50|unique:products,code,'.$product->id,
@@ -241,41 +241,57 @@ class ProductController extends Controller
                 }
             }
 
-            // if($request->hasFile('images')){
-            //     delete_image($this->_data['path'].'/'.$product->image,$this->_data['config']['thumbs']);
-            //     $fileuploader = json_decode($request->input('fileuploader-list-images'),true);
-            //     $file = $request->file('image');
-            //     $product->image = save_image($this->_data['path'],$file,$fileuploader[0],$this->_data['config']['thumbs']);
-            // }elseif( $request->input('fileuploader-list-images') ){
-            //     $fileuploader = json_decode($request->input('fileuploader-list-images'),true);
-            //     if( isset($fileuploader[0]['editor']) ){
-            //         $path = $this->_data['path']; $image = $product->image; $uploader = $fileuploader[0];
-            //         $createImage = function($suffix = '') use ( $path, $image, $uploader ) {
-            //             $thumbnailFileName = get_thumbnail($image, $suffix);
+            if($request->hasFile('images')){
+                $fileuploader = array_reverse(json_decode($request->input('fileuploader-list-images'),true));
+                $files = array_reverse($request->file('images'));
+                foreach($files as $key => $file){
+                    $fileName  = $file->getClientOriginalName();
+                    $fileMime  = $file->getClientMimeType();
+                    $fileSize  = $file->getClientSize();
+                    $imageName = save_image($this->_data['path'],$file,$fileuploader[$key],$this->_data['config']['thumbs']);
+                    $media = MediaLibrary::create([
+                        'name' => $imageName,
+                        'editor' => isset($fileuploader[$key]['editor']) ? $fileuploader[$key]['editor'] : '',
+                        'mime_type' => $fileMime,
+                        'type' => $this->_data['type'],
+                        'size' => $fileSize,
+                    ]);
+                    $media_list_id[] = $media->id;
+                    unset($fileuploader[$key]);
+                }
+                $product->attachments = implode(',',$media_list_id);
+            }
+            if( $request->input('fileuploader-list-images') ){
+                foreach($files as $key => $file){
+                    if( isset($fileuploader[0]['editor']) ){
+                        $path = $this->_data['path']; $image = $product->image; $uploader = $fileuploader[0];
+                        $createImage = function($suffix = '') use ( $path, $image, $uploader ) {
+                            $thumbnailFileName = get_thumbnail($image, $suffix);
 
-            //             $newImage  = Image::make( public_path($path.'/'.$thumbnailFileName) );
+                            $newImage  = Image::make( public_path($path.'/'.$thumbnailFileName) );
 
-            //             if( @$uploader['editor']['rotation'] ){
-            //                 $rotation = -(int)$uploader['editor']['rotation'];
-            //                 $newImage->rotate($rotation);
-            //             }
-            //             if( @$uploader['editor']['crop'] ){
-            //                 $width  = round($uploader['editor']['crop']['width']);
-            //                 $height = round($uploader['editor']['crop']['height']);
-            //                 $left   = round($uploader['editor']['crop']['left']);
-            //                 $top    = round($uploader['editor']['crop']['top']);
-            //                 $newImage->crop($width,$height,$left,$top);
-            //             }
-            //             $newImage->save( public_path($path.'/'.$thumbnailFileName) );
-            //         };
-            //         $createImage();
-            //         if($this->_data['config']['thumbs'] !== null){
-            //             foreach($this->_data['config']['thumbs'] as $k => $v){
-            //                 $createImage($k);
-            //             }
-            //         }
-            //     }
-            // }
+                            if( @$uploader['editor']['rotation'] ){
+                                $rotation = -(int)$uploader['editor']['rotation'];
+                                $newImage->rotate($rotation);
+                            }
+                            if( @$uploader['editor']['crop'] ){
+                                $width  = round($uploader['editor']['crop']['width']);
+                                $height = round($uploader['editor']['crop']['height']);
+                                $left   = round($uploader['editor']['crop']['left']);
+                                $top    = round($uploader['editor']['crop']['top']);
+                                $newImage->crop($width,$height,$left,$top);
+                            }
+                            $newImage->save( public_path($path.'/'.$thumbnailFileName) );
+                        };
+                        $createImage();
+                        if($this->_data['config']['thumbs'] !== null){
+                            foreach($this->_data['config']['thumbs'] as $k => $v){
+                                $createImage($k);
+                            }
+                        }
+                    }
+                }
+            }
             
             $product->original_price  = floatval(str_replace('.', '', $request->input('original_price')));
             $product->regular_price   = floatval(str_replace('.', '', $request->input('regular_price')));
