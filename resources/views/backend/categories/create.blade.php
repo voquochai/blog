@@ -146,8 +146,10 @@
 @endsection
 
 @section('script')
+@if($config['image'])
 <script src="{{ asset('public/packages/file-uploader/fileuploader.js') }}" type="text/javascript"></script>
 <script src="{{ asset('public/packages/file-uploader/fileuploader.config.js') }}" type="text/javascript"></script>
+@endif
 @if($config['contents'])
 <script src="{{ asset('public/packages/tinymce/tinymce.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('public/packages/tinymce/tinymce.config.js') }}" type="text/javascript"></script>

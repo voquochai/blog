@@ -186,22 +186,28 @@ $(document).ready(function() {
             '</div>',
         theme: 'dropin',
         thumbnails: {
-            // thumbnails for the choosen files {String, Function}
-            // example: '<li>${name}</li>'
-            // example: function(item) { return '<li>' + item.name + '</li>'; }
-            item: '<li class="fileuploader-item file-has-popup">' +
-                '<div class="columns">' +
-                    '<div class="column-thumbnail">${image}<span class="fileuploader-action-popup"></span></div>' +
-                    '<div class="column-title">' +
-                        '<div title="${name}">${name}</div>' +
-                        '<span>${size2}</span>' +
-                    '</div>' +
-                    '<div class="column-actions">' +
-                        '<a class="fileuploader-action fileuploader-action-remove" title="${captions.remove}"><i></i></a>' +
-                    '</div>' +
-                '</div>' +
-                '<div class="progress-bar2">${progressBar}<span></span></div>' +
-            '</li>',
+            box: '<div class="table-responsive-sm">\
+                <table class="table table-centered fileuploader-items">\
+                    <thead class="thead-light">\
+                        <tr>\
+                            <th style="width: 5%; text-align: center;"> Thứ tự </th>\
+                            <th width="10%"> Hình ảnh </th>\
+                            <th width="25%"> Tiêu đề </th>\
+                            <th width="10%"> Thực thi </th>\
+                        </tr>\
+                    </thead>\
+                    <tbody class="fileuploader-items-list"></tbody>\
+                </table>\
+            </div>',
+            boxAppendTo: $('.fileuploader-table'),
+            item: '<tr class="fileuploader-item file-has-popup columns">' +
+                '<td><input type="text" class="form-control form-control-sm form-control-light" name="attachment[priority][]" value="1"></td>' +
+                '<td><div class="column-thumbnail">${image}<span class="fileuploader-action-popup"></span></div></td>' +
+                '<td><div class="column-title"><div title="${name}">${name}</div><span>${size2}</span></div></td>' +
+                '<td>' +
+                    '<div class="column-actions"><a class="fileuploader-action fileuploader-action-remove" title="${captions.remove}"><i></i></a></div>' +
+                '</td>' +
+            '</tr>',
           
             // thumbnails for the preloaded files {String, Function}
             // example: '<li>${name}</li>'

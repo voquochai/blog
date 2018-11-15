@@ -976,8 +976,8 @@
     padding: 0;
     vertical-align: top;
     width: 25%;
-    width: calc(25% - 16px);
-    padding-top: 20%;
+    width: calc(20% - 16px);
+    padding-top: 15%;
 }
 .fileuploader-theme-thumbnails .fileuploader-thumbnails-input-inner,
 .fileuploader-theme-thumbnails .fileuploader-item-inner {
@@ -1176,4 +1176,15 @@
 }
 .fileuploader-theme-dropin .fileuploader-input-inner span:hover {
     color: #4a4a64;
+}
+
+.fileuploader-table .fileuploader-items .fileuploader-items-list {
+    display: table-row-group;
+    margin: 0px;
+}
+.fileuploader-table .fileuploader-items .fileuploader-item .column-title{
+    padding: 0;
+}
+.fileuploader-table .fileuploader-items .fileuploader-item .column-actions{
+    margin: 0;
 }

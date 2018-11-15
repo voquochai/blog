@@ -259,12 +259,11 @@ class ProductController extends Controller
                     $media_list_id[] = $media->id;
                     unset($fileuploader[$key]);
                 }
-                $product->attachments = implode(',',$media_list_id);
             }
             if( $request->input('fileuploader-list-images') ){
-                foreach($files as $key => $file){
-                    if( isset($fileuploader[0]['editor']) ){
-                        $path = $this->_data['path']; $image = $product->image; $uploader = $fileuploader[0];
+                foreach($fileuploader as $key => $file){
+                    if( isset($file['editor']) ){
+                        $path = $this->_data['path']; $image = $product->image; $uploader = $file;
                         $createImage = function($suffix = '') use ( $path, $image, $uploader ) {
                             $thumbnailFileName = get_thumbnail($image, $suffix);
 

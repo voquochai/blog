@@ -216,7 +216,10 @@
 
                         <?php if($config['images']): ?>
                         <div class="tab-pane" id="images">
-                            <input type="file" name="images" data-fileuploader="multiple">
+                            <div class="mb-3"><input type="file" name="images" data-fileuploader="multiple"></div>
+                            <div class="fileuploader-table">
+                                
+                            </div>
                         </div>
                         <?php endif; ?>
 
@@ -235,8 +238,10 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('script'); ?>
+<?php if($config['image']): ?>
 <script src="<?php echo e(asset('public/packages/file-uploader/fileuploader.js')); ?>" type="text/javascript"></script>
 <script src="<?php echo e(asset('public/packages/file-uploader/fileuploader.config.js')); ?>" type="text/javascript"></script>
+<?php endif; ?>
 <?php if($config['contents']): ?>
 <script src="<?php echo e(asset('public/packages/tinymce/tinymce.min.js')); ?>" type="text/javascript"></script>
 <script src="<?php echo e(asset('public/packages/tinymce/tinymce.config.js')); ?>" type="text/javascript"></script>

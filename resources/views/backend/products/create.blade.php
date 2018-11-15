@@ -217,7 +217,10 @@
 
                         @if($config['images'])
                         <div class="tab-pane" id="images">
-                            <input type="file" name="images" data-fileuploader="multiple">
+                            <div class="mb-3"><input type="file" name="images" data-fileuploader="multiple"></div>
+                            <div class="fileuploader-table">
+                                
+                            </div>
                         </div>
                         @endif
 
@@ -236,8 +239,10 @@
 @endsection
 
 @section('script')
+@if($config['image'])
 <script src="{{ asset('public/packages/file-uploader/fileuploader.js') }}" type="text/javascript"></script>
 <script src="{{ asset('public/packages/file-uploader/fileuploader.config.js') }}" type="text/javascript"></script>
+@endif
 @if($config['contents'])
 <script src="{{ asset('public/packages/tinymce/tinymce.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('public/packages/tinymce/tinymce.config.js') }}" type="text/javascript"></script>
