@@ -96,17 +96,22 @@ class ProductController extends Controller
                 $files = $request->file('images');
                 foreach($files as $key => $file){
                     $fileName  = $file->getClientOriginalName();
-                    $fileMime  = $file->getClientMimeType();
-                    $fileSize  = $file->getClientSize();
-                    $imageName = save_image($this->_data['path'],$file,$fileuploader[$key],$this->_data['config']['thumbs']);
-                    $media = MediaLibrary::create([
-                        'name' => $imageName,
-                        'editor' => isset($fileuploader[$key]['editor']) ? $fileuploader[$key]['editor'] : '',
-                        'mime_type' => $fileMime,
-                        'type' => $this->_data['type'],
-                        'size' => $fileSize,
-                    ]);
-                    $media_list_id[] = $media->id;
+                    if( false !== $key = array_search($fileName, $request->attachment['name']) ){
+                        $fileMime  = $file->getClientMimeType();
+                        $fileSize  = $file->getClientSize();
+                        $imageName = save_image($this->_data['path'],$file,$fileuploader[$key],$this->_data['config']['thumbs']);
+                        $media = MediaLibrary::create([
+                            'name' => $imageName,
+                            'alt'   => $request->attachment['alt'][$key],
+                            'editor' => isset($fileuploader[$key]['editor']) ? $fileuploader[$key]['editor'] : '',
+                            'mime_type' => $fileMime,
+                            'type' => $this->_data['type'],
+                            'size' => $fileSize,
+                            'priority'   => $request->attachment['priority'][$key],
+                        ]);
+                        $media_list_id[] = $media->id;
+                        unset($fileuploader[$key]);
+                    }
                 }
                 $product->attachments = implode(',',$media_list_id);
             }
@@ -181,7 +186,6 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        dd($request->all());
         $validator = Validator::make($request->all(), [
             'dataL.vi.name'   => 'required|max:255',
             'data.code'       => 'required|max:50|unique:products,code,'.$product->id,
@@ -213,60 +217,19 @@ class ProductController extends Controller
             }elseif( $request->input('fileuploader-list-image') ){
                 $fileuploader = json_decode($request->input('fileuploader-list-image'),true);
                 if( isset($fileuploader[0]['editor']) ){
-                    $path = $this->_data['path']; $image = $product->image; $uploader = $fileuploader[0];
-                    $createImage = function($suffix = '') use ( $path, $image, $uploader ) {
-                        $thumbnailFileName = get_thumbnail($image, $suffix);
-
-                        $newImage  = Image::make( public_path($path.'/'.$thumbnailFileName) );
-
-                        if( @$uploader['editor']['rotation'] ){
-                            $rotation = -(int)$uploader['editor']['rotation'];
-                            $newImage->rotate($rotation);
-                        }
-                        if( @$uploader['editor']['crop'] ){
-                            $width  = round($uploader['editor']['crop']['width']);
-                            $height = round($uploader['editor']['crop']['height']);
-                            $left   = round($uploader['editor']['crop']['left']);
-                            $top    = round($uploader['editor']['crop']['top']);
-                            $newImage->crop($width,$height,$left,$top);
-                        }
-                        $newImage->save( public_path($path.'/'.$thumbnailFileName) );
-                    };
-                    $createImage();
-                    if($this->_data['config']['thumbs'] !== null){
-                        foreach($this->_data['config']['thumbs'] as $k => $v){
-                            $createImage($k);
-                        }
-                    }
+                    $product->image = edit_image($this->_data['path'],$product->image,$fileuploader[0],$this->_data['config']['thumbs']);
                 }
             }
 
-            if($request->hasFile('images')){
-                $fileuploader = array_reverse(json_decode($request->input('fileuploader-list-images'),true));
-                $files = array_reverse($request->file('images'));
-                foreach($files as $key => $file){
-                    $fileName  = $file->getClientOriginalName();
-                    $fileMime  = $file->getClientMimeType();
-                    $fileSize  = $file->getClientSize();
-                    $imageName = save_image($this->_data['path'],$file,$fileuploader[$key],$this->_data['config']['thumbs']);
-                    $media = MediaLibrary::create([
-                        'name' => $imageName,
-                        'editor' => isset($fileuploader[$key]['editor']) ? $fileuploader[$key]['editor'] : '',
-                        'mime_type' => $fileMime,
-                        'type' => $this->_data['type'],
-                        'size' => $fileSize,
-                    ]);
-                    $media_list_id[] = $media->id;
-                    unset($fileuploader[$key]);
-                }
-            }
-            if( $request->input('fileuploader-list-images') ){
-                foreach($fileuploader as $key => $file){
-                    if( isset($file['editor']) ){
-                        $path = $this->_data['path']; $image = $product->image; $uploader = $file;
+            $fileuploaders = json_decode($request->input('fileuploader-list-images'),true);
+            $media_list_id = [];
+            if($request->media){
+                foreach($request->media['id'] as $key => $media_id){
+                    $media = MediaLibrary::findOrFail($media_id);
+                    if( isset($fileuploaders[$key]['editor']) ){
+                        $path = $this->_data['path']; $image = $media->name; $uploader = $fileuploaders[$key];
                         $createImage = function($suffix = '') use ( $path, $image, $uploader ) {
                             $thumbnailFileName = get_thumbnail($image, $suffix);
-
                             $newImage  = Image::make( public_path($path.'/'.$thumbnailFileName) );
 
                             if( @$uploader['editor']['rotation'] ){
@@ -288,10 +251,40 @@ class ProductController extends Controller
                                 $createImage($k);
                             }
                         }
+                        $media->editor = $fileuploaders[$key]['editor'];
+                        
+                    }
+                    $media->priority = $request->media['priority'][$key];
+                    $media->save();
+                    $media_list_id[] = $media_id;
+                    unset($fileuploaders[$key]);
+                }
+                $fileuploaders = array_values($fileuploaders);
+            }
+
+            if($request->hasFile('images')){
+                $files = $request->file('images');
+                foreach($files as $key => $file){
+                    $fileName  = $file->getClientOriginalName();
+                    if( false !== $key = array_search($fileName, $request->attachment['name']) ){
+                        $fileMime  = $file->getClientMimeType();
+                        $fileSize  = $file->getClientSize();
+                        $imageName = save_image($this->_data['path'],$file,$fileuploaders[$key],$this->_data['config']['thumbs']);
+                        $media = MediaLibrary::create([
+                            'name' => $imageName,
+                            'alt'   => $request->attachment['alt'][$key],
+                            'editor' => isset($fileuploaders[$key]['editor']) ? $fileuploaders[$key]['editor'] : '',
+                            'mime_type' => $fileMime,
+                            'type' => $this->_data['type'],
+                            'size' => $fileSize,
+                            'priority'   => $request->attachment['priority'][$key],
+                        ]);
+                        $media_list_id[] = $media->id;
+                        unset($fileuploaders[$key]);
                     }
                 }
             }
-            
+            $product->attachments     = implode(',',$media_list_id);
             $product->original_price  = floatval(str_replace('.', '', $request->input('original_price')));
             $product->regular_price   = floatval(str_replace('.', '', $request->input('regular_price')));
             $product->sale_price      = floatval(str_replace('.', '', $request->input('sale_price')));
@@ -337,6 +330,16 @@ class ProductController extends Controller
         if($request->ajax()){
             if($product->delete()){
                 delete_image($this->_data['path'].'/'.$product->image,$this->_data['config']['thumbs']);
+                if( $product->attachments ){
+                    $arrID = explode(',',$product->attachments);
+                    $medias = MediaLibrary::whereIn('id',$arrID)->get();
+                    if( $medias !== null ){
+                        foreach( $medias as $media ){
+                            delete_image($this->_data['path'].'/'.$media->name,$this->_data['config']['thumbs']);
+                        }
+                        MediaLibrary::destroy($arrID);
+                    }
+                }
                 Product::where('type',$product->type)->where('priority', '>', $product->priority)->decrement('priority');
                 return response()->json([
                     'head'  =>  'Thành công!',
@@ -353,6 +356,16 @@ class ProductController extends Controller
         }else{
             if($product->delete()){
                 delete_image($this->_data['path'].'/'.$product->image,$this->_data['config']['thumbs']);
+                if( $product->attachments ){
+                    $arrID = explode(',',$product->attachments);
+                    MediaLibrary::whereIn('id',$arrID)->destroy();
+                    // if( $medias !== null ){
+                    //     foreach( $medias as $media ){
+                    //         delete_image($this->_data['path'].'/'.$media->name,$this->_data['config']['thumbs']);
+                    //     }
+                    //     MediaLibrary::destroy($arrID);
+                    // }
+                }
                 Product::where('type',$this->_data['type'])->where('priority', '>', $product->priority)->decrement('priority');
                 return redirect()->route('admin.products.index', ['type'=>$this->_data['type']])->with('success','Xóa dữ liệu thành công');
             }else{

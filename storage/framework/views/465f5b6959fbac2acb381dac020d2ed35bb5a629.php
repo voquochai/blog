@@ -241,14 +241,17 @@
                                         "name":"<?php echo e($image->name); ?>",
                                         "size": <?php echo e($image->size); ?>,
                                         "type":"<?php echo e($image->mime_type); ?>",
-                                        "file":"<?php echo e(asset('public/'.$path.'/'.$image->name)); ?>",
+                                        "file":"<?php echo e(asset( 'public/'.$path.'/'.$image->name.'?v='.time() )); ?>",
                                         "data":{
-                                            "id":"<?php echo e($image->id); ?>"
+                                            "id":"<?php echo e($image->id); ?>",
+                                            "alt":"<?php echo e($image->alt); ?>",
+                                            "priority":"<?php echo e($image->priority); ?>"
                                         }
                                     }
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                 <?php endif; ?>
                             ]'>
+                            <div class="fileuploader-table"></div>
                         </div>
                         <?php endif; ?>
                         <button type="submit" class="btn btn-primary"> <i class="mdi mdi-check"></i> Lưu</button>
@@ -266,8 +269,10 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('script'); ?>
+<?php if($config['image']): ?>
 <script src="<?php echo e(asset('public/packages/file-uploader/fileuploader.js')); ?>" type="text/javascript"></script>
 <script src="<?php echo e(asset('public/packages/file-uploader/fileuploader.config.js')); ?>" type="text/javascript"></script>
+<?php endif; ?>
 <?php if($config['contents']): ?>
 <script src="<?php echo e(asset('public/packages/tinymce/tinymce.min.js')); ?>" type="text/javascript"></script>
 <script src="<?php echo e(asset('public/packages/tinymce/tinymce.config.js')); ?>" type="text/javascript"></script>

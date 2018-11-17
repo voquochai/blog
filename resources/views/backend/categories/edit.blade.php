@@ -53,7 +53,7 @@
                                         "name":"{{ $item->image }}",
                                         "type":"{{ $imageInfo['mime'] }}",
                                         "size":"{{ $imageInfo['size'] }}",
-                                        "file":"{{ asset( 'public/'.$path.'/'.$item->image ) }}",
+                                        "file":"{{ asset( 'public/'.$path.'/'.$item->image.'?v='.time() ) }}",
                                         "data": {
                                             "id": "{{ $item->id }}"
                                         }

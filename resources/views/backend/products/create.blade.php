@@ -218,9 +218,7 @@
                         @if($config['images'])
                         <div class="tab-pane" id="images">
                             <div class="mb-3"><input type="file" name="images" data-fileuploader="multiple"></div>
-                            <div class="fileuploader-table">
-                                
-                            </div>
+                            <div class="fileuploader-table"></div>
                         </div>
                         @endif
 

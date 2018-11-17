@@ -137,6 +137,49 @@ class ToolFactory {
         }
     }
 
+    public function editImage($path,$image,$uploader,$thumbs = ['_small' => ['width' => 300, 'height' => 200 ]]) {
+        if ( !empty($image) && file_exists(public_path($path.'/'.$image) ) ) {
+
+            if( isset($uploader['editor']) ){
+                $newImage  = Image::make( public_path($path.'/'.$image) );
+                if( @$uploader['editor']['rotation'] ){
+                    $rotation = -(int)$uploader['editor']['rotation'];
+                    $newImage->rotate($rotation);
+                }
+                if( @$uploader['editor']['crop'] ){
+                    $width  = round($uploader['editor']['crop']['width']);
+                    $height = round($uploader['editor']['crop']['height']);
+                    $left   = round($uploader['editor']['crop']['left']);
+                    $top    = round($uploader['editor']['crop']['top']);
+                    $newImage->crop($width,$height,$left,$top);
+                }
+                $newImage->save( public_path($path.'/'.$image) );
+            }
+
+            // Tạo các hình ảnh theo tỉ lệ giao diện
+            $createImage = function($suffix = '_small', $width = 300, $height = 200) use($path, $image, $uploader) {
+                $thumbnailFileName = get_thumbnail($image, $suffix);
+                if($width <= 0) $width = 300;
+                if($height <= 0) $height = 200;
+                Image::make(public_path($path.'/'.$image))
+                    ->resize($width, $height, function ($c) {
+                        $c->aspectRatio();
+                        $c->upsize();
+                    })
+                    ->save( public_path($path.'/'.$thumbnailFileName) )
+                    ->destroy();
+            };
+            if($thumbs !== null){
+                foreach($thumbs as $k => $v){
+                    if( $v['width'] !== null && $v['height'] !== null ){
+                        $createImage($k,$v['width'],$v['height']);
+                    }
+                }
+            }
+            return $image;
+        }
+    }
+
     public function deleteImage($path,$thumbs) {
         if (!is_dir(public_path($path)) && file_exists(public_path($path))) {
             unlink(public_path($path));

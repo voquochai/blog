@@ -32,6 +32,12 @@ if (!function_exists('save_image')) {
     }
 }
 
+if (!function_exists('edit_image')) {
+    function edit_image($path, $image, $uploader, $thumbs = ['_small' => ['width' => 300, 'height' => 200 ]]) {
+        return Tool::editImage($path, $image, $uploader, $thumbs);
+    }
+}
+
 if (!function_exists('delete_image')) {
     function delete_image($path, $thumbs = ['_small' => ['width' => 300, 'height' => 200 ]]) {
         return Tool::deleteImage($path, $thumbs);

@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('content'); ?>
 <div class="row">
 	<div class="col-12">
@@ -146,8 +145,10 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('script'); ?>
+<?php if($config['image']): ?>
 <script src="<?php echo e(asset('public/packages/file-uploader/fileuploader.js')); ?>" type="text/javascript"></script>
 <script src="<?php echo e(asset('public/packages/file-uploader/fileuploader.config.js')); ?>" type="text/javascript"></script>
+<?php endif; ?>
 <?php if($config['contents']): ?>
 <script src="<?php echo e(asset('public/packages/tinymce/tinymce.min.js')); ?>" type="text/javascript"></script>
 <script src="<?php echo e(asset('public/packages/tinymce/tinymce.config.js')); ?>" type="text/javascript"></script>

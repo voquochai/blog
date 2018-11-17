@@ -241,14 +241,17 @@
                                         "name":"{{ $image->name }}",
                                         "size": {{ $image->size }},
                                         "type":"{{ $image->mime_type }}",
-                                        "file":"{{ asset('public/'.$path.'/'.$image->name) }}",
+                                        "file":"{{ asset( 'public/'.$path.'/'.$image->name.'?v='.time() ) }}",
                                         "data":{
-                                            "id":"{{ $image->id }}"
+                                            "id":"{{ $image->id }}",
+                                            "alt":"{{ $image->alt }}",
+                                            "priority":"{{ $image->priority }}"
                                         }
                                     }
                                 @empty
                                 @endforelse
                             ]'>
+                            <div class="fileuploader-table"></div>
                         </div>
                         @endif
                         <button type="submit" class="btn btn-primary"> <i class="mdi mdi-check"></i> Lưu</button>

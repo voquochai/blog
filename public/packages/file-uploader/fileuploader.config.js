@@ -191,8 +191,8 @@ $(document).ready(function() {
                     <thead class="thead-light">\
                         <tr>\
                             <th style="width: 5%; text-align: center;"> Thứ tự </th>\
-                            <th width="10%"> Hình ảnh </th>\
-                            <th width="25%"> Tiêu đề </th>\
+                            <th width="15%"> Hình ảnh </th>\
+                            <th width="25%"> Alt </th>\
                             <th width="10%"> Thực thi </th>\
                         </tr>\
                     </thead>\
@@ -201,9 +201,11 @@ $(document).ready(function() {
             </div>',
             boxAppendTo: $('.fileuploader-table'),
             item: '<tr class="fileuploader-item file-has-popup columns">' +
-                '<td><input type="text" class="form-control form-control-sm form-control-light" name="attachment[priority][]" value="1"></td>' +
+                '<td>'+
+                    '<input type="hidden" name="attachment[name][]" value="${name}">'+
+                    '<input type="text" class="form-control form-control-sm form-control-light" name="attachment[priority][]" value="1"></td>' +
                 '<td><div class="column-thumbnail">${image}<span class="fileuploader-action-popup"></span></div></td>' +
-                '<td><div class="column-title"><div title="${name}">${name}</div><span>${size2}</span></div></td>' +
+                '<td><div class="column-title"><input type="text" class="form-control" name="attachment[alt][]" value="${name}"></div></td>' +
                 '<td>' +
                     '<div class="column-actions"><a class="fileuploader-action fileuploader-action-remove" title="${captions.remove}"><i></i></a></div>' +
                 '</td>' +
@@ -212,21 +214,17 @@ $(document).ready(function() {
             // thumbnails for the preloaded files {String, Function}
             // example: '<li>${name}</li>'
             // example: function(item) { return '<li>' + item.name + '</li>'; }
-            item2: '<li class="fileuploader-item file-has-popup">' +
-                '<div class="columns">' +
-                    '<div class="column-thumbnail">${image}<span class="fileuploader-action-popup"></span></div>' +
-                    '<div class="column-title">' +
-                        '<a href="${file}" target="_blank">' +
-                            '<div title="${name}">${name}</div>' +
-                            '<span>${size2}</span>' +
-                        '</a>' +
-                    '</div>' +
-                    '<div class="column-actions">' +
-                        '<a href="${file}" class="fileuploader-action fileuploader-action-download" title="${captions.download}" download><i></i></a>' +
-                        '<a class="fileuploader-action fileuploader-action-remove" title="${captions.remove}"><i></i></a>' +
-                    '</div>' +
-                '</div>' +
-            '</li>',
+            item2: '<tr class="fileuploader-item file-has-popup columns">' +
+                '<td>'+
+                    '<input type="hidden" name="media[id][]" value="${data.id}">'+
+                    '<input type="text" class="form-control form-control-sm form-control-light" name="media[priority][]" value="${data.priority}"></td>' +
+                '<td><div class="column-thumbnail">${image}<span class="fileuploader-action-popup"></span></div></td>' +
+                '<td><div class="column-title"><input type="text" class="form-control" name="media[alt][]" value="${data.alt}"></div></td>' +
+                '<td><div class="column-actions">' +
+                    '<a href="${file}" class="fileuploader-action fileuploader-action-download" title="${captions.download}" download><i></i></a>' +
+                    '<a class="fileuploader-action fileuploader-action-remove" title="${captions.remove}"><i></i></a>' +
+                '</div></td>' +
+            '</tr>',
             popup: {
                 onShow: function(item) {
                     item.popup.html.on('click', '[data-action="prev"]', function(e) {
