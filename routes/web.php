@@ -37,6 +37,10 @@ Route::prefix('admin')->namespace('Backend')->name('admin.')->group(function () 
 		Route::post('attributes/priority', 'AttributeController@priority')->name('attributes.priority');
 
 		Route::resource('products', 'ProductController');
+		Route::post('products/status', 'ProductController@status')->name('products.status');
+		Route::post('products/priority', 'ProductController@priority')->name('products.priority');
+		Route::delete('products/{id}/remove', 'ProductController@remove')->name('products.remove')->where('id','[0-9]+');
+		Route::delete('products/{id}/remove-media', 'ProductController@removeMedia')->name('products.remove-media')->where('id','[0-9]+');
 
 	});
 });

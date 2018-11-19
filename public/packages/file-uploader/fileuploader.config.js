@@ -95,7 +95,7 @@ $(document).ready(function() {
                 '</li>',
             startImageRenderer: true,
             canvasImage: false,
-            removeConfirmation: false,
+            removeConfirmation: true,
             _selectors: {
                 list: '.fileuploader-items-list',
                 item: '.fileuploader-item',
@@ -135,8 +135,6 @@ $(document).ready(function() {
 
             axios.delete( url + '/remove')
             .then(res => {
-                // if(res.data.class === 'success'){}
-                swalWithBootstrapButtons(res.data.head,res.data.message,res.data.class);
             }).catch(error => {
                 $.NotificationApp.send(error.response.status, error.response.statusText, "top-right", "rgba(0,0,0,0.2)", 'error');
             });
@@ -155,22 +153,7 @@ $(document).ready(function() {
                 return alert(text)
             },
             confirm: function(text, callback) {
-                swalWithBootstrapButtons({
-                    title: 'Xóa dữ liệu?',
-                    text: "Bạn không thể hoàn nguyên thao tác này!",
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Có, đồng ý xóa!',
-                    cancelButtonText: 'Không, hủy bỏ!',
-                    reverseButtons: true
-                }).then((res) => {
-                    if (res.value) {
-                        callback();
-                    } else if ( res.dismiss === swal.DismissReason.cancel ) {
-                        swalWithBootstrapButtons('Hủy bỏ','Bạn đã hủy bỏ thao tác này.','error');
-                    }
-                });
-                // confirm(text) ? callback() : null
+                confirm(text) ? callback() : null
             }
         },
     });
@@ -252,6 +235,7 @@ $(document).ready(function() {
                     });
                 },
             },
+            removeConfirmation: true,
             onImageLoaded: function(item) {
                 if (!item.html.find('.fileuploader-action-edit').length)
                     item.html.find('.fileuploader-action-remove').before('<a class="fileuploader-action fileuploader-action-popup fileuploader-action-edit" title="Edit"><i></i></a>');
@@ -355,6 +339,18 @@ $(document).ready(function() {
         //     },
         //     onComplete: null,
         // },
+        onRemove: function(item, listEl, parentEl, newInputEl, inputEl) {
+            var url = window.location.href.split(/[?#]/)[0];
+            url = url.split('/create')[0]; url = url.split('/edit')[0];
+
+            axios.delete( url + '/remove-media',{
+                data : item.data
+            }).then(res => {
+            }).catch(error => {
+                $.NotificationApp.send(error.response.status, error.response.statusText, "top-right", "rgba(0,0,0,0.2)", 'error');
+            });
+
+        },
         editor: {
             cropper: {
                 showGrid: true
@@ -363,11 +359,14 @@ $(document).ready(function() {
             maxHeight: 600,
             quality: 98
         },
-        // onRemove: function(item) {
-        //     $.post('./php/ajax_remove_file.php', {
-        //         file: item.name
-        //     });
-        // },
+        dialogs: {
+            alert: function(text) {
+                return alert(text)
+            },
+            confirm: function(text, callback) {
+                confirm(text) ? callback() : null
+            }
+        },
         captions: {
             feedback: 'Drag and drop files here',
             or: 'or',

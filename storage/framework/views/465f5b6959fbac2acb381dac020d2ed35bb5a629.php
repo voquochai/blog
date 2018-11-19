@@ -118,7 +118,7 @@
                                         "name":"<?php echo e($item->image); ?>",
                                         "type":"<?php echo e($imageInfo['mime']); ?>",
                                         "size":"<?php echo e($imageInfo['size']); ?>",
-                                        "file":"<?php echo e(asset( 'public/'.$path.'/'.$item->image )); ?>",
+                                        "file":"<?php echo e(asset( 'public/'.$path.'/'.$item->image.'?v='.time() )); ?>",
                                         "data": {
                                             "id": "<?php echo e($item->id); ?>"
                                         }
@@ -233,7 +233,7 @@
 
                         <?php if($config['images']): ?>
                         <div class="tab-pane" id="images">
-                            <input type="file" name="images" data-fileuploader="multiple" data-fileuploader-files='[
+                            <div class="mb-3"><input type="file" name="images" data-fileuploader="multiple" data-fileuploader-files='[
                                 <?php $__empty_1 = true; $__currentLoopData = $images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                     <?php echo e((($key > 0) ? ',' : '')); ?>
 
@@ -250,7 +250,7 @@
                                     }
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                 <?php endif; ?>
-                            ]'>
+                            ]'></div>
                             <div class="fileuploader-table"></div>
                         </div>
                         <?php endif; ?>

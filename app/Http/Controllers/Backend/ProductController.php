@@ -171,7 +171,7 @@ class ProductController extends Controller
     {
         $this->_data['categories'] = Category::where('type',$this->_data['type'])->orderBy('priority', 'asc')->get()->toTree();
         $this->_data['suppliers'] = Supplier::select('id','name')->where('type','default')->orderBy('priority', 'asc')->get();
-        $this->_data['images'] = $product->attachments ? MediaLibrary::whereIn('id', explode(',',$product->attachments) )->orderBy('id', 'asc')->get() : null;
+        $this->_data['images'] = $product->attachments ? MediaLibrary::whereIn('id', explode(',',$product->attachments) )->orderBy('id', 'asc')->get() : [];
         $this->_data['item'] = $product;
 
         return view('backend.products.edit',$this->_data);
@@ -225,37 +225,13 @@ class ProductController extends Controller
             $media_list_id = [];
             if($request->media){
                 foreach($request->media['id'] as $key => $media_id){
-                    $media = MediaLibrary::findOrFail($media_id);
                     if( isset($fileuploaders[$key]['editor']) ){
-                        $path = $this->_data['path']; $image = $media->name; $uploader = $fileuploaders[$key];
-                        $createImage = function($suffix = '') use ( $path, $image, $uploader ) {
-                            $thumbnailFileName = get_thumbnail($image, $suffix);
-                            $newImage  = Image::make( public_path($path.'/'.$thumbnailFileName) );
-
-                            if( @$uploader['editor']['rotation'] ){
-                                $rotation = -(int)$uploader['editor']['rotation'];
-                                $newImage->rotate($rotation);
-                            }
-                            if( @$uploader['editor']['crop'] ){
-                                $width  = round($uploader['editor']['crop']['width']);
-                                $height = round($uploader['editor']['crop']['height']);
-                                $left   = round($uploader['editor']['crop']['left']);
-                                $top    = round($uploader['editor']['crop']['top']);
-                                $newImage->crop($width,$height,$left,$top);
-                            }
-                            $newImage->save( public_path($path.'/'.$thumbnailFileName) );
-                        };
-                        $createImage();
-                        if($this->_data['config']['thumbs'] !== null){
-                            foreach($this->_data['config']['thumbs'] as $k => $v){
-                                $createImage($k);
-                            }
-                        }
+                        $media = MediaLibrary::findOrFail($media_id);
+                        $media->name = edit_image($this->_data['path'],$media->name,$fileuploaders[$key],$this->_data['config']['thumbs']);
                         $media->editor = $fileuploaders[$key]['editor'];
-                        
+                        $media->priority = $request->media['priority'][$key];
+                        $media->save();
                     }
-                    $media->priority = $request->media['priority'][$key];
-                    $media->save();
                     $media_list_id[] = $media_id;
                     unset($fileuploaders[$key]);
                 }
@@ -329,13 +305,14 @@ class ProductController extends Controller
     {
         if($request->ajax()){
             if($product->delete()){
-                delete_image($this->_data['path'].'/'.$product->image,$this->_data['config']['thumbs']);
+                $thumbs = config('siteconfigs.product.'.$product->type.'.thumbs');
+                delete_image($this->_data['path'].'/'.$product->image,$thumbs);
                 if( $product->attachments ){
                     $arrID = explode(',',$product->attachments);
                     $medias = MediaLibrary::whereIn('id',$arrID)->get();
                     if( $medias !== null ){
                         foreach( $medias as $media ){
-                            delete_image($this->_data['path'].'/'.$media->name,$this->_data['config']['thumbs']);
+                            delete_image($this->_data['path'].'/'.$media->name,$thumbs);
                         }
                         MediaLibrary::destroy($arrID);
                     }
@@ -358,19 +335,132 @@ class ProductController extends Controller
                 delete_image($this->_data['path'].'/'.$product->image,$this->_data['config']['thumbs']);
                 if( $product->attachments ){
                     $arrID = explode(',',$product->attachments);
-                    MediaLibrary::whereIn('id',$arrID)->destroy();
-                    // if( $medias !== null ){
-                    //     foreach( $medias as $media ){
-                    //         delete_image($this->_data['path'].'/'.$media->name,$this->_data['config']['thumbs']);
-                    //     }
-                    //     MediaLibrary::destroy($arrID);
-                    // }
+                    $medias = MediaLibrary::whereIn('id',$arrID)->get();
+                    if( $medias !== null ){
+                        foreach( $medias as $media ){
+                            delete_image($this->_data['path'].'/'.$media->name,$this->_data['config']['thumbs']);
+                        }
+                        MediaLibrary::destroy($arrID);
+                    }
                 }
                 Product::where('type',$this->_data['type'])->where('priority', '>', $product->priority)->decrement('priority');
                 return redirect()->route('admin.products.index', ['type'=>$this->_data['type']])->with('success','Xóa dữ liệu thành công');
             }else{
                 return redirect()->route('admin.products.index', ['type'=>$this->_data['type']])->with('error','Xóa dữ liệu thất bại');
             }
+        }
+    }
+
+    public function status(Request $request){
+        if($request->ajax()){
+            $arrID = explode(',',$request->id);
+            $products = Product::select('id','status')->whereIn('id',$arrID)->get();
+            if( $products ){
+                foreach( $products as $product ){
+                    $status = explode(',',$product->status);
+                    $key = array_search($request->status, $status);
+                    if( $key !== false ){
+                        unset($status[$key]);
+                    }else{
+                        $status[] = $request->status;
+                    }
+                    $product->status = $status ? implode(',',$status) : '';
+                    $product->save();
+                }
+                return response()->json([
+                    'head'  =>  'Thành công!',
+                    'message'   =>  'Cập nhật thành công.',
+                    'class'   =>  'success',
+                ]);
+            }else{
+                return response()->json([
+                    'head'  =>  'Cảnh báo!',
+                    'message'   =>  'Cập nhật thất bại.',
+                    'class'   =>  'warning',
+                ]);
+            }
+        }else{
+            return response()->json([
+                'head'  =>  'Nguy hiểm!',
+                'message'   =>  'Unauthorized.',
+                'class'   =>  'error',
+            ]);
+        }
+    }
+
+    public function priority(Request $request){
+        if($request->ajax()){
+            $id = $request->id;
+            $product = Product::findOrFail($id);
+            
+            $up = $request->priority;
+            $curr = $product->priority;
+            $max = Product::where('type',$product->type)->max('priority');
+            if($up > $max){
+                $up = $max;
+            }
+            if( $up > $curr ){
+                Product::where('type',$product->type)->whereBetween('priority', [$curr+1, $up])->decrement('priority');
+            }else{
+                Product::where('type',$product->type)->whereBetween('priority', [$up, $curr-1, ])->increment('priority');
+            }
+
+            $product->update(['priority'=>$up]);
+            return response()->json([
+                'head'  =>  'Thành công!',
+                'message'   =>  'Cập nhật thành công.',
+                'class'   =>  'success',
+            ]);
+        }else{
+            return response()->json([
+                'head'  =>  'Nguy hiểm!',
+                'message'   =>  'Unauthorized.',
+                'class'   =>  'error',
+            ]);
+        }
+    }
+
+    public function remove(Request $request, $id){
+        if($request->ajax()){
+            $product = Product::findOrFail($id);
+            $thumbs = config('siteconfigs.product.'.$product->type.'.thumbs');
+            delete_image($this->_data['path'].'/'.$product->image,$thumbs);
+            $product->update(['image'=>'']);
+            return response()->json([
+                'head'  =>  'Thành công!',
+                'message'   =>  'Xóa hình ảnh thành công.',
+                'class'   =>  'success',
+            ]);
+        }else{
+            return response()->json([
+                'head'  =>  'Nguy hiểm!',
+                'message'   =>  'Unauthorized.',
+                'class'   =>  'error',
+            ]);
+        }
+    }
+
+    public function removeMedia(Request $request, $id){
+        if($request->ajax()){
+            $product = Product::findOrFail($id);
+            $thumbs = config('siteconfigs.product.'.$product->type.'.thumbs');
+            $media = MediaLibrary::findOrFail($request->input('id'));
+            if( $media->delete() ){
+                delete_image($this->_data['path'].'/'.$media->name,$thumbs);
+                $product->attachments = implode(',', MediaLibrary::whereIn('id', explode(',',$product->attachments))->pluck('id')->toArray());
+            }
+            $product->save();
+            return response()->json([
+                'head'  =>  'Thành công!',
+                'message'   =>  'Xóa hình ảnh thành công.',
+                'class'   =>  'success',
+            ]);
+        }else{
+            return response()->json([
+                'head'  =>  'Nguy hiểm!',
+                'message'   =>  'Unauthorized.',
+                'class'   =>  'error',
+            ]);
         }
     }
 }

@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('content'); ?>
 <div class="row">
 	<div class="col-12">
@@ -60,7 +59,7 @@
                                     </td>
                                     <td><a href="<?php echo e(route('admin.categories.edit', ['id'=>$item->id, 'type'=>$type])); ?>"><?php echo e($prefix.' '.$item->languages->first()->name); ?></a></td>
                                     <?php if($config['image']): ?>
-                                    <td> <a href="<?php echo e(route('admin.categories.edit', ['id'=>$item->id, 'type'=>$type])); ?>"> <?php echo ($item->image && file_exists(public_path(get_thumbnail($path.'/'.$item->image))) ) ? '<img src="'.asset(get_thumbnail('public/'.$path.'/'.$item->image)).'" height="50" />':''; ?> </a> </td>
+                                    <td> <a href="<?php echo e(route('admin.categories.edit', ['id'=>$item->id, 'type'=>$type])); ?>"> <?php echo ($item->image && file_exists(public_path(get_thumbnail($path.'/'.$item->image))) ) ? '<img src="'.asset(get_thumbnail('public/'.$path.'/'.$item->image).'?v='.time()).'" height="50" />':''; ?> </a> </td>
                                     <?php endif; ?>
                                     <td><?php echo e($item->created_at); ?></td>
                                     <td>

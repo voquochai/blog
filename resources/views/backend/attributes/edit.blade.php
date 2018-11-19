@@ -81,6 +81,34 @@
                                 <label>Tiêu đề</label>
                                 <input type="text" name="dataL[{{ $key }}][name]" class="form-control {{ $key==config('siteconfigs.general.language') ? 'validate[required]' : '' }}" placeholder="Tiêu đề" value="{{ $dataL->name }}">
                             </div>
+                            @if($config['description'])
+                            <div class="form-group">
+                                <label>Mô tả</label>
+                                <textarea name="dataL[{{ $key }}][description]" class="form-control" rows="5" placeholder="Mô tả" >{{ $dataL->description }}</textarea>
+                            </div>
+                            @endif
+
+                            @if($config['contents'])
+                            <div class="form-group">
+                                <label>Nội dung</label>
+                                <textarea name="dataL[{{ $key }}][contents]" class="form-control ck-editor" rows="6" placeholder="Nội dung" >{{ $dataL->contents }}</textarea>
+                            </div>
+                            @endif
+
+                            @if($config['meta'])
+                            <div class="form-group">
+                                <label>Meta title</label>
+                                <input type="text" name="dataL[{{ $key }}][meta][title]" class="form-control" placeholder="Meta title" value="{{ $dataL->meta['title'] }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Meta keywords</label>
+                                <input type="text" name="dataL[{{ $key }}][meta][keywords]" class="form-control" placeholder="Meta keywords" value="{{ $dataL->meta['keywords'] }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Meta description</label>
+                                <textarea type="text" name="dataL[{{ $key }}][meta][description]" class="form-control" placeholder="Meta description" rows="5">{{ $dataL->meta['description'] }}</textarea>
+                            </div>
+                            @endif
                         </div>
                         @empty
                         @endforelse
@@ -93,4 +121,10 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+@if($config['contents'])
+<script src="{{ asset('public/packages/tinymce/tinymce.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/packages/tinymce/tinymce.config.js') }}" type="text/javascript"></script>
+@endif
 @endsection

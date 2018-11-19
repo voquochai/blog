@@ -17,6 +17,9 @@ class CreateAttributeLanguagesTable extends Migration
             $table->increments('id');
             $table->string('name',100)->nullable();
             $table->string('slug');
+            $table->text('description')->nullable();
+            $table->longText('contents')->nullable();
+            $table->json('meta')->nullable();
             $table->char('language',10)->index();
             $table->integer('attribute_id')->unsigned();
             $table->unique(['attribute_id','language']);

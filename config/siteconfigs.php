@@ -316,30 +316,50 @@ return [
 	],
 	'attribute' => [
 		'san-pham' 	=>	[
-			'color'	=>	true,
-			'size'	=>	true,
-			'tags'	=>	true,
+			'product_color'	=>	true,
+			'product_size'	=>	true,
+			'product_tags'	=>	true,
 		],
-		'color' 	=>	[
+		'product_color' 	=>	[
 			'page-title'	=>	'Màu sắc',
 			'price'			=>	true,
 			'colorpicker'	=>	true,
+			'description' =>	false,
+			'contents'    =>	false,
+			'meta'			=>	false,
 			'status'      => [
 				'publish'     => 'Hiển thị',
 			]
 		],
-		'size' 	=>	[
+		'product_size' 	=>	[
 			'page-title'	=>	'Kích cỡ',
 			'price'			=>	false,
 			'colorpicker'	=>	false,
+			'description' =>	false,
+			'contents'    =>	false,
+			'meta'			=>	false,
 			'status'      => [
 				'publish'     => 'Hiển thị',
 			]
 		],
-		'tags' 	=>	[
+		'product_tags' 	=>	[
 			'page-title'	=>	'Thẻ',
 			'price'			=>	false,
 			'colorpicker'	=>	false,
+			'description' =>	false,
+			'contents'    =>	false,
+			'meta'			=>	false,
+			'status'      => [
+				'publish'     => 'Hiển thị',
+			]
+		],
+		'post_tags' 	=>	[
+			'page-title'	=>	'Thẻ',
+			'price'			=>	false,
+			'colorpicker'	=>	false,
+			'description' =>	false,
+			'contents'    =>	false,
+			'meta'			=>	false,
 			'status'      => [
 				'publish'     => 'Hiển thị',
 			]

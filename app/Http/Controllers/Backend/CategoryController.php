@@ -167,29 +167,7 @@ class CategoryController extends Controller
             }elseif( $request->input('fileuploader-list-image') ){
                 $fileuploader = json_decode($request->input('fileuploader-list-image'),true);
                 if( isset($fileuploader[0]['editor']) ){
-                    $path = $this->_data['path']; $image = $category->image; $uploader = $fileuploader[0];
-                    $createImage = function($suffix = '') use ( $path, $image, $uploader ) {
-                        $thumbnailFileName = get_thumbnail($image, $suffix);
-                        $newImage  = Image::make( public_path($path.'/'.$thumbnailFileName) );
-                        if( @$uploader['editor']['rotation'] ){
-                            $rotation = -(int)$uploader['editor']['rotation'];
-                            $newImage->rotate($rotation);
-                        }
-                        if( @$uploader['editor']['crop'] ){
-                            $width  = round($uploader['editor']['crop']['width']);
-                            $height = round($uploader['editor']['crop']['height']);
-                            $left   = round($uploader['editor']['crop']['left']);
-                            $top    = round($uploader['editor']['crop']['top']);
-                            $newImage->crop($width,$height,$left,$top);
-                        }
-                        $newImage->save( public_path($path.'/'.$thumbnailFileName) );
-                    };
-                    $createImage();
-                    if($this->_data['config']['thumbs'] !== null){
-                        foreach($this->_data['config']['thumbs'] as $k => $v){
-                            $createImage($k);
-                        }
-                    }
+                    $category->image = edit_image($this->_data['path'],$category->image,$fileuploader[0],$this->_data['config']['thumbs']);
                 }
             }
             $category->status     = $request->input('status') ? implode(',',$request->input('status')) : '';
@@ -240,7 +218,8 @@ class CategoryController extends Controller
                 ]);
             }else{
                 if($category->delete()){
-                    delete_image($this->_data['path'].'/'.$category->image,$this->_data['config']['thumbs']);
+                    $thumbs = config('siteconfigs.category.'.$category->type.'.thumbs');
+                    delete_image($this->_data['path'].'/'.$category->image,$thumbs);
                     Category::where('type',$category->type)->where('priority', '>', $category->priority)->decrement('priority');
                     return response()->json([
                         'head'  =>  'Thành công!',
@@ -342,7 +321,8 @@ class CategoryController extends Controller
     public function remove(Request $request, $id){
         if($request->ajax()){
             $category = Category::findOrFail($id);
-            delete_image($this->_data['path'].'/'.$category->image,$this->_data['config']['thumbs']);
+            $thumbs = config('siteconfigs.category.'.$category->type.'.thumbs');
+            delete_image($this->_data['path'].'/'.$category->image,$thumbs);
             $category->update(['image'=>'']);
             return response()->json([
                 'head'  =>  'Thành công!',

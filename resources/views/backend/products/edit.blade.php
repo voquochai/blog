@@ -119,7 +119,7 @@
                                         "name":"{{ $item->image }}",
                                         "type":"{{ $imageInfo['mime'] }}",
                                         "size":"{{ $imageInfo['size'] }}",
-                                        "file":"{{ asset( 'public/'.$path.'/'.$item->image ) }}",
+                                        "file":"{{ asset( 'public/'.$path.'/'.$item->image.'?v='.time() ) }}",
                                         "data": {
                                             "id": "{{ $item->id }}"
                                         }
@@ -234,7 +234,7 @@
 
                         @if($config['images'])
                         <div class="tab-pane" id="images">
-                            <input type="file" name="images" data-fileuploader="multiple" data-fileuploader-files='[
+                            <div class="mb-3"><input type="file" name="images" data-fileuploader="multiple" data-fileuploader-files='[
                                 @forelse( $images as $key => $image)
                                     {{ (($key > 0) ? ',' : '') }}
                                     {
@@ -250,7 +250,7 @@
                                     }
                                 @empty
                                 @endforelse
-                            ]'>
+                            ]'></div>
                             <div class="fileuploader-table"></div>
                         </div>
                         @endif

@@ -52,7 +52,7 @@
                                         "name":"<?php echo e($item->image); ?>",
                                         "type":"<?php echo e($imageInfo['mime']); ?>",
                                         "size":"<?php echo e($imageInfo['size']); ?>",
-                                        "file":"<?php echo e(asset( 'public/'.$path.'/'.$item->image )); ?>",
+                                        "file":"<?php echo e(asset( 'public/'.$path.'/'.$item->image.'?v='.time() )); ?>",
                                         "data": {
                                             "id": "<?php echo e($item->id); ?>"
                                         }
@@ -160,8 +160,10 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('script'); ?>
+<?php if($config['image']): ?>
 <script src="<?php echo e(asset('public/packages/file-uploader/fileuploader.js')); ?>" type="text/javascript"></script>
 <script src="<?php echo e(asset('public/packages/file-uploader/fileuploader.config.js')); ?>" type="text/javascript"></script>
+<?php endif; ?>
 <?php if($config['contents']): ?>
 <script src="<?php echo e(asset('public/packages/tinymce/tinymce.min.js')); ?>" type="text/javascript"></script>
 <script src="<?php echo e(asset('public/packages/tinymce/tinymce.config.js')); ?>" type="text/javascript"></script>
